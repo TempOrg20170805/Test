@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+
+}
+</script>
+</head>
+<body>
+<div class="page-positon ove">
+  <div class="position-div"><@s.m "global.position"/>: <@s.m "RegistrationRecords.function"/> :<@s.m "cmsInformationChange.function"/> > <@s.m "global.list"/></div>
+</div>
+<div class="box-positon">
+	<form class="ropt">
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<form action="v_list.do" method="post">
+<div style="padding-bottom:10px; text-indent:6px;">
+</div>
+</form>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table listAction="change_list.do"  value=pagination;change,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="25" align="center">
+		<input type='checkbox' name='ids' value='${change.id}' onclick="Pn.selectCheckBox('${change.id}',this.checked)"/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID" align="center">${change.id!}</@p.column><#t/>
+	<@p.column code="变更民警" align="center">${change.admin.username!}</@p.column><#t/>
+	<@p.column code="所有者姓名" align="center">${change.name!}</@p.column><#t/>
+	<@p.column code="前·身份证" align="center">${change.oldIdNumber!}</@p.column><#t/>
+    <@p.column code="前·车牌" align="center">${change.oldPlateNumbers!}</@p.column><#t/>
+    <@p.column code="后·身份证" align="center">${change.newIdNumber!}</@p.column><#t/>
+    <@p.column code="后·车牌" align="center">${change.newPlateNumbers!}</@p.column><#t/>
+    <@p.column code="变更时间" align="center">${change.changeTime!}</@p.column><#t/>
+	
+</@p.table>
+<div>
+</div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

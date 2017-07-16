@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+function plugExist(msg){
+	$.alert("<@s.m 'global.prompt'/>",msg);
+}
+var image=new Image();  
+image.src=document.getElementById("preImg1").src;  
+alert(image.width+":"+image.height);  
+
+</script>
+</head>
+<body>
+	<div class="box-positon">
+		<div class="position-div"><@s.m "global.position"/>: <@s.m
+			"RegistrationRecords.function"/> - <@s.m "global.add"/></div>
+		<div class="box-positon ck">
+			<form class="ropt">
+				<input class="return-button" type="submit" value="<@s.m "global.backToList"/>"onclick="this.form.action='v_list.do';"/>
+			</form>
+			<div class="clear"></div>
+		</div>
+	</div>
+
+<div class="body-box">
+<#include "/common/image_upload.html"/>
+<#assign rfidExist>RFID卡片已存在</#assign>
+<#assign plateNumberExist>车牌片已存在</#assign>
+<@p.form id="jvForm" action="o_save.do">
+<@p.select width="50" label="车辆品牌" name="brand.id"	list=brandList listKey="id" listValue="name" required="true"/>
+		<@p.text label="电机号" name="machineNumbers" required="true"	class="required" style="width:400px;height:30px;" maxlength="100"/>
+		<@p.text label="车牌号" name="plateNumbers" required="true" class="required" style="width:400px;height:30px;" maxlength="100" vld="{required:true,username:true,remote:'v_check_plateNumbers.do',messages:{remote:'${plateNumberExist}'}}"/>
+		<@p.text label="车辆RFID" name="rfid" required="true" class="required" style="width:400px;height:30px;" maxlength="100" help="请注意核实RFID信息" onkeyup="value=value.replace(/[\\W]/g,'')" vld="{required:true,username:true,remote:'v_check_rfid.do',messages:{remote:'${rfidExist}'}}"/>
+ 		<@p.text label="车架号" name="frameNumbers" required="true" class="required"	style="width:400px;height:30px;" maxlength="100"/>
+ 		<@p.text label="车辆颜色" name="carColor" required="true" class="required"	style="width:400px;height:30px;" maxlength="100"/>
+
+		<@p.text width="50"	label="车辆购买时间" name="buyTime"	onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" required="true" class="required Wdate"/>
+	
+		
+		<@p.select label="身份类型" name="idType" list={"":"请选择类型","1":"身份证"}value="idType" required="true" class="required"/>
+
+		<@p.text label="身份证号" name="idNumber"	required="true" class="required" style="width:400px;height:30px;" maxlength="18"/>
+		<tr>
+			<td class="pn-flabel pn-flabel-h" width="12%">费用类型：</td>
+			<td class="pn-fcontent" colspan="3" width="38%">
+				<div style="width:1200px; height:225px; overflow:scroll;">
+					<@p.table value=chargeList;Dictionary,i,has_next><#rt/> <@p.column
+					title="<input type='checkbox' nclick='Pn.checkbox(\"ids\",this.checked)' />" width="10" align="center"> 
+					<input type='checkbox' name='ids' value='${Dictionary.id}' onclick="Pn.selectCheckBox('${Dictionary.id}',this.checked)" /><#t/> </@p.column><#t/> 
+					<@p.column title="ID" align="center">${Dictionary.id}</@p.column><#t/> 
+					<@p.column code="费用名称" align="center">${Dictionary.name!}</@p.column><#t/>
+					<@p.column code="费用" align="center">${Dictionary.type}</@p.column><#t/> 
+					<@p.column code="备注" align="center">${Dictionary.remark!}</@p.column><#t/>
+					<@p.column code="是否必须" align="center"> <#if
+					Dictionary.isRequired??> <#if Dictionary.isRequired>是<#else>否</#if>
+					<#else>否</#if> </@p.column><#t/> </@p.table>
+				</div>
+			</td>
+		</tr>
+
+		<@p.text label="联系电话" name="mobilePhone" required="true" class="required" style="width:400px;height:30px;" maxlength="100"/>
+		<@p.text label="备用电话" name="backupsMoblie" required="true" class="required" style="width:400px;height:30px;" maxlength="100"/>
+		<@p.text label="现居住地址" name="address" required="true" class="required" style="width:400px;height:30px;" maxlength="100"/> 
+		<@p.text label="所有人姓名" name="name" required="true" class="required" style="width:400px;height:30px;" maxlength="100"/> 
+		<@p.td label="前侧车身照" colspan="1" width="50" noHeight="true"> <@p.text id="uploadImgPath1" name="frontSideImg" style="width:220px"/>
+		<!-- <input class="preview-button" type="button" value="<@s.m "imageupload.preview"/>" onclick="previewImg(1);"/> --><br/>
+		<span id="ufc1" style="position:relative">
+         <input type='text' id='uploadFileText1' size="14"/>
+         <input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+         <input onchange="$('#uploadFileText1').val(this.value)" size="14" type="file" id="uploadFile1" class="file-button"/>
+         </span>
+          <input class="upload-button" type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(1);"/><br/>
+            <@s.m "global.width"/>: <input type="text" id="zoomWidth1" value="640" size="5"/> <@s.m "global.height"/>: <input type="text" id="zoomHeight1" value="250" size="5"/> <input class="cut-button" type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(1);"/> 
+          <img style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg1" noResize="1"/><@p.tr/>
+         </@p.td><@p.td colspan="1" width="50">
+         </@p.td><@p.tr/>
+         
+		<@p.td label="后侧车身照" colspan="1" width="50" noHeight="true"> 
+		<@p.text id="uploadImgPath2" name="backSideImg" style="width:220px" onchange="Javascript:changePic();"/><br/>
+		<span id="ufc2" style="position:relative">
+         <input type='text' id='uploadFileText2' size="14"/>  
+         <input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+         <input onchange="$('#uploadFileText2').val(this.value)" size="14" type="file" id="uploadFile2" class="file-button"/>
+         </span>
+          <input class="upload-button" type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(2);"/><br/>
+           <@s.m "global.width"/>: <input type="text" id="zoomWidth2" value="640" size="5"/> <@s.m "global.height"/>: <input type="text" id="zoomHeight2" value="250" size="5"/> <input class="cut-button" type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(2);"/> 
+          <img style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg2" noResize="1"/><@p.tr/>
+         </@p.td><@p.td colspan="1" width="50">
+         </@p.td><@p.tr/>
+         
+		<@p.td label="证件照" colspan="1" width="50" noHeight="true"> <@p.text id="uploadImgPath3" name="drivingLicensesImg" style="width:220px"/><br/>
+		<span id="ufc3" style="position:relative">
+         <input type='text' id='uploadFileText3' size="14"/>  
+         <input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+         <input onchange="$('#uploadFileText3').val(this.value)" size="14" type="file" id="uploadFile3" class="file-button"/>
+         </span>
+          <input class="upload-button" type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(3);"/><br/>
+            <@s.m "global.width"/>: <input type="text" id="zoomWidth3" value="640" size="5"/> <@s.m "global.height"/>: <input type="text" id="zoomHeight3" value="250" size="5"/> <input class="cut-button" type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(3);"/> 
+          <img style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg3" noResize="1"/><@p.tr/>
+         </@p.td><@p.td colspan="1" width="50">
+         </@p.td><@p.tr/>
+         
+		<@p.td label="标签位置照" colspan="1" width="50" noHeight="true"> <@p.text id="uploadImgPath4" name="labelLocationImg" style="width:220px"/><br/> 
+		<span id="ufc4" style="position:relative">
+         <input type='text' id='uploadFileText4' size="14"/>  
+         <input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+         <input onchange="$('#uploadFileText4').val(this.value)" size="14" type="file" id="uploadFile4" class="file-button"/>
+         </span>
+          <input class="upload-button" type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(4);"/><br/>
+            <@s.m "global.width"/>: <input type="text" id="zoomWidth4" value="640" size="5"/> <@s.m "global.height"/>: <input type="text" id="zoomHeight4" value="250" size="5"/> <input class="cut-button" type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(4);"/> 
+          <img style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg4" noResize="1"/><@p.tr/>
+         </@p.td><@p.td colspan="1" width="50">
+         </@p.td><@p.tr/>
+         <@p.td><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+   </@p.form>
+	</div>
+
+</body>
+</html>

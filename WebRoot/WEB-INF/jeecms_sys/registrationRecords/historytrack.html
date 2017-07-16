@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>sunrun-timeTrack</title>
+<#include "/jeecms_sys/head.html"/>
+<style type="text/css"> 
+body, html,#l-map {width: 100%;height: 98%;}
+</style> 
+<!-- 百度地图基本start -->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=EG2dkWFQmem6KHPaGHjaIx76fAYWL4j5"></script>
+<!-- 百度地图基本end -->
+<!-- 弧线start -->
+<script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
+<style type="text/css">
+	.CurveLine{
+		width:100%;
+		height:100%;
+		margin:0;
+		overflow:hidden;
+		font-family:"微软雅黑";
+	}
+</style>
+<!-- 弧线end -->
+
+</script>
+</head>
+<body   ><!-- -onload="mapCreate()" -->
+<div class="page-positon ove">
+	<div class="position-div"><@s.m "global.position"/>: <@s.m "RegistrationRecords.function"/> > <@s.m "global.histrack"/> </div>
+</div>
+<div class="box-positon ck">
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div>
+ <input id="rfid"  value="${rfid}" type="hidden" style="width:100px; margin-right:10px;" />
+开始时间：<input id="start" type="text" name="begin" value="${begin!?string('yyyy-MM-dd HH:mm:ss')}" style="width:140px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"/>
+结束时间：<input id="end" type="text" name="end" value="${end!?string('yyyy-MM-dd HH:mm:ss')}" style="width:140px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"/>
+<input class="query" type="button" onclick="search()" value="查询"/>
+<input  type="button" value="加载网关" onclick="uploadGateway();" class="query" />  
+<input  type="button" value="清除网关" onclick="clearGateway();" class="query" /> 
+<!-- <input  type="button" value="清除所有" onclick="clearAll();" class="query" />  -->
+ 
+       <!-- 
+        <input id="follow" type="checkbox"><span style="font-size:12px;">画面跟随</span></input>  
+        <input id="play" type="button" value="播放" onclick="play();" class="query"  disabled />  
+        <input id="pause" type="button" value="暂停" onclick="pause();" class="query"   disabled />  
+        <input id="reset" type="button" value="重置" onclick="reset()" class="query"  disabled />  
+        -->
+   
+</div>
+<!-- 加载当前用户所在的市 -->
+<input type="hidden" id="cityName" name="cityName" value="${cityName!}" />
+<div id="l-map"></div>
+</body>
+</html>
+
+<script type="text/javascript">
+var map = new BMap.Map("l-map",{mapType:BMAP_NORMAL_MAP});//创建地图实例
+map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
+map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+map.clearOverlays();
+var city = document.getElementById("cityName").value;
+if (city != "") {
+	map.centerAndZoom(city, 12); // 用城市名设置地图中心点
+} else {
+	map.centerAndZoom("临沂市", 12);
+}
+
+var pointsList = new Array();//存查询的点
+var markerGateway ;//网关标注点
+//设置marker图标为水滴
+var vectorMarker;
+var marker2;
+var line;
+var myIcon = null;
+/**
+ * 进行查询
+ * 
+ */
+function search() {
+	var url = '../registrationRecords/v_historytrack.do';
+	var start = $('#start').val();
+	var end = $('#end').val();
+	var rfid = $('#rfid').val();
+	if(rfid != ''){
+		$.ajax({
+			type: "get", //提交方式
+			async: true, //异步提交
+			url: url + "?timeStamp=" + new Date().getTime(), //提交的页面/方法名，增加时间戳，使IE自动更新数据
+			data:{start:start,end:end,rfid:rfid}, //参数（如果没有参数：null）
+			dataType: "text", //类型
+			contentType: "text/json; charset=utf-8",
+			success: function(pointsData) {
+				//parseData(eval('('+pointsData+')'));
+				json = '(' + pointsData + ')';
+				var obj = eval(json);
+				parseData(obj,map);
+			}
+		});
+	}
+}
+
+
+/**
+ * 解析后台数据
+ */
+function parseData(pointsData,map) {
+	if (pointsData["success"] == false) {
+		alert(pointsData["msg"]);
+		return 0;
+	}
+	if(pointsData["totalCount"] == 0) {
+		alert("该设备没有路线记录。");
+		return 0;
+	}
+	// 所有点的数据
+	var alldata = pointsData.historytrackList;
+	drawMap(map,alldata);
+	
+}
+/**
+ * 地图绘画
+ * 将点进行直线连接
+ * @param alldata 原始数据
+ */
+function drawMap(map,alldata){
+	for(var num=0;num<alldata.length;num++) {	
+		var lng = alldata[num].lng;
+		var lat = alldata[num].lat;
+		var point = new BMap.Point(lng,lat);
+		// 起点为中心点
+		var isExtremity = null;
+		if(num==alldata.length-1) {
+			map.centerAndZoom(point, 16);
+			isExtremity='1';
+		}else if(num==0){
+			map.centerAndZoom(point, 16);
+			isExtremity='0';
+			
+		}
+		marked(map,point,isExtremity,alldata[num].createTime,alldata.length-num,alldata[num].address,alldata[num].seriaNumber);
+		pointsList.push(point);
+	}
+	 line = new BMap.Polyline(pointsList, {strokeColor:"red", strokeWeight:3, strokeOpacity:0.5,strokeStyle:"dashed"});	//创建直线对象
+	//var line = new BMapLib.CurveLine(pointsList, {strokeColor:"blue", strokeWeight:3, strokeOpacity:0.5}); 	//创建弧线对  
+	map.addOverlay(line);
+	line.disableMassClear();//禁止清除折线
+}
+
+/**
+ * 画点
+ * @param map 地图对象
+ * @param point 画点的点坐标对象
+ * @param isExtremity 是否为端点，端点部分将添加动画效果
+ */
+function marked(map, point,isExtremity,createTime,num,address,seriaNumber) {
+	var iconUrl1 = null;
+	var iconUrl2 = null;
+	var iconUrl3 = null;
+	// 普通点图标	
+	iconUrl1 =  "${base}/res/map/img/start_icon.png";
+	iconUrl2 =  "${base}/res/map/img/stop_icon.png";
+	iconUrl3=  "http://api.map.baidu.com/library/CurveLine/1.5/src/circle.png";
+	if(isExtremity=='1'){
+		myIcon = new BMap.Icon(iconUrl1, new BMap.Size(54,54));
+	}else if(isExtremity=='0'){
+		myIcon = new BMap.Icon(iconUrl2, new BMap.Size(54,54));
+	}else{
+		//其他点增加矢量图标
+		myIcon =new BMap.Symbol(BMap_Symbol_SHAPE_POINT, {
+		    scale: 0,//图标缩放大小
+		    fillColor: "orange",//填充颜色
+		    fillOpacity: 0.8//填充透明度
+		  })
+	}
+	// 创建标注
+	 marker2 = new BMap.Marker(point,{icon:myIcon,
+		 title:"网关序列号："+seriaNumber+"地址:"+address, //鼠标移动到标注点信息	 
+	 });  
+	map.addOverlay(marker2); // 将标注添加到地
+	marker2.setAnimation(BMAP_ANIMATION_BOUNCE);//标注跳动
+	var label = new BMap.Label(+num+";采集时间:"+createTime,{offset:new BMap.Size(-40,-20)});//标注文本
+	marker2.setLabel(label);
+	marker2.disableMassClear();//禁止清除
+}
+/**
+ * 加载网关数据
+ */
+function uploadGateway() {
+	var url = '../gateway/v_uploadpoints.do';
+	$.ajax({
+		type : "get", //提交方式
+		async : true, //异步提交
+		url : url + "?timeStamp=" + new Date().getTime(), //提交的页面/方法名，增加时间戳，使IE自动更新数据
+		data :"", //参数（如果没有参数：null）
+		dataType : "text", //类型
+		contentType : "text/json; charset=utf-8",
+		success : function(pointsData) {
+			json = '(' + pointsData + ')';
+			var obj = eval(json);
+			drawMapGateway(map,obj);
+		}
+	});
+}
+
+function drawMapGateway(map, pointsDataGateway) {
+	if (pointsDataGateway["success"] == false) {
+		alert(pointsDataGateway["msg"]);
+		return 0;
+	}
+	// 所有点的数据
+	var alldata = pointsDataGateway.monitorPointList;
+
+	for ( var i = 0; i < alldata.length; i++) {
+		var lng = alldata[i].lng;
+		var lat = alldata[i].lat;
+		var point = new BMap.Point(lng, lat);
+		addGatewayMarker(map, point, i, alldata[i].address,alldata[i].online,alldata[i].seriaNumber);
+
+	}
+}
+// 编写自定义函数,创建标注
+function addGatewayMarker(map, point, index, address,online,seriaNumber) {
+	var iconUrl = null;
+	//iconUrl = "${base}/res/jeecms/images/m5.png";
+	//myIcon = new BMap.Icon(iconUrl, new BMap.Size(53, 52));
+	if(online=="1"){
+		    myIcon =new BMap.Symbol(BMap_Symbol_SHAPE_POINT, {
+		    scale: 0,//图标缩放大小
+		    fillColor: "blue",//填充颜色
+		    fillOpacity: 0.8//填充透明度
+		  });
+	}else{
+		    myIcon =new BMap.Symbol(BMap_Symbol_SHAPE_POINT, {
+		    scale: 0,//图标缩放大小
+		    fillColor: "gray",//填充颜色
+		    fillOpacity: 0.8//填充透明度
+		    });
+	}
+	
+	 markerGateway = new BMap.Marker(point, {
+		icon : myIcon,
+		title:"网关序列号:"+seriaNumber+"坐标点："+point.lng+","+point.lat+"地址："+address //鼠标移动到标注点信息
+	});//创建标注
+
+	map.addOverlay(markerGateway);
+
+	//点击显示信息窗口
+	addClickHandler(map, address,seriaNumber, markerGateway);
+
+}
+//网关标注点击函数
+function addClickHandler(map, address, seriaNumber,markerGateway) {
+	markerGateway.addEventListener("click", function(e) {
+		openInfo(map,address,seriaNumber,e)
+	});
+}
+//网关点信息窗口
+function openInfo(map, address,seriaNumber, e) {
+	var opts = {
+		width : 250, // 信息窗口宽度
+		height : 80, // 信息窗口高度
+		title : "信息窗口", // 信息窗口标题
+		enableMessage : true
+	//设置允许信息窗发送短息
+	};
+	var p = e.target;
+	var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+	var info = "网关序列号:"+seriaNumber+"坐标点:"+p.getPosition().lng+","+p.getPosition().lat+";"+"地址:"+address
+	var infoWindow = new BMap.InfoWindow(info, opts); // 创建信息窗口对象 
+	map.openInfoWindow(infoWindow, point); //开启信息窗口
+}
+function clearGateway(){  
+    map.clearOverlays();  
+}
+function clearAll(){
+	marker2.enableMassClear();
+	line.enableMassClear();
+	map.clearOverlays();  
+}
+
+</script>
+

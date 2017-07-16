@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+function plugExist(msg){
+	$.alert("<@s.m 'global.prompt'/>",msg);
+}
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="position-div"><@s.m "global.position"/>: <@s.m "SecondHandCar.function"/> - <@s.m "global.add"/></div>
+	<div class="box-positon ck">
+	<form class="ropt">
+		<input class="return-button" type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<#include "/common/image_upload.html"/>
+<@p.form id="jvForm" action="o_save.do">
+     <@p.select colspan="2" label="品牌"  name="brand" list=brandList  listKey="name" listValue="name" required="true" class="required" style="width:auto"/><@p.tr/>   
+     <@p.text label="车牌号" name="plateNumber" required="true" class="required" style="width:400px;height:30px;"  maxlength="100"/>
+     <@p.text label="颜色" name="phone" required="true" class="required" style="width:400px;height:30px;"  maxlength="100"/>
+     <@p.text label="金额" name="amount" required="true" class="required number" style="width:400px;height:30px;"  maxlength="100"/> 
+     <@p.text label="电瓶剩余使用寿命" name="batteryLife" required="true" class="required number" style="width:400px;height:30px;"  maxlength="100"/>       
+     <@p.select  label="状态" name="state" list={"0":"请选择类型","1":"发布中","2":"发布超时","3":"已出售 "}  required="true" class="required"/>
+     <@p.select  label="类型" name="type" list={"0":"请选择类型","1":"发布的","2":"买入的"}  required="true" class="required"/>
+     <@p.text width="50" label="购买时间" name="buyTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" required="true" class="required Wdate"/>
+     <@p.text width="50" label="发布截止时间" name="onlineTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" required="true" class="required Wdate"/>
+     <@p.text width="50" label="交易时间" name="dealTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" required="true" class="required Wdate"/>
+     <@p.text label="备注" name="cmark" required="true" class="required" style="width:400px;height:30px;"  maxlength="100"/>
+      <@p.select colspan="2" label="所在地区"  name="district.areaId" list=areaList  listKey="areaId" listValue="areaName" headerKey="" headerValue="请选择"  required="true" class="required" style="width:auto"/><@p.tr/>
+      <@p.select colspan="2" label="门店"  name="store.id" list=storeList  listKey="id" listValue="name" headerKey="" headerValue="请选择"  required="true" class="required" style="width:auto"/><@p.tr/>
+     <@p.text label="联系方式" name="stolenArea" required="true" class="required number" style="width:400px;height:30px;"  maxlength="100"/>
+     <@p.td label="正面照" colspan="1" width="50" noHeight="true"> <@p.text id="uploadImgPath1" name="imgUrlPositive" style="width:220px"/>
+		<!-- <input class="preview-button" type="button" value="<@s.m "imageupload.preview"/>" onclick="previewImg(1);"/> --><br/>
+		<span id="ufc1" style="position:relative"> 
+		<input type='text' id='uploadFileText1' size="14" /> 
+		<input class="browse" type='button' value='<@s.m "global.browse"/>' /> 
+		<input onchange="$('#uploadFileText1').val(this.value)" size="14" type="file" id="uploadFile1" class="file-button"/>
+		</span>
+		<!-- <label><input type="checkbox" onclick="$('#mark1').val(this.checked);"/><@s.m "imageupload.mark"/></label><input type="hidden" id="mark1" value="false"/>  -->
+		<input class="upload-button" type="button" value="<@s.m "imageupload.upload"/>"onclick="upload(1);"/><br/><@s.m "global.width"/>: 
+		<input type="text" id="zoomWidth1" value="640" size="5" /> <@s.m "global.height"/>: 
+		<input type="text" id="zoomHeight1" value="250" size="5" /> <input class="cut-button" type="button" value="<@s.m "imageupload.cut"/>"onclick="imgCut(1);"/>
+		  <img style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg1" noResize="1"/><@p.tr/>
+         </@p.td><@p.td colspan="1" width="50">
+         </@p.td><@p.tr/>
+		
+		<@p.td label="背面照" colspan="1" width="50" noHeight="true"> <@p.text id="uploadImgPath2" name="imgUrlBack" style="width:220px"/>
+		<!-- <input class="preview-button" type="button" value="<@s.m "imageupload.preview"/>" onclick="previewImg(1);"/> --><br/>
+		<span id="ufc1" style="position:relative"> 
+		<input type='text' id='uploadFileText2' size="14" /> 
+		<input class="browse" type='button' value='<@s.m "global.browse"/>' /> 
+		<input onchange="$('#uploadFileText2').val(this.value)" size="14" type="file" id="uploadFile2" class="file-button"/>
+		</span>
+		<!-- <label><input type="checkbox" onclick="$('#mark1').val(this.checked);"/><@s.m "imageupload.mark"/></label><input type="hidden" id="mark1" value="false"/>  -->
+		<input class="upload-button" type="button" value="<@s.m "imageupload.upload"/>"onclick="upload(2);"/><br/><@s.m "global.width"/>: 
+		<input type="text" id="zoomWidth1" value="640" size="5" /> <@s.m "global.height"/>: 
+		<input type="text" id="zoomHeight1" value="250" size="5" /> <input class="cut-button" type="button" value="<@s.m "imageupload.cut"/>"onclick="imgCut(2);"/>
+		  <img style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg2" noResize="1"/><@p.tr/>
+         </@p.td><@p.td colspan="1" width="50">
+         </@p.td><@p.tr/>
+		<@p.td label="侧面照" colspan="1" width="50" noHeight="true"> <@p.text id="uploadImgPath3" name="imgUrlSide" style="width:220px"/>
+		<!-- <input class="preview-button" type="button" value="<@s.m "imageupload.preview"/>" onclick="previewImg(1);"/> --><br/>
+		<span id="ufc1" style="position:relative"> 
+		<input type='text' id='uploadFileText3' size="14" /> 
+		<input class="browse" type='button' value='<@s.m "global.browse"/>' /> 
+		<input onchange="$('#uploadFileText3').val(this.value)" size="14" type="file" id="uploadFile3" class="file-button"/>
+		</span>
+		<!-- <label><input type="checkbox" onclick="$('#mark1').val(this.checked);"/><@s.m "imageupload.mark"/></label><input type="hidden" id="mark1" value="false"/>  -->
+		<input class="upload-button" type="button" value="<@s.m "imageupload.upload"/>"onclick="upload(3);"/><br/><@s.m "global.width"/>: 
+		<input type="text" id="zoomWidth1" value="640" size="5" /> <@s.m "global.height"/>: 
+		<input type="text" id="zoomHeight1" value="250" size="5" /> <input class="cut-button" type="button" value="<@s.m "imageupload.cut"/>"onclick="imgCut(3);"/>
+		  <img style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg3" noResize="1"/><@p.tr/>
+         </@p.td><@p.td colspan="1" width="50">
+         </@p.td><@p.tr/>
+		
+		<@p.td label="细节照" colspan="1" width="50" noHeight="true"> <@p.text id="uploadImgPath4" name="imgUrlDetails" style="width:220px"/>
+		<!-- <input class="preview-button" type="button" value="<@s.m "imageupload.preview"/>" onclick="previewImg(1);"/> --><br/>
+		<span id="ufc1" style="position:relative"> 
+		<input type='text' id='uploadFileText4' size="14" /> 
+		<input class="browse" type='button' value='<@s.m "global.browse"/>' /> 
+		<input onchange="$('#uploadFileText4').val(this.value)" size="14" type="file" id="uploadFile4" class="file-button"/>
+		</span>
+		<!-- <label><input type="checkbox" onclick="$('#mark1').val(this.checked);"/><@s.m "imageupload.mark"/></label><input type="hidden" id="mark1" value="false"/>  -->
+		<input class="upload-button" type="button" value="<@s.m "imageupload.upload"/>"onclick="upload(4);"/><br/><@s.m "global.width"/>: 
+		<input type="text" id="zoomWidth1" value="640" size="5" /> <@s.m "global.height"/>: 
+		<input type="text" id="zoomHeight1" value="250" size="5" /> <input class="cut-button" type="button" value="<@s.m "imageupload.cut"/>"onclick="imgCut(4);"/>
+		  <img style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg4" noResize="1"/><@p.tr/>
+         </@p.td><@p.td colspan="1" width="50">
+         </@p.td><@p.tr/>
+		
+  <@p.td><@p.submit code="global.submit"/> </@p.td>
+    </@p.form>
+    </div>
+</div>
+</body>
+</html>

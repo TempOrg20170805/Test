@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon ck">
+	<form class="ropt">
+		 <input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+   <div class="body-box">
+<@p.form id="jvForm" action="v_list.do" labelWidth="12">
+<@p.td colspan="2" label="地区" >${bean.city.areaName!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="公安、辖区（派出所）名称" >${bean.policestationName!}</@p.td><@p.tr/>
+<@p.td colspan="2"  label="联系方式" >${bean.tel!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="地址" >${bean.address!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="创建时间" >${bean.createTime!}</@p.td><@p.tr/>
+<input type="hidden" name="provinceId" value="${provinceId!}"/>
+ <@p.tr/>
+</@p.form>
+</div>
+</body>
+</html>

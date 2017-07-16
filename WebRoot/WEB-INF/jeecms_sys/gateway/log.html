@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		$.alert("<@s.m 'global.prompt'/>","<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	$.confirm(doDelete,"<@s.m 'global.confirm'/>","<@s.m 'global.confirm.delete'/>");
+}
+function doDelete(){
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="page-positon ove">
+  <div class="position-div"><@s.m "global.position"/>: <@s.m "gateway.function"/> > <@s.m "global.list"/></div>
+</div>
+<div class="box-positon">
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<form action="v_list.do" method="post">
+<div style="padding-bottom:10px; text-indent:6px;">
+		序列号：<input type="text" name="querySeriaNumber" value="${querySeriaNumber!}" style="width:100px"/>
+		状态: <@p.select name="queryLog" value="${queryLog!}" style="width:80px" list={"设备上线":"设备上线","设备离线":"设备离线"} headerKey="" headerValue="全部"/>
+		起始时间：<@p.text width="50" name="queryStartTime"	value="${queryStartTime!}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+		结束时间：<@p.text width="50" name="queryEndTime" value="${queryEndTime!}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+		<input class="query" type="submit" value="<@s.m "global.query"/>"/>
+</div>
+</form>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="querySeriaNumber" value="${querySeriaNumber!}"/>
+<input type="hidden" name="queryLog" value="${queryLog!}"/>
+<input type="hidden" name="queryStartTime" value="${queryStartTime!}"/>
+<input type="hidden" name="queryEndTime" value="${queryEndTime!}"/>
+<@p.table value=pagination;entity,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${entity.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID">${entity.id}</@p.column><#t/>
+	<@p.column code="序列号" align="center" >${entity.seriaNumber!}</@p.column><#t/>
+	<@p.column code="日志信息" align="center">${entity.log!}</@p.column><#t/>
+	<@p.column code="创建时间" align="center" >${entity.time!}</@p.column><#t/>
+</@p.table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

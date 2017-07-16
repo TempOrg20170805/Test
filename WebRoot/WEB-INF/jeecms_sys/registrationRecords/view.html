@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="position-div"><@s.m "global.position"/>: <@s.m "RegistrationRecords.function"/> - <@s.m "global.view"/></div>
+	<div class="box-positon ck">
+	<form class="ropt">
+	<input class="return-button" type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>	
+		
+	</form>
+	<div class="clear"></div>
+</div>
+   <div class="body-box">
+ 
+
+<@p.form id="jvForm" action="v_list.do" labelWidth="12">
+
+<@p.td colspan="2" label="备案民警" >${bean.admin.username!}</@p.td><@p.tr/>
+
+<@p.td colspan="2" label="品牌" >${bean.brand.name!}</@p.td><@p.tr/>
+
+<@p.td colspan="2"  label="所有人姓名" >${bean.name!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="身份类型" >${bean.idType!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="身份证号" >${bean.idNumber!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="联系手机" >${bean.mobilePhone!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="备用电话" >${bean.backupsMoblie!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="现居住地址" >${bean.address!}</@p.td><@p.tr/>
+<tr>
+   <td class="pn-flabel pn-flabel-h" width="12%">费用类型：</td>
+   <td  class="pn-fcontent" colspan="3" width="38%">
+
+     <div style="width:1200px; height:225px; overflow:scroll;">
+       <@p.table  value=typeList;ChargeTypeList,i,has_next><#rt/>
+	   <@p.column code="费用名称" align="center">${ChargeTypeList.chargeName!}</@p.column><#t/>
+	   <@p.column code="费用" align="center">${ChargeTypeList.charge!}</@p.column><#t/>
+	   <@p.column code="备注" align="center">${ChargeTypeList.remark!}</@p.column><#t/>
+	   <@p.column code="是否必须" align="center">
+	   <#if ChargeTypeList.isRequired??>
+	      <#if ChargeTypeList.isRequired>是<#else>否</#if>
+	   <#else>否</#if>
+	   </@p.column><#t/>
+    </@p.table>
+</div>
+</td></tr>
+<@p.td colspan="2" label="车牌号" >${bean.plateNumbers!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="车辆rfid" >${bean.rfid!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="车架号" >${bean.frameNumbers!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="电机号" >${bean.machineNumbers!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="车辆颜色" >${bean.carColor!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="车辆购买时间" >${bean.buyTime!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="备案登记添加时间" >${bean.addTime!}</@p.td><@p.tr/>
+<@p.td colspan="2" width="50" label="前侧车身照" ><img src="${bean.frontSideImg!}"style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg1" noResize="1"/></@p.td><@p.tr/>
+<@p.td colspan="2" width="50" label="后侧车身照" ><img src="${bean.backSideImg!}"style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg2" noResize="1"/></@p.td><@p.tr/>
+<@p.td colspan="2" width="50" label="证件照" ><img src="${bean.drivingLicensesImg!}"style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg3" noResize="1"/></@p.td><@p.tr/>
+<@p.td colspan="2" width="50" label="标签位置照" ><img src="${bean.labelLocationImg!}"style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg4" noResize="1"/></@p.td><@p.tr/>
+
+ <@p.tr/>
+</@p.form>
+</div>
+</body>
+</html>

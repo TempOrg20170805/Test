@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon ck">
+	<form class="ropt">
+		 <input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+     <@p.select colspan="2" label="城市名称"  name="city.areaId"  list=list listKey="areaId" listValue="areaName" headerKey="" headerValue="请选择" required="true" class="required" style="width:auto"/><@p.tr/>
+     <@p.text label="公安(单位)）名称" name="policestationName" required="true" class="required" style="width:400px;height:30px;"  maxlength="100"/>
+     <@p.text label="地址" name="address" required="true" class="required" style="width:400px;height:30px;"  maxlength="100"/>
+     <@p.text label="联系电话" name="tel" required="true" class="required" style="width:400px;height:30px;"  maxlength="100"/>
+     <input type="hidden" name="provinceId" value="${provinceId!}"/>
+<@p.td colspan="2">
+<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

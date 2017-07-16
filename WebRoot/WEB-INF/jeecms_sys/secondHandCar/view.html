@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="position-div"><@s.m "global.position"/>: <@s.m "SecondHandCar.function"/> - <@s.m "global.view"/></div>
+	<div class="box-positon ck">
+	<form class="ropt">
+	<input class="return-button" type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>	
+		
+	</form>
+	<div class="clear"></div>
+</div>
+   <div class="body-box">
+ 
+<@p.form id="jvForm" action="v_list.do" labelWidth="12">
+<@p.td colspan="2" label="持有人" >${bean.user.username!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="品牌" >${bean.brand!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="车牌号" >${bean.plateNumber!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="颜色" >${bean.color!}</@p.td><@p.tr/>
+<@p.td colspan="2"  label="金额" >${bean.amount!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="电瓶剩余使用寿命" >${bean.batteryLife!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="备注" >${bean.mark!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="联系方式" >${bean.phone!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="购买时间" >${bean.buyTime!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="发布截止时间" >${bean.onlineTime!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="状态" >
+		<#if bean.state==1>发布中<#elseif bean.state==2>发布超时<#else>已出售</#if>
+</@p.td><@p.tr/>
+<@p.td colspan="2" label="类型" >
+        <#if bean.type??>
+		<#if bean.type==1>发布的<#else>买入的</#if>
+		<#else>买入的</#if>
+</@p.td><@p.tr/>
+<@p.td colspan="2" label="购买时间" >${bean.buyTime!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="创建时间" >${bean.checkTime!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="交易时间" >${bean.checkTime!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="所在地区" >${bean.district.areaname!}</@p.td><@p.tr/>
+<@p.td colspan="2" label="门店" >${bean.store.name!}</@p.td><@p.tr/>
+<@p.td colspan="2" width="50" label="正面照" ><img src="${bean.imgUrlPositive!}"style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg1" noResize="1"/></@p.td><@p.tr/>
+<@p.td colspan="2" width="50" label="背面照" ><img src="${bean.imgUrlBack!}"style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg2" noResize="1"/></@p.td><@p.tr/>
+<@p.td colspan="2" width="50" label="侧面照" ><img src="${bean.imgUrlSide!}"style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg3" noResize="1"/></@p.td><@p.tr/>
+<@p.td colspan="2" width="50" label="细节照" ><img src="${bean.imgUrlDetails!}"style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg4" noResize="1"/></@p.td><@p.tr/>
+ <@p.tr/>
+</@p.form>
+</div>
+</body>
+</html>

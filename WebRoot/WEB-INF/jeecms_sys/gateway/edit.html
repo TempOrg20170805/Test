@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="page-positon ove">
+  <div class="position-div"><@s.m "global.position"/>: <@s.m "gateway.function"/> > <@s.m "global.edit"/></div>
+</div>
+<div class="box-positon ck">
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_update.do" labelWidth="12">
+
+<@p.text style="width:450px" colspan="2" label="网关序列号" value=gateway.seriaNumber name="seriaNumber"/><@p.tr/>
+<@p.text style="width:450px" colspan="2" label="地址" value=gateway.address name="address"/><@p.tr/>
+<@p.text style="width:450px" colspan="2" label="经度" value=gateway.lng name="lng"/><@p.tr/>
+<@p.text style="width:450px" colspan="2" label="纬度" value=gateway.lat name="lat"/><@p.tr/>
+<@p.td colspan="2" label="所属公司" >${gateway.companyFk!}</@p.td><@p.tr/>
+<@p.td colspan="1" width="50" label="网关图">
+<@p.text id="uploadImgPath1" name="gatewayImg" style="width:300px" value=gateway.gatewayImg required="true" class="required"/> <br/>
+<span id="ufc1" style="position:relative">
+<input type='text' id='uploadFileText1' size="14"/>
+<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+<input onchange="$('#uploadFileText1').val(this.value)" size="14" type="file" id="uploadFile1" class="file-button"/>
+</span>
+<input type="hidden" id="mark1" value="false"/> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(1);" class="upload-button"/><br/></@p.td>
+<td class="pn-fcontent" style="width:150px;text-align:center"><img src="${gateway.gatewayImg!}" style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg1" noResize="1"></td>
+<@p.tr/>
+<@p.td colspan="1" width="50" label="进线口图">
+<@p.text id="uploadImgPath2" name="entranceImg" style="width:300px" value=gateway.entranceImg required="true" class="required"/> <br/>
+<span id="ufc2" style="position:relative">
+<input type='text' id='uploadFileText2' size="14"/>
+<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+<input onchange="$('#uploadFileText2').val(this.value)" size="14" type="file" id="uploadFile2" class="file-button"/>
+</span>
+<input type="hidden" id="mark2" value="false"/> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(2);" class="upload-button"/><br/></@p.td>
+<td class="pn-fcontent" style="width:150px;text-align:center"><img src="${gateway.entranceImg!}" style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg2" noResize="1"></td>
+<@p.tr/>
+<@p.td colspan="1" width="50" label="街道图">
+<@p.text id="uploadImgPath3" name="streetImg" style="width:300px" value=gateway.streetImg required="true" class="required"/> <br/>
+<span id="ufc3" style="position:relative">
+<input type='text' id='uploadFileText3' size="14"/>
+<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+<input onchange="$('#uploadFileText3').val(this.value)" size="14" type="file" id="uploadFile3" class="file-button"/>
+</span>
+<input type="hidden" id="mark3" value="false"/> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(3);" class="upload-button"/><br/></@p.td>
+<td class="pn-fcontent" style="width:150px;text-align:center"><img src="${gateway.streetImg!}" style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg3" noResize="1"></td>
+<@p.tr/>
+<@p.td>
+	<@p.hidden name="id" value=gateway.id/>
+	<#if gateway.policestation??>
+	<@p.hidden name="policestationId" value=gateway.policestation.id/></#if>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+</@p.form>
+</div>
+</body>
+</html>

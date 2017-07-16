@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jeecms-left</title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("li").each(function(i){
+		$(this).removeClass("leftCurr");
+		if(i==0){
+			$(this).addClass("leftCurr");
+		}else{
+			$(this).addClass("leftNol");
+		}
+		$(this).click( function () {
+			$("li").each(function(){
+				$(this).removeClass("leftCurr");
+				$(this).addClass("leftNol");
+			});
+			$(".h3").each(function(){
+				$(this).next().hide();
+				$(this).removeClass("leftCurr");
+				$(this).addClass("leftNol");
+			});
+			$(this).removeClass("leftNol");
+			$(this).addClass("leftCurr");
+		});
+	});
+	$(".h3").each(function(){
+		$(this).next().hide();
+		$(this).addClass("leftNol");
+		$(this).click( function () {
+			$(".h3").each(function(){
+				$(this).next().hide();
+				$(this).removeClass("leftCurr");
+				$(this).addClass("leftNol");
+			});
+			$("li").each(function(){
+				$(this).removeClass("leftCurr");
+				$(this).addClass("leftNol");
+			});
+			$(this).removeClass("leftNol");
+			$(this).addClass("leftCurr");
+		    $(this).next().show(); 
+		});
+	});
+	$(".h3-child div").each(function(i){
+		$(this).click( function () {
+			$(".h3-child div").each(function(){
+				$(this).removeClass();
+				$(this).addClass("leftmenuBG");
+			});
+			$(this).removeClass();
+			$(this).addClass("leftmenuBGCurr");
+		});
+	});
+});
+</script>
+</head>
+<body>
+<div class="w230 f_l ove">
+   <div class="fresh" style="font-size:12px; text-indent:36px;">
+       <#include "/jeecms_sys/date.html"/>
+	</div>
+    <div class="w229">
+    	<ol>
+    	<@cms_perm url="/monitorpoint/v_list.do">
+		<li class="leftCurr"><a href="../monitorpoint/v_list.do" target="rightFrame"><@s.m "monitorPoint.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/gateway/v_list.do">
+		<li class="leftCurr"><a href="../gateway/v_list.do" target="rightFrame"><@s.m "gateway.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/gatewayLog/v_list.do">
+		<li class="leftCurr"><a href="../gatewayLog/v_list.do" target="rightFrame">网关日志</a></li>
+		</@cms_perm>
+			<!-- 监控点地图 -->
+		 <@cms_perm url="/monitorpoint">
+			<h3 class="h3"><@s.m "monitorPointMap.function"/></h3>
+			</@cms_perm>
+			<div class="h3-child" style="margin:0; padding:0;">
+				<@cms_perm url="/monitorpoint/v_installedPoint.do">
+				<div class="leftmenuBG"><a href="../monitorpoint/v_installedPoint.do" target="rightFrame"><@s.m "InstalledPoint.function"/></a></div>
+				</@cms_perm>
+				<@cms_perm url="/monitorpoint/v_stay.do">
+				<div class="leftmenuBG"><a href="../monitorpoint/v_stay.do" target="rightFrame"><@s.m "StayPoint.function"/></a></div>
+				</@cms_perm>
+	            <@cms_perm url="/monitorpoint/v_not.do">
+				<div class="leftmenuBG"><a href="../monitorpoint/v_not.do" target="rightFrame"><@s.m "NotInstalledPoint.function"/></a></div>
+				</@cms_perm>
+			</div>
+		<!-- 网关点地图 -->
+		 <@cms_perm url="/gateway">
+		 <h3 class="h3"><@s.m "gatewayMap.function"/></h3>
+		</@cms_perm>
+		<div class="h3-child" style="margin:0; padding:0;">
+				<@cms_perm url="/gateway/v_offline.do">
+				<div class="leftmenuBG"><a href="../gateway/v_offline.do" target="rightFrame"><@s.m "OfflinePoint.function"/></a></div>
+				</@cms_perm>
+				<@cms_perm url="/gateway/v_online.do">
+				<div class="leftmenuBG"><a href="../gateway/v_online.do" target="rightFrame"><@s.m "OnlinePoint.function"/></a></div>
+				</@cms_perm>
+			</div>
+			<!-- 全部网关 测试页面 -->
+		 <@cms_perm url="/gateway/v_all.do">
+		 <li class="leftCurr"><a href="../gateway/v_all.do" target="rightFrame">全部网关点</a></li>
+		</@cms_perm>
+      </ol>
+    </div>
+</div>
+</body>
+</html>

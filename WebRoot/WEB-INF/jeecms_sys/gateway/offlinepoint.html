@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+body,html,#allmap {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	margin: 0;
+	font-family: "微软雅黑";
+}
+
+#l-map {
+	height: 100%;
+	width: 78%;
+	float: left;
+	border-right: 2px solid #bcbcbc;
+}
+
+#r-result {
+	height: 100%;
+	width: 20%;
+	float: left;
+}
+</style>
+<title></title>
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=EG2dkWFQmem6KHPaGHjaIx76fAYWL4j5"></script>
+
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+	/**
+	 * 进行查询
+	 * 
+	 */
+	function search() {
+		var url = '../gateway/v_mappoints.do';
+		$.ajax({
+			type : "get", //提交方式
+			async : true, //异步提交
+			url : url + "?timeStamp=" + new Date().getTime(), //提交的页面/方法名，增加时间戳，使IE自动更新数据
+			data : {
+				online : 0
+			}, //参数（如果没有参数：null）
+			dataType : "text", //类型
+			contentType : "text/json; charset=utf-8",
+			success : function(pointsData) {
+				json = '(' + pointsData + ')';
+				var obj = eval(json);
+				parseData(obj);
+			}
+		});
+	}
+
+	/**
+	 * 解析后台数据，创建地图
+	 */
+	function parseData(pointsData) {
+		// 百度地图API功能
+		var map = new BMap.Map("allmap");
+		var point = new BMap.Point(116.404, 39.915);
+		//map.centerAndZoom(point, 15);
+		map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+		var city = document.getElementById("cityName").value;
+		if (city != "") {
+			map.centerAndZoom(city, 11); // 用城市名设置地图中心点
+		} else {
+			map.centerAndZoom("宁波市", 11);
+		}
+
+		//添加带有定位的导航控件
+		var navigationControl = new BMap.NavigationControl({
+			// 靠左上角位置
+			anchor : BMAP_ANCHOR_TOP_LEFT,
+			// LARGE类型
+			type : BMAP_NAVIGATION_CONTROL_LARGE,
+			// 启用显示定位
+			enableGeolocation : true
+		});
+		map.addControl(navigationControl);
+		if (pointsData["success"] == false) {
+			alert(pointsData["msg"]);
+			return 0;
+		}
+		// 所有点的数据
+		var alldata = pointsData.monitorPointList;
+		drawMap(map, alldata);
+	}
+	function drawMap(map, alldata) {
+		for ( var i = 0; i < alldata.length; i++) {
+			var lng = alldata[i].lng;
+			var lat = alldata[i].lat;
+			var point = new BMap.Point(lng, lat);
+			addMarker(map, point, i, alldata[i].address,alldata[i].seriaNumber);
+		}
+	}
+	// 编写自定义函数,创建标注
+	function addMarker(map, point, index, address,seriaNumber) {
+		var iconUrl = null;
+		var myIcon = null;
+		// 1：在线图标 //http://api.map.baidu.com/library/TextIconOverlay/1.2/src/images/m0.png
+		//iconUrl = "${base}/res/jeecms/images/m4.png";
+		//myIcon = new BMap.Icon(iconUrl, new BMap.Size(53, 52));
+		 myIcon =new BMap.Symbol(BMap_Symbol_SHAPE_POINT, {
+			    scale: 0,//图标缩放大小
+			    fillColor: "gray",//填充颜色
+			    fillOpacity: 0.8//填充透明度
+			  });
+		var marker = new BMap.Marker(point, {
+			icon : myIcon,
+			title:"网关序列号:"+seriaNumber+"坐标点："+point.lng+","+point.lat+"地址："+address //鼠标移动到标注点信息
+		});
+		//创建标注
+		map.addOverlay(marker);
+		var circle = new BMap.Circle(point, 200, {
+			strokeColor : "blue",
+			strokeWeight : 2,
+			strokeOpacity : 0.5,
+			fillColor:""
+		});
+		circle.enableEditing();
+		map.addOverlay(circle);
+		//点击显示信息窗口
+		addClickHandler(map, address,seriaNumber, marker);
+	}
+	//标注点击函数
+	function addClickHandler(map, address, seriaNumber,marker) {
+		marker.addEventListener("click", function(e) {
+			openInfo(map, address,seriaNumber, e)
+		});
+	}
+	//信息窗口
+	function openInfo(map, address,seriaNumber, e) {
+		var opts = {
+			width : 250, // 信息窗口宽度
+			height : 80, // 信息窗口高度
+			title : "信息窗口", // 信息窗口标题
+			enableMessage : true
+		//设置允许信息窗发送短息
+		};
+		var p = e.target;
+		var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+		var info = "网关序列号:"+seriaNumber+"坐标点:" + p.getPosition().lng + "," + p.getPosition().lat
+				+ ";" + "地址:" + address
+		var infoWindow = new BMap.InfoWindow(info, opts); // 创建信息窗口对象 
+		map.openInfoWindow(infoWindow, point); //开启信息窗口
+	}
+</script>
+</head>
+<body onload="search()">
+	<div class="page-positon ove">
+		<div class="position-div"><@s.m "global.position"/>: <@s.m
+			"monitorPoint.function"/> > <@s.m "gatewayMap.function"/> > <@s.m
+			"OfflinePoint.function"/></div>
+	</div>
+	<div class="box-positon">
+		<form class="ropt">
+			<!-- 	<input class="add" type="submit" value="<@s.m "global.add"/>" onclick="this.form.action='v_add.do';"/> -->
+		</form>
+		<div class="clear"></div>
+	</div>
+
+	<div class="body-box">
+		<!-- 
+<div>
+开始时间：<input id="start" type="text" name="begin" value="" style="width:120px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+结束时间：<input id="end" type="text" name="end" value="" style="width:120px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+<input class="query" type="button" onclick="search()" value="查询"/>
+</div>
+ -->
+		<!-- 加载当前用户所在的市 -->
+		<input type="hidden" id="cityName" name="cityName" value="${cityName!}" />
+	</div>
+	<div id="allmap"></div>
+
+</body>
+</html>
+

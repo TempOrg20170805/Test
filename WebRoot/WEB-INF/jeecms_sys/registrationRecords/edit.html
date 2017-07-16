@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="page-positon ove">
+  <div class="position-div"><@s.m "global.position"/>: <@s.m "RegistrationRecords.function"/> > <@s.m "global.edit"/></div>
+</div>
+<div class="box-positon ck">
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+
+<#include "/common/image_upload.html"/>
+  <@p.form id="jvForm" action="o_update.do" labelWidth="10" class="formDefStyle">
+    <@p.td colspan="2" label="车辆RFID" >${bean.rfid!}</@p.td><@p.tr/>
+    <@p.td colspan="2" label="车牌号" >${bean.plateNumbers!}</@p.td><@p.tr/>
+    <@p.td colspan="2"  label="车辆购买时间" >${bean.buyTime!}</@p.td><@p.tr/>
+    <@p.select width="50" label="车辆品牌" name="brand.id"	value= bean.brand.id list=brandList listKey="id" listValue="name" required="true"/>
+    <@p.text label="电机号"  style="width:200px " name="machineNumbers"  value=bean.machineNumbers required="true" class="required" />
+    <@p.text label="车架号"  style="width:200px " name="frameNumbers"  value=bean.frameNumbers required="true" class="required" />
+    <@p.text label="联系电话"  style="width:200px " name="mobilePhone"  value=bean.mobilePhone required="true" class="required"/>
+    <@p.text label="备用电话"  style="width:200px " name="backupsMoblie"  value=bean.backupsMoblie required="true" class="required" />
+    <@p.text label="所有人姓名"  style="width:200px " name="name"  value=bean.name required="true" class="required"  maxlength="100"/>
+    <@p.td colspan="2" label="身份证号" >${bean.idNumber!}</@p.td><@p.tr/>
+    <@p.text label="现居住地址"  style="width:200px " name="address"  value=bean.address required="true" class="required" /><@p.tr/> 
+    <!--  
+      <@p.td  colspan="3" width="100" label="首页设备">
+	   <#if bean.isIndexDevice??>
+	      <#if bean.isIndexDevice>是<#else>否</#if>
+	   <#else>否</#if>
+	   </@p.td><@p.tr/>
+	   -->
+ <@p.td label="前侧车身照" colspan="1" width="50" noHeight="true"> <@p.text id="uploadImgPath1" name="frontSideImg" value=bean.frontSideImg style="width:220px"/><br/>
+  <span id="ufc1" style="position:relative">
+    <input type='text' id='uploadFileText1' size="14"/>
+    <input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+    <input onchange="$('#uploadFileText1').val(this.value)" size="14" type="file" id="uploadFile1" class="file-button"/>
+  </span>
+   <input type="hidden" id="mark1" value="false"/> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(1);" class="upload-button"/><br/></@p.td>
+<td class="pn-fcontent" style="width:150px;text-align:center"><img src="${bean.frontSideImg}" style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg1" noResize="1"></td>
+<@p.tr/>
+
+ <@p.td label="后侧车身照" colspan="1" width="50" noHeight="true"> <@p.text id="uploadImgPath2" name="backSideImg" value=bean.backSideImg style="width:220px"/><br/>
+  <span id="ufc2" style="position:relative">
+    <input type='text' id='uploadFileText2' size="14"/>
+    <input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+   <input onchange="$('#uploadFileText2').val(this.value)" size="14" type="file" id="uploadFile2" class="file-button"/>
+  </span>
+   <input type="hidden" id="mark2" value="false"/> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(2);" class="upload-button"/><br/></@p.td>
+<td class="pn-fcontent" style="width:150px;text-align:center"><img src="${bean.backSideImg}" style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg2" noResize="1"></td>
+<@p.tr/>
+
+<@p.td label="证件照" colspan="1" width="50" noHeight="true"> <@p.text id="uploadImgPath3" name="drivingLicensesImg" value=bean.drivingLicensesImg style="width:220px"/><br/>
+  <span id="ufc3" style="position:relative">
+    <input type='text' id='uploadFileText3' size="14"/>
+    <input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+    <input onchange="$('#uploadFileText3').val(this.value)" size="14" type="file" id="uploadFile3" class="file-button"/>
+  </span>
+   <input type="hidden" id="mark3" value="false"/> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(3);" class="upload-button"/><br/></@p.td>
+<td class="pn-fcontent" style="width:150px;text-align:center"><img src="${bean.drivingLicensesImg}" style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg3" noResize="1"></td>
+<@p.tr/>
+
+<@p.td label="标签位置照" colspan="1" width="50" noHeight="true"> <@p.text id="uploadImgPath4" name="labelLocationImg" value=bean.labelLocationImg style="width:220px"/><br/>
+  <span id="ufc4" style="position:relative">
+    <input type='text' id='uploadFileText4' size="14"/>
+    <input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+    <input onchange="$('#uploadFileText4').val(this.value)" size="14" type="file" id="uploadFile4" class="file-button"/>
+  </span>
+   <input type="hidden" id="mark4" value="false"/> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(4);" class="upload-button"/><br/></@p.td>
+<td class="pn-fcontent" style="width:150px;text-align:center"><img src="${bean.labelLocationImg}" style="width:200px;height:150px;background-color:#CCCCCC;border:1px solid #333" alt="预览" id="preImg4" noResize="1"></td>
+<@p.tr/>
+ <@p.tr/> 
+<@p.td colspan="2">
+	<@p.hidden name="id" value=bean.id/>
+	<@p.submit code="global.submit" class="submit"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

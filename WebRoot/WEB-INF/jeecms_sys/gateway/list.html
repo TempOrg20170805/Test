@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		$.alert("<@s.m 'global.prompt'/>","<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	$.confirm(doDelete,"<@s.m 'global.confirm'/>","<@s.m 'global.confirm.delete'/>");
+}
+function doDelete(){
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="page-positon ove">
+  <div class="position-div"><@s.m "global.position"/>: <@s.m "gateway.function"/> > <@s.m "global.list"/></div>
+</div>
+<div class="box-positon">
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<form action="v_list.do" method="post">
+<div style="padding-bottom:10px; text-indent:6px;">
+		序列号：<input type="text" name="querySeriaNumber" value="${querySeriaNumber!}" style="width:100px"/>
+		状态: <@p.select name="queryOnline" value="${queryOnline!}" style="width:80px" list={"1":"在线","0":"不在线"} headerKey="" headerValue="全部"/>
+		起始时间：<@p.text width="50" name="queryStartTime"	value="${queryStartTime!}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+		结束时间：<@p.text width="50" name="queryEndTime" value="${queryEndTime!}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+		<input class="query" type="submit" value="<@s.m "global.query"/>"/>
+</div>
+</form>
+<form>
+<div style="padding-bottom:10px; text-indent:6px;">
+<font size="5" color="blue">在线数：${onlineNo!}/ ${gatewayCount!}</font>
+</div>
+</form>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="querySeriaNumber" value="${querySeriaNumber!}"/>
+<input type="hidden" name="queryOnline" value="${queryOnline!}"/>
+<input type="hidden" name="queryStartTime" value="${queryStartTime!}"/>
+<input type="hidden" name="queryEndTime" value="${queryEndTime!}"/>
+<@p.table value=pagination;gateway,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${gateway.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID">${gateway.id}</@p.column><#t/>
+	<@p.column code="序列号" align="center" width="60">${gateway.seriaNumber!}</@p.column><#t/>
+	<@p.column code="地址" align="center" width="300">${gateway.address!}</@p.column><#t/>
+	<@p.column code="经纬度" align="center" width="70">${gateway.lng!},${gateway.lat!}</@p.column><#t/>
+	<@p.column code="创建时间" align="center" width="200">${gateway.createTime!}</@p.column><#t/>
+	<@p.column code="状态" align="center" width="50"><#if gateway.online><font color="green">在线</font><#else><font color="red">不在线</font></#if></@p.column><#t/>
+	 <@cms_perm url="/gateway/o_operate.do">
+	<@p.column code="global.operate" align="center">
+	    <a href="gatewayLocation.do?id=${gateway.id}" class="pn-opt">网关定位</a> | <#rt/>
+		<a href="v_edit.do?id=${gateway.id}&pageNo=${pageNo!}" class="pn-opt"><@s.m "global.edit"/></a> | <#rt/>
+		<a href="o_delete.do?ids=${gateway.id}&pageNo=${pageNo!}" onclick="if(!$.confirmToUrl(this.href)) {return false;}" class="pn-opt"><@s.m "global.delete"/></a> | <#t/>
+		<a href="../gatewayRecord/v_list.do?seriaNumber=${gateway.seriaNumber}&pageNo=${pageNo!}" class="pn-opt">历史记录</a><#rt/>
+	</@p.column><#t/>
+	</@cms_perm>
+</@p.table>
+<div><input class="del-button" type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/></div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

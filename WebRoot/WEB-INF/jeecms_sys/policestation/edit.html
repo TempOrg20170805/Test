@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon ck">
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_update.do" labelWidth="12">
+<@p.text label="公安、辖区（派出所）名称"  style="width:200px " name="policestationName"  value=bean.policestationName required="true" class="required"/>
+    <@p.text label="地址"  style="width:200px" name="address"  value=bean.address required="true" class="required"/>
+    <@p.text label="联系电话"  style="width:200px " name="tel"  value=bean.tel required="true" class="required"/>
+    <input type="hidden" name="provinceId" value="${provinceId!}"/>
+<@p.td colspan="2">
+	<@p.hidden name="id" value=bean.id/>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

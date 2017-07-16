@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+
+
+$(function() {
+	$("#areaId").change(function() { //省份下拉菜单的change事件
+	var parentId =$('#areaId').val();//此处参数名要注意和后台方法参数名要一致
+	$.ajax({
+	type: "get", //提交方式
+	url: "../area/query_area_ajax.do", //提交的页面/方法名
+	data:"parentId="+parentId, //参数（如果没有参数：null）
+	dataType: "text", //类型
+	contentType: "text/json; charset=utf-8",
+	success: function(areas) {
+		var city=$('#cityId').empty(); // 使用 empty() 方法从元素移除内容。
+		city.append("<option value= >请选择</option>"); // 将数据加入到第二个下拉列表中
+		var list=eval("("+areas+")");
+		for(var i=0;i<list.length;i++){
+			city.append("<option value="+list[i].areaId+" title="+list[i].areaName+">"+list[i].areaName+"</option>");
+		}
+	}
+	});
+	});
+}); 
+</script>
+</head>
+<body>
+<div class="page-positon ove">
+  <div class="position-div"><@s.m "global.position"/>: <@s.m "cmsMember.function"/> > <span style="color:blue; text-align:center">：安装员端用户</span><@s.m "global.add"/></div>
+</div>
+<div class="box-positon ck">
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<#assign usernameExist><@s.m "error.usernameExist"/></#assign>
+<@p.form id="jvForm" action="o_save.do" labelWidth="12" class="formDefStyle">
+<@p.text width="50" colspan="1" label="cmsUser.username" name="username" required="true" maxlength="100" vld="{required:true,username:true,remote:'v_check_username.do',messages:{remote:'${usernameExist}'}}"/>
+<@p.radio width="50" colspan="1" label="cmsUser.gender" name="gender" required="true" class="required" list={"true":"cmsUser.male","false":"cmsUser.female"}/><@p.tr/>
+<@p.password width="50" colspan="1" label="cmsUser.password" id="password" name="password" maxlength="100" required="true" class="required"/>
+<@p.password width="50" colspan="1" label="cmsUser.pwdAgain" required="true" equalTo="#password"/><@p.tr/>
+<@p.select colspan="1" width="50" label="cmsUser.group" name="groupId" list=groupList listKey="id" listValue="name" required="true"/> 
+<@p.text width="50" colspan="1" label="cmsUser.realname" name="realname" maxlength="100"/><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsUser.mobile" name="mobile" required="true" class="required" maxlength="50"/>
+<@p.text width="50" colspan="1" label="cmsUser.phone" name="phone"  help="备用" maxlength="50"/><@p.tr/>
+
+<!-- <@p.textarea colspan="2" label="cmsUser.intro" name="intro" maxlength="255" cols="70" rows="5"/><@p.tr/> -->
+<#list registerItems as item>
+<#if item_has_next>
+
+<@p.selfDefineRegisterWidget name="attr_${item.field}" value=item.defValue size="${item.size!}" width="50" colspan="1" list="${item.optValue!}" help=item.help helpPosition="${item.helpPosition!2}" rows="${item.rows!}" cols="${item.cols!}" label=item.label required=item.required type="${item.dataType}"/>
+<#if item_index%2==1><@p.tr/></#if>
+<#else>
+<@p.selfDefineRegisterWidget name="attr_${item.field}" value=item.defValue size="${item.size!}" width="100" colspan="2" list="${item.optValue!}" help=item.help helpPosition="${item.helpPosition!2}" rows="${item.rows!}" cols="${item.cols!}" label=item.label required=item.required type="${item.dataType}"/>
+<@p.tr/>
+</#if>
+
+</#list>
+   
+ <@p.select colspan="1"  width="50" label="所属省份" id="areaId" list=proList name="provinceId"  listKey="areaId" listValue="areaName" headerKey="0" headerValue="请选择" required="true" class="required" style="width:auto"/>
+	<@p.td colspan="1"  width="50" label="所属城市" required="true">
+	<select name="cityId"  id="cityId" style="width:100px" class="required">
+	<option value="" selected="selected">请选择</option>
+	</select>
+	</@p.td><@p.tr/>
+<@p.td colspan="2"><@p.submit code="global.submit" class="submit"/><@p.reset code="global.reset" class="cancel"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

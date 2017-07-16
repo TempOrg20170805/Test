@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="page-positon ove">
+  <div class="position-div"><@s.m "global.position"/>: <@s.m "cmsMember.function"/>  >实名认证审核</div>
+</div>
+<div class="box-positon  ck">
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm"  action="o_check.do" labelWidth="10">
+<#if isReal>
+<@p.td width="50" colspan="2" label="ID" >${cmsUser.id!}</@p.td>
+<@p.tr/>
+<@p.td width="50" colspan="2" label="cmsUser.username" >${cmsUser.username!}</@p.td>
+<@p.tr/>
+<@p.td width="25" colspan="1" label="cmsUser.phone" >${cmsUser.phone!}</@p.td>
+<@p.tr/>
+<@p.td width="25" colspan="1" label="cmsUser.realname" >${cmsUser.realname!}</@p.td>
+<@p.tr/>
+<@p.td width="50" colspan="1" label="cmsUser.register">${cmsUser.registerTime?string('yyyy-MM-dd HH:mm:ss')} &nbsp; ${cmsUser.registerIp}</@p.td>
+<@p.tr/>
+<@p.td width="50" colspan="2" label="实名状态" >${cmsUser.realStateName!}</@p.td>
+<@p.tr/>
+<@p.td width="50" colspan="2" label="身份证号" >${cmsUser.idNumber!}</@p.td>
+<@p.tr/>
+<@p.td width="50" colspan="2" label="正面照" ><img src="${cmsUser.fullFace!}"  alt="加载失败" style="width:292px;height:130px;background-
+color:#CCCCCC;border:1px solid #333"/></@p.td>
+<@p.tr/>
+<@p.td width="50" colspan="2" label="反面照" ><img src="${cmsUser.reverseFace!}"  alt="加载失败" style="width:292px;height:130px;background-
+color:#CCCCCC;border:1px solid #333"/></@p.td>
+<@p.tr/>
+<#if cmsUser.realnameStatus==2>
+<@p.select label="审核决定" name="realnameStatus" value=cmsUser.realnameStatus  list={"2":"待实名","3":"实名通过","4":"实名不通过"} />
+<div style="clear:both"></div>
+<@p.td colspan="2"><@p.hidden name="ids" value=cmsUser.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+<@p.tr/>
+</#if>
+<#else>
+<h1>无审核资料</h1>
+</#if>
+</@p.form>
+
+</div>
+</body>
+</html>

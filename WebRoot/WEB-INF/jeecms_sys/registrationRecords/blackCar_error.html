@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+</head>
+<body>
+  <div class="page-positon ove">
+  <div class="position-div"><@s.m "global.position"/>: <@s.m "RegistrationRecords.function"/> > 添加黑车</div>
+</div>
+<div class="box-positon ck">
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_update.do" labelWidth="5" class="formDefStyle">
+ <div style="text-align:center;"><font size="8px" >车牌号为:${plateNumber}的车辆已于${createTime}提交被盗申请</font></div>
+ <@p.tr/>
+</@p.form>
+</div>
+  </body>
+</html>

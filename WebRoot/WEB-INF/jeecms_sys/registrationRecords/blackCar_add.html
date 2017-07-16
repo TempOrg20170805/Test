@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+function plugExist(msg){
+	$.alert("<@s.m 'global.prompt'/>",msg);
+}
+$(function() {
+	$("#policestationId").change(function() { //单位份下拉菜单的change事件
+	var parentId =$('#policestationId').val();//此处参数名要注意和后台方法参数名要一致
+	$.ajax({
+	type: "get", //提交方式
+	url: "../policestation/query_policestation_ajax.do", //提交的页面/方法名
+	data:"parentId="+parentId, //参数（如果没有参数：null）parentId
+	dataType: "text", //类型
+	contentType: "text/json; charset=utf-8",
+	success: function(areas) {
+		var policestation2=$('#policestation2Id').empty(); // 使用 empty() 方法从元素移除内容。
+		policestation2.append("<option value= >请选择</option>"); // 将数据加入到第二个下拉列表中
+		var list=eval("("+areas+")");
+		for(var i=0;i<list.length;i++){
+			policestation2.append("<option value="+list[i].id+" title="+list[i].policestationName+">"+list[i].policestationName+"</option>");
+		}
+	}
+	});
+	});
+});
+</script>
+</head>
+<body>
+<div class="page-positon ove">
+  <div class="position-div"><@s.m "global.position"/>: <@s.m "monitorPoint.function"/> > 添加黑车</div>
+</div>
+<div class="box-positon ck">
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_blackCarSave.do">
+<@p.text label="车牌号" name="plateNumber" value=bean.plateNumbers style="width:500px;" readonly="true" maxlength="100"/>
+<@p.text label="姓名" name="name" value=bean.name style="width:500px;" readonly="true" maxlength="100"/>
+<@p.text label="证件号" name="idNumber" value=bean.idNumber style="width:500px;" readonly="true" maxlength="100"/>
+<@p.text label="联系方式" name="phone" value=bean.mobilePhone style="width:500px;" required="true" class="required"  maxlength="100"/>
+<@p.text label="被盗区域" name="stolenArea" style="width:500px;" required="true" class="required"  maxlength="50"/>
+<@p.text width="50"	label="被盗时间" name="stolenTime"	onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"/>
+
+<@p.td><@p.hidden name="carId" value=bean.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

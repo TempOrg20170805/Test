@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="page-positon ove">
+  <div class="position-div"><@s.m "global.position"/>: <@s.m "monitorPoint.function"/> > <@s.m "global.edit"/></div>
+</div>
+<div class="box-positon ck">
+	<form class="ropt">
+		<!--  <input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>-->
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_update.do" labelWidth="12">
+
+<@p.text style="width:450px" colspan="2" label="名称" value=bean.title name="title" required="true" class="required"/><@p.tr/>
+<@p.textarea style="width:90%;height:350px" wrap="off" maxlength="1000"  label="详情" name="info" value=bean.info help="限1000字" required="true" class="required"/>
+<@p.td>
+	<@p.hidden name="id" value=bean.id/>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+</@p.form>
+</div>
+</body>
+</html>

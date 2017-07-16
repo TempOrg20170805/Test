@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<title>城市名定位</title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+
+</script>
+<style type="text/css">
+	body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+	#allmap{height:500px;width:100%;}
+	#r-result{width:100%; font-size:14px;}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=EG2dkWFQmem6KHPaGHjaIx76fAYWL4j5"></script>
+
+</head>
+<body onload="theLocation()">
+<div class="box-positon">
+	<div class="position-div"><@s.m "global.position"/>: <@s.m "gateway.function"/> - 网关定位</div>
+	<div class="box-positon ck">
+	<form class="ropt">
+	<input class="return-button" type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>	
+	</form>
+	<div class="clear"></div>
+</div>
+   <div class="body-box">
+ 
+<@p.form id="jvForm" action="v_list.do" labelWidth="12">
+<div id="allmap"></div>
+<div id="r-result">
+		经度: <input id="longitude"  value="${bean.lng!}" type="text" style="width:100px; margin-right:10px;" />
+		纬度: <input id="latitude"  value="${bean.lat!}"  type="text" style="width:100px; margin-right:10px;" />
+	</div>
+</@p.form>
+</div>
+</body>
+</html>
+<script>
+//百度地图API功能
+var map = new BMap.Map("allmap");
+map.centerAndZoom(new BMap.Point(116.331398,39.897445),13);
+
+map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+
+
+//添加带有定位的导航控件
+var navigationControl = new BMap.NavigationControl({
+// 靠左上角位置
+anchor: BMAP_ANCHOR_TOP_LEFT,
+// LARGE类型
+type: BMAP_NAVIGATION_CONTROL_LARGE,
+// 启用显示定位
+enableGeolocation: true
+});
+map.addControl(navigationControl);
+//添加定位控件
+var geolocationControl = new BMap.GeolocationControl();
+geolocationControl.addEventListener("locationSuccess", function(e){
+// 定位成功事件
+var address = '';
+address += e.addressComponent.province;
+address += e.addressComponent.city;
+address += e.addressComponent.district;
+address += e.addressComponent.street;
+address += e.addressComponent.streetNumber;
+alert("当前定位地址为：" + address);
+});
+geolocationControl.addEventListener("locationError",function(e){
+// 定位失败事件
+alert(e.message);
+});
+map.addControl(geolocationControl);
+
+// 用经纬度设置地图中心点
+function theLocation(){
+	if(document.getElementById("longitude").value != "" && document.getElementById("latitude").value != ""){
+		map.clearOverlays(); 
+		var new_point = new BMap.Point(document.getElementById("longitude").value,document.getElementById("latitude").value);
+		var marker = new BMap.Marker(new_point);  // 创建标注
+		map.addOverlay(marker);              // 将标注添加到地图中
+		map.panTo(new_point);      
+	}
+}
+
+
+</script>
