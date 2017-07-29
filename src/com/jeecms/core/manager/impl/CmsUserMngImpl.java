@@ -34,8 +34,8 @@ import com.jeecms.core.manager.CmsUserExtMng;
 import com.jeecms.core.manager.CmsUserMng;
 import com.jeecms.core.manager.CmsUserSiteMng;
 import com.jeecms.core.manager.UnifiedUserMng;
-import com.sunrun.red.entity.Area;
-import com.sunrun.red.manager.AreaMng;
+import com.sunrun.washer.entity.Area;
+import com.sunrun.washer.manager.AreaMng;
 
 
 @Service

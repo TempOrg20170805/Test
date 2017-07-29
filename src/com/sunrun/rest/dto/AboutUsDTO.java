@@ -1,6 +1,6 @@
 package com.sunrun.rest.dto;
 
-import com.sunrun.red.entity.AboutUs;
+import com.sunrun.washer.entity.AboutUs;
 
 public class AboutUsDTO extends BaseDTO{
 	

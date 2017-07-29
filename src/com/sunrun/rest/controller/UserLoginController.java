@@ -28,12 +28,12 @@ import com.jeecms.core.manager.UnifiedUserMng;
 import com.sunrun.common.util.HttpRequest;
 import com.sunrun.common.util.LoadProperties;
 
-import com.sunrun.red.entity.JpushBinding;
-import com.sunrun.red.manager.JpushBindingMng;
 import com.sunrun.rest.dto.BaseDTO;
 import com.sunrun.rest.dto.BaseDTO.BaseDTOEnum;
 import com.sunrun.rest.dto.LoginMsgDTO;
 import com.sunrun.rest.dto.RegisterDTO;
+import com.sunrun.washer.entity.JpushBinding;
+import com.sunrun.washer.manager.JpushBindingMng;
 /**
  * 
  * @author wangcy

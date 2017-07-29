@@ -26,17 +26,17 @@
 		<property name="money" column="money" type="java.lang.Double" not-null="false" length="19"/>
 		<many-to-one name="group" column="group_id" class="CmsGroup" not-null="true" lazy="false"></many-to-one>
 		 
-        <many-to-one name="province" class="com.sunrun.red.entity.Area" fetch="select" lazy="false">
+        <many-to-one name="province" class="com.sunrun.washer.entity.Area" fetch="select" lazy="false">
             <column name="province_id">
                 <comment>省份ID</comment>
             </column>
         </many-to-one>
-          <many-to-one name="city" class="com.sunrun.red.entity.Area" fetch="select" lazy="false">
+          <many-to-one name="city" class="com.sunrun.washer.entity.Area" fetch="select" lazy="false">
             <column name="city_id">
                 <comment>市id</comment>
             </column>
         </many-to-one>
-        <many-to-one name="district" class="com.sunrun.red.entity.Area" fetch="select" lazy="false">
+        <many-to-one name="district" class="com.sunrun.washer.entity.Area" fetch="select" lazy="false">
             <column name="district_id">
                 <comment>县区id</comment>
             </column>

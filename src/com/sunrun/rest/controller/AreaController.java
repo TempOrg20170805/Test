@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jeecms.core.manager.CmsUserMng;
-import com.sunrun.red.entity.Area;
-import com.sunrun.red.manager.AreaMng;
 import com.sunrun.rest.dto.AreaDTO;
 import com.sunrun.rest.dto.AreaListDTO;
 import com.sunrun.rest.dto.BaseDTO.BaseDTOEnum;
+import com.sunrun.washer.entity.Area;
+import com.sunrun.washer.manager.AreaMng;
 
 /**
  * 

@@ -1,6 +1,6 @@
 package com.sunrun.rest.dto;
 
-import com.sunrun.red.entity.Help;
+import com.sunrun.washer.entity.Help;
 
 public class HelpDTO {
 

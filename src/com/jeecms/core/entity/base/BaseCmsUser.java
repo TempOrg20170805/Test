@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.jeecms.core.entity.CmsLog;
-import com.sunrun.red.entity.Area;
+import com.sunrun.washer.entity.Area;
 
 
 /**

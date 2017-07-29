@@ -31,7 +31,7 @@ import com.jeecms.core.entity.CmsUserExt;
 import com.jeecms.core.entity.CmsUserSite;
 import com.jeecms.core.web.WebErrors;
 import com.jeecms.core.web.util.CmsUtils;
-import com.sunrun.red.entity.Area;
+import com.sunrun.washer.entity.Area;
 
 /**
  * 本站管理员ACTION

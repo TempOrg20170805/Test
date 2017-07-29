@@ -1,6 +1,6 @@
 package com.sunrun.rest.dto;
 
-import com.sunrun.red.entity.Dictionary;
+import com.sunrun.washer.entity.Dictionary;
 
 /**
  * 

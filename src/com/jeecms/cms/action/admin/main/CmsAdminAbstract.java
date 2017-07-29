@@ -21,7 +21,7 @@ import com.jeecms.core.manager.CmsRoleMng;
 import com.jeecms.core.manager.CmsSiteMng;
 import com.jeecms.core.manager.CmsUserMng;
 import com.jeecms.core.security.CmsAuthorizingRealm;
-import com.sunrun.red.manager.AreaMng;
+import com.sunrun.washer.manager.AreaMng;
 
 public class CmsAdminAbstract {
 	protected String channelsAddJson(Integer siteId,

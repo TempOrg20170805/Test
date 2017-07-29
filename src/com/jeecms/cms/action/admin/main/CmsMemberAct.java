@@ -36,8 +36,8 @@ import com.jeecms.core.manager.CmsLogMng;
 import com.jeecms.core.manager.CmsUserMng;
 import com.jeecms.core.web.WebErrors;
 import com.jeecms.core.web.util.CmsUtils;
-import com.sunrun.red.entity.Area;
-import com.sunrun.red.manager.AreaMng;
+import com.sunrun.washer.entity.Area;
+import com.sunrun.washer.manager.AreaMng;
 
 @Controller
 public class CmsMemberAct {

@@ -7,7 +7,7 @@
 	default-lazy-init="true">
 	<!--后台权限标签 -->
 	<!-- Mng层start -->
-	<context:component-scan base-package="com.sunrun.red.manager.impl" />
+	<context:component-scan base-package="com.sunrun.washer.manager.impl" />
 	<!-- DAO层start -->
-	<context:component-scan base-package="com.sunrun.red.dao.impl" />
+	<context:component-scan base-package="com.sunrun.washer.dao.impl" />
 </beans>
