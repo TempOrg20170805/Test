@@ -5,6 +5,7 @@ import java.util.Date;
 import com.jeecms.core.entity.CmsUser;
 import com.sunrun.washer.entity.base.FeedbackBase;
 
+
 public class Feedback extends FeedbackBase implements java.io.Serializable {
 	
 	public Feedback() {

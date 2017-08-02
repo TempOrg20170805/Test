@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.sunrun.washer.entity">
+    <class name="FloorLayer" table="washer_floor_layer">
+         <id name="floorLayerId" type="java.lang.Integer">
+            <column name="floor_layer_id" />
+            <generator class="identity" />
+         </id>
+         <property name="name" column="name" type="java.lang.String" length="255"/>
+         <property name="layer" column="layer" type="java.lang.Integer" not-null="true" length="2"/>
+         <property name="layerX" column="layer_x" type="java.lang.Integer" not-null="true" length="2"/>
+         <property name="layerY" column="layer_y" type="java.lang.Integer" not-null="true" length="2"/>
+         <property name="createTime" column="create_time" type="java.sql.Timestamp" not-null="true" length="19"/>
+         <property name="baseUpdateTime" column="base_update_time" type="java.sql.Timestamp" length="19"/>
+		<many-to-one name="floor" class="com.sunrun.washer.entity.Floor" fetch="select" lazy="false">
+		    <column name="floor_id"></column>
+		</many-to-one>
+    </class>
+</hibernate-mapping>
+

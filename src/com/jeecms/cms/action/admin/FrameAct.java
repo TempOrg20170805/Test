@@ -18,6 +18,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.jeecms.common.util.MapUtil;
 @Controller
 public class FrameAct {
+	// 洗衣机管理
+	@RequiresPermissions("frame:machine_main")
+	@RequestMapping("/frame/machine_main.do")
+	public String machineMain(ModelMap model) {
+		return "frame/machine_main";
+	}
+	
+	@RequiresPermissions("frame:machine_left")
+	@RequestMapping("/frame/machine_left.do")
+	public String machineLeft(ModelMap model) {
+		return "frame/machine_left";
+	}
+
+	@RequiresPermissions("frame:machine_right")
+	@RequestMapping("/frame/machine_right.do")
+	public String machineRight(ModelMap model) {
+		return "frame/machine_right";
+	}
+	
 	@RequiresPermissions("frame:other_main")
 	@RequestMapping("/frame/other_main.do")
 	public String otherMain(ModelMap model) {

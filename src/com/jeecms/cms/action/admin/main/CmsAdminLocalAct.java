@@ -49,7 +49,6 @@ public class CmsAdminLocalAct extends CmsAdminAbstract {
 			HttpServletRequest request, ModelMap model) {
 		/*获取省列表*/
 		List<Area> proList = areaMng.findByPareantId(45062);
-		queryGroupId =4;//平台管理员
 		CmsSite site = CmsUtils.getSite(request);
 		CmsUser currUser = CmsUtils.getUser(request);
 		Pagination pagination = manager.getPage(null,provinceId,cityId,queryUsername, queryEmail, site

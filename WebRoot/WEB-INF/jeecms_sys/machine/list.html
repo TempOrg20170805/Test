@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+
+</script>
+</head>
+<body>
+<div class="page-positon ove">
+  <div class="position-div"><@s.m "global.position"/>: <@s.m "function.machine"/> - <@s.m "global.list"/></div>
+</div>
+<div class="box-positon">
+	
+	<form class="ropt">
+		<@cms_perm url="/machine/addMachine.do">
+		<input class="add" type="submit" value="<@s.m "global.add"/>" onclick="this.form.action='addMachine.do';"/>
+		</@cms_perm>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<!-- <form id="queryForm" action="queryMachineByModel.do" method="post">
+序列号：<input name="machineNo" value="${machineModel.machineNo!}"/>
+<input class="query" type="submit" value="<@s.m "global.query"/>" />
+</form> -->
+
+<form id="tableForm" method="post">
+<!-- <input type="hidden" name="machineNo" value="${machineModel.machineNo!}"/> -->
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table listAction="queryMachineByModel.do" value=pagination;bean,i,has_next><#rt/>
+	<@p.column title="ID" align="center">${bean.machineId}</@p.column><#t/>
+	<@p.column title="洗衣机名称" align="center">${bean.name!}</@p.column><#t/> 
+	<@p.column title="洗衣机型号" align="center">${bean.type!}</@p.column><#t/> 
+	<@p.column title="序列号" align="center">${bean.machineNo!}</@p.column><#t/> 
+	<@p.column title="状态" align="center">${bean.statusStr!}</@p.column><#t/> 
+	<@p.column title="创建时间" align="center">${bean.createTime?string("yyyy-MM-dd HH:mm:ss")}</@p.column><#t/> 
+	<@p.column code="global.operate" align="center">
+		<a href="../machine/viewMachine.do?machineId=${bean.machineId}" class="pn-opt"><@s.m "global.view"/></a> | 
+		<a href="../machine/editMachine.do?machineId=${bean.machineId}" class="pn-opt"><@s.m "global.edit"/></a> | 
+		<a href="../machine/deleteMachine.do?machineId=${bean.machineId}" onclick="if(!$.confirmToUrl(this.href)) {return false;}"  class="pn-opt"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+<div style="background:url(${base}/res/common/img/theme/boxTitleBG.jpg) repeat-x; height:20px; overflow:hidden;">
+</div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>
+

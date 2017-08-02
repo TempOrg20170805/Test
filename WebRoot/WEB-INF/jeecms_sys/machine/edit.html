@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#advBgcolor").colorPicker();
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="page-positon ove">
+  <div class="position-div"><@s.m "global.position"/>: <@s.m "function.machine"/> - <@s.m "global.edit"/></div>
+</div>
+<div class="box-positon ck">
+	<form class="ropt">
+		<input  value="  <@s.m "global.backToList"/>" onclick="javascript:history.go(-1)" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="updateMachine.do" labelWidth="12">
+<@p.text label="洗衣机名称"  name="name" value="${bean.name!}" required="true" class="required" maxlength="255"/>
+<@p.text label="洗衣机型号"  name="type" value="${bean.type!}" required="true" class="required" maxlength="255"/><@p.tr/>
+<@p.text label="序列号"  name="machineNo" value="${bean.machineNo!}" required="true" class="required" maxlength="100"/>
+<@p.tr/>
+<@p.td colspan="2"><@p.hidden name="machineId" value=bean.machineId/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>
+
