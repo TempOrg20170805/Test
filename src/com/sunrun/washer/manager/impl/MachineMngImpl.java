@@ -11,15 +11,18 @@ import com.jeecms.common.page.Pagination;
 import com.jeecms.core.entity.CmsUser;
 import com.jeecms.core.manager.CmsUserMng;
 import com.sunrun.washer.dao.MachineDao;
+import com.sunrun.washer.entity.FloorLayer;
 import com.sunrun.washer.entity.Machine;
 import com.sunrun.washer.enums.MachineAuthLevels.MachineAuthLevelsEnum;
 import com.sunrun.washer.enums.MachineStatus.MachineStatusEnum;
+import com.sunrun.washer.manager.FloorLayerMng;
 import com.sunrun.washer.manager.MachineMng;
 import com.sunrun.washer.manager.UserMachineMng;
 import com.sunrun.washer.model.MachineModel;
 import com.sunrun.washer.model.MachineModelSave;
 import com.sunrun.washer.model.MachineModelUpdate;
 import com.sunrun.washer.model.UserMachineModelSave;
+import com.sunrun.washer.model.UserMachineModelUpdatePutIn;
 /**
  * 文 件 名 : MachineMngImpl.java
  * 创 建 人： 金明明
@@ -38,6 +41,10 @@ public class MachineMngImpl implements MachineMng{
 	private UserMachineMng userMachineMng;
 	@Autowired
 	private CmsUserMng cmsUserMng;
+	@Autowired
+	private MachineMng machineMng;
+	@Autowired
+	private FloorLayerMng floorLayerMng;
 	
 	@Override
 	public Pagination queryMachineByModel(MachineModel machineModel, Integer pageNo, Integer pageSize) {
@@ -53,9 +60,6 @@ public class MachineMngImpl implements MachineMng{
 		bean.setName(machineModelSave.getName());
 		bean.setType(machineModelSave.getType());
 		bean.setMachineNo(machineModelSave.getMachineNo());
-		bean.setFloorLayerId(machineModelSave.getFloorLayerId());
-		bean.setFloorLayerX(machineModelSave.getFloorLayerX());
-		bean.setFloorLayerY(machineModelSave.getFloorLayerY());
 		
 		bean =  machineDao.save(bean);
 		// 发放给渠道商
@@ -110,6 +114,18 @@ public class MachineMngImpl implements MachineMng{
 	@Override
 	public Machine findById(Integer id) {
 		return machineDao.findById(id);
+	}
+
+	@Override
+	public Machine updateMachine(
+			UserMachineModelUpdatePutIn userMachineModelSaveUpdatePutIn) {
+		Machine machine = machineMng.findById(userMachineModelSaveUpdatePutIn.getMachineId());
+		FloorLayer floorLayer = floorLayerMng.findById(userMachineModelSaveUpdatePutIn.getFloorLayerId());
+		machine.setFloorLayer(floorLayer);
+		machine.setFloorLayerX(userMachineModelSaveUpdatePutIn.getFloorLayerX());
+		machine.setFloorLayerY(userMachineModelSaveUpdatePutIn.getFloorLayerY());
+		machine.setUseTime(new Date());
+		return updateMachine(machine);
 	}
 
 

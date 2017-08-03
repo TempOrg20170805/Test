@@ -1,5 +1,6 @@
 package com.sunrun.rest.controller;
 import com.sunrun.rest.dto.*;import com.sunrun.washer.manager.*;import com.sunrun.washer.entity.*;import com.sunrun.washer.model.*;
+import com.ibm.db2.jcc.am.u;
 import com.jeecms.core.manager.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,10 @@ public class UserMachineController extends BaseController{
 	private UserMachineMng userMachineMng;
 	@Autowired
 	private CmsUserMng cmsUserMng;
-
+	@Autowired
+	private FloorLayerMng floorLayerMng;
+	@Autowired
+	private MachineMng machineMng;
 	/**
 	 * 查询用户关联洗衣机管理列表
 	 * @param userId 用户Id
@@ -66,6 +70,54 @@ public class UserMachineController extends BaseController{
 		}
 		return userMachineQueryDTO;
 	}
+	
+	/**
+	 * 渠道商投放洗衣机
+	 * @param machineId 洗衣机Id
+	 * @param floorLayerId 楼层Id
+	 * @param floorLayerX 楼层位置x
+	 * @param floorLayerY 楼层位置y
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/userMachine/updateUserMachinePutIn.json")
+	@ResponseBody
+	public UserMachineSaveDTO updateUserMachinePutIn(Integer machineId, Integer floorLayerId,Integer floorLayerX,Integer floorLayerY, HttpServletRequest request){
+		UserMachineSaveDTO userMachineSaveDTO = new UserMachineSaveDTO();
+		if(validateUpdateUserMachinePutIn(userMachineSaveDTO,getUserId(), machineId, floorLayerId, floorLayerX, floorLayerY)){
+			UserMachineModelUpdatePutIn userMachineModelSaveUpdatePutI = new UserMachineModelUpdatePutIn(machineId, floorLayerId, floorLayerX, floorLayerY);
+			userMachineMng.updateUserMachinePutIn(userMachineModelSaveUpdatePutI);
+			userMachineSaveDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+		}
+		return userMachineSaveDTO;
+	}
+	
+	/**
+	 * 校验渠道商投放洗衣机接口
+	 * @param baseDTO
+	 * @param 
+	 * @param userId 用户id
+	 * @param floorLayerId 楼层Id
+	 * @param floorLayerX 楼层位置x
+	 * @param floorLayerY 楼层位置y
+	 * @return
+	 */
+	private Boolean validateUpdateUserMachinePutIn(BaseDTO baseDTO, Integer userId, Integer machineId, Integer floorLayerId,Integer floorLayerX,Integer floorLayerY) {
+		if (cmsUserMng.findById(userId)  == null) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			return false;			
+		}
+		if (floorLayerId == null || floorLayerX == null || floorLayerY == null || machineId == null) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_PARAM_NOT_NULL);
+			return false;
+		}
+		FloorLayer floorLayer = floorLayerMng.findById(floorLayerId);
+		Machine machine = machineMng.findById(machineId);
+		if (floorLayer == null || machine == null) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_VALIDATECODE_NOTEXIST);
+		}
+		return true;
+	}
 
 	/**
 	 * 添加用户关联洗衣机管理
@@ -93,7 +145,7 @@ public class UserMachineController extends BaseController{
 	 */
 	private Boolean validateSaveUserMachine(BaseDTO baseDTO, Integer userId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;
@@ -124,7 +176,7 @@ public class UserMachineController extends BaseController{
 	 */
 	private Boolean validateUpdateUserMachine(BaseDTO baseDTO, Integer userId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;
@@ -156,7 +208,7 @@ public class UserMachineController extends BaseController{
 	 */
 	private Boolean validateDeleteUserMachine(BaseDTO baseDTO, Integer userId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;
@@ -189,7 +241,7 @@ public class UserMachineController extends BaseController{
 	 */
 	private Boolean validateDetailUserMachine(BaseDTO baseDTO, Integer userId, Integer userMachineId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		if (userMachineMng.findById(userMachineId) == null) {
@@ -209,7 +261,7 @@ public class UserMachineController extends BaseController{
 	 */
 	private Boolean validateQueryUserMachineByModel(BaseDTO baseDTO, Integer userId, UserMachineModel userMachineModel) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;

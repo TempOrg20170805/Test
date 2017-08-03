@@ -103,7 +103,7 @@ public class FloorLayerController extends BaseController{
 	 */
 	private Boolean validateSaveFloorLayer(BaseDTO baseDTO, Integer userId, String name,Integer layer,Integer layerX,Integer layerY,Integer floorId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		if (StringUtils.isBlank(name) || layer == null || layerX == null || layerY ==null || floorId == null) {
@@ -113,6 +113,7 @@ public class FloorLayerController extends BaseController{
 		Floor floor = floorMng.findById(floorId);
 		if (floor == null) {
 			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_VALIDATECODE_NOTEXIST);
+			return false;
 		}
 		return true;
 	}
@@ -142,7 +143,7 @@ public class FloorLayerController extends BaseController{
 	 */
 	private Boolean validateUpdateFloorLayer(BaseDTO baseDTO, Integer userId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;
@@ -174,7 +175,7 @@ public class FloorLayerController extends BaseController{
 	 */
 	private Boolean validateDeleteFloorLayer(BaseDTO baseDTO, Integer userId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;
@@ -207,7 +208,7 @@ public class FloorLayerController extends BaseController{
 	 */
 	private Boolean validateDetailFloorLayer(BaseDTO baseDTO, Integer userId, Integer floorLayerId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		if (floorLayerMng.findById(floorLayerId) == null) {
@@ -227,7 +228,7 @@ public class FloorLayerController extends BaseController{
 	 */
 	private Boolean validateQueryFloorLayerByModel(BaseDTO baseDTO, Integer userId, FloorLayerModel floorLayerModel) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;

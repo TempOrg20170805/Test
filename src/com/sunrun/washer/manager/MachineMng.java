@@ -37,6 +37,13 @@ public interface MachineMng {
 	 * @return
 	 */
 	public Machine updateMachine(MachineModelUpdate machineModelUpdate);
+	
+	/**
+	 * 渠道商投放洗衣机
+	 * @param machineModelUpdate 更新的信息
+	 * @return
+	 */
+	public Machine updateMachine(UserMachineModelUpdatePutIn userMachineModelSaveUpdatePutIn);
 
 	/**
      * 删除

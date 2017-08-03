@@ -99,7 +99,7 @@ public class UserFloorController extends BaseController{
 	 */
 	private Boolean validateSaveUserFloor(BaseDTO baseDTO, Integer userId, String addressDetail) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		if (StringUtils.isBlank(addressDetail)) {
@@ -134,7 +134,7 @@ public class UserFloorController extends BaseController{
 	 */
 	private Boolean validateUpdateUserFloor(BaseDTO baseDTO, Integer userId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;
@@ -166,7 +166,7 @@ public class UserFloorController extends BaseController{
 	 */
 	private Boolean validateDeleteUserFloor(BaseDTO baseDTO, Integer userId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;
@@ -199,7 +199,7 @@ public class UserFloorController extends BaseController{
 	 */
 	private Boolean validateDetailUserFloor(BaseDTO baseDTO, Integer userId, Integer userFloorId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		if (userFloorMng.findById(userFloorId) == null) {
@@ -219,7 +219,7 @@ public class UserFloorController extends BaseController{
 	 */
 	private Boolean validateQueryUserFloorByModel(BaseDTO baseDTO, Integer userId, UserFloorModel userFloorModel) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;

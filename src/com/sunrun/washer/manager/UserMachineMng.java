@@ -29,6 +29,13 @@ public interface UserMachineMng {
 	 * @param userMachineModelSave 保存的信息对象
 	 * @return
 	 */
+	public Machine updateUserMachinePutIn(UserMachineModelUpdatePutIn userMachineModelUpdatePutIn);
+	
+	/**
+	 * 保存用户关联洗衣机管理
+	 * @param userMachineModelSave 保存的信息对象
+	 * @return
+	 */
 	public UserMachine saveUserMachine(UserMachineModelSave userMachineModelSave);
 
 	/**

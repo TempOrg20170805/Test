@@ -96,7 +96,7 @@ public class FloorController extends BaseController{
 	 */
 	private Boolean validateSaveFloor(BaseDTO baseDTO, Integer userId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;
@@ -127,7 +127,7 @@ public class FloorController extends BaseController{
 	 */
 	private Boolean validateUpdateFloor(BaseDTO baseDTO, Integer userId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;
@@ -159,7 +159,7 @@ public class FloorController extends BaseController{
 	 */
 	private Boolean validateDeleteFloor(BaseDTO baseDTO, Integer userId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;
@@ -192,7 +192,7 @@ public class FloorController extends BaseController{
 	 */
 	private Boolean validateDetailFloor(BaseDTO baseDTO, Integer userId, Integer floorId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		if (floorMng.findById(floorId) == null) {
@@ -212,7 +212,7 @@ public class FloorController extends BaseController{
 	 */
 	private Boolean validateQueryFloorByModel(BaseDTO baseDTO, Integer userId, FloorModel floorModel) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;

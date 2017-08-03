@@ -1,13 +1,21 @@
 package com.sunrun.washer.manager.impl;
-import com.sunrun.washer.manager.*;import com.sunrun.washer.dao.*;import com.sunrun.washer.model.*;import com.sunrun.washer.entity.*;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.jeecms.common.hibernate4.Updater;
 import com.jeecms.common.page.Pagination;
 import com.jeecms.core.entity.CmsUser;
 import com.jeecms.core.manager.CmsUserMng;
+import com.sunrun.washer.dao.UserMachineDao;
+import com.sunrun.washer.entity.Machine;
+import com.sunrun.washer.entity.UserMachine;
+import com.sunrun.washer.manager.MachineMng;
+import com.sunrun.washer.manager.UserMachineMng;
+import com.sunrun.washer.model.UserMachineModel;
+import com.sunrun.washer.model.UserMachineModelSave;
+import com.sunrun.washer.model.UserMachineModelUpdate;
+import com.sunrun.washer.model.UserMachineModelUpdatePutIn;
 /**
  * 文 件 名 : UserMachineMngImpl.java
  * 创 建 人： 金明明
@@ -70,6 +78,12 @@ public class UserMachineMngImpl implements UserMachineMng{
 	@Override
 	public UserMachine findById(Integer id) {
 		return userMachineDao.findById(id);
+	}
+
+	@Override
+	public Machine updateUserMachinePutIn(
+			UserMachineModelUpdatePutIn userMachineModelSaveUpdatePutIn) {
+		return machineMng.updateMachine(userMachineModelSaveUpdatePutIn);
 	}
 
 

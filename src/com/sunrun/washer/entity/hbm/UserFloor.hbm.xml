@@ -2,12 +2,11 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.sunrun.washer.entity">
-    <class name="UserFloor" table="washer_user_machine">
+    <class name="UserFloor" table="washer_user_floor">
          <id name="userFloorId" type="java.lang.Integer">
             <column name="user_floor_id" />
             <generator class="identity" />
          </id>
-         <property name="userId" column="user_id" type="java.lang.Integer" length="11"/>
         <many-to-one name="cmsUser" class="com.jeecms.core.entity.CmsUser" fetch="select" lazy="false">
 		    <column name="user_id"></column>
 		</many-to-one>

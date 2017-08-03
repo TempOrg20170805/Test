@@ -10,6 +10,7 @@ import com.jeecms.common.hibernate4.Updater;
 import com.jeecms.common.page.Pagination;
 import com.sunrun.washer.dao.FloorDao;
 import com.sunrun.washer.entity.Floor;
+import com.sunrun.washer.enums.FloorStatus.FloorStatusEnum;
 import com.sunrun.washer.manager.FloorMng;
 import com.sunrun.washer.model.FloorModel;
 import com.sunrun.washer.model.FloorModelSave;
@@ -43,6 +44,7 @@ public class FloorMngImpl implements FloorMng{
 		bean.setAddressDetail(floorModelSave.getAddressDetail());
 		bean.setCreateTime(new Date());
 		bean.setBaseUpdateTime(new Date());
+		bean.setStatus(FloorStatusEnum.USE.getCode());
 		// 赋值保存的必要信息
 		return floorDao.save(bean);
 	}

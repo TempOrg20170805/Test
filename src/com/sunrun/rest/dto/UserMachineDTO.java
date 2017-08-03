@@ -1,6 +1,7 @@
 package com.sunrun.rest.dto;
 import java.util.Date;
 
+import com.sunrun.washer.entity.FloorLayer;
 import com.sunrun.washer.entity.UserMachine;
 /**
  * 文 件 名 : UserMachineDTO.java
@@ -35,7 +36,10 @@ public class UserMachineDTO {
 		this.type = userMachine.getMachine().getType();
 		this.machineNo = userMachine.getMachine().getMachineNo();
 		this.status = userMachine.getMachine().getStatus();
-		this.floorLayerId = userMachine.getMachine().getFloorLayerId();
+		FloorLayer floorLayer = userMachine.getMachine().getFloorLayer();
+		if (floorLayer != null) {
+			this.floorLayerId = floorLayer.getFloorLayerId();
+		}
 		this.floorLayerX = userMachine.getMachine().getFloorLayerX();
 		this.floorLayerY = userMachine.getMachine().getFloorLayerY();
 		this.createTime = userMachine.getMachine().getCreateTime();

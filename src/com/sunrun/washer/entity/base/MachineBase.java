@@ -4,6 +4,7 @@ package com.sunrun.washer.entity.base;
 import java.util.Date;
 
 import com.jeecms.core.entity.*;
+import com.sunrun.washer.entity.FloorLayer;
 import com.sunrun.washer.enums.MachineStatus.MachineStatusEnum;
 
 public class MachineBase implements java.io.Serializable {
@@ -13,7 +14,7 @@ public class MachineBase implements java.io.Serializable {
 	private String type; // 洗衣机型号
 	private String machineNo; // 序列号
 	private Integer status = 1; // 状态 0.删除 1.空闲 2.使用中 3.停用
-	private Integer floorLayerId; // 楼层id
+	private FloorLayer floorLayer; // 楼层
 	private Integer floorLayerX; // 楼层位置x
 	private Integer floorLayerY; // 楼层位置y
 	private Date createTime = new Date(); // 创建时间
@@ -27,22 +28,7 @@ public class MachineBase implements java.io.Serializable {
 	public MachineBase(Integer machineId) {
 		this.machineId = machineId;
 	}
-	
-	public MachineBase(Integer machineId, String name, String type, String machineNo, Integer status, Integer floorLayerId, Integer floorLayerX, Integer floorLayerY, Date createTime, Date useTime, Date baseUpdateTime) {
-		super();
-		this.machineId = machineId;
-		this.name = name;
-		this.type = type;
-		this.machineNo = machineNo;
-		this.status = status;
-		this.floorLayerId = floorLayerId;
-		this.floorLayerX = floorLayerX;
-		this.floorLayerY = floorLayerY;
-		this.createTime = createTime;
-		this.useTime = useTime;
-		this.baseUpdateTime = baseUpdateTime;
 
-	}
 	public Integer getMachineId() {
 		return this.machineId;
 	}
@@ -82,13 +68,15 @@ public class MachineBase implements java.io.Serializable {
 	public String getStatusStr() {
 		return MachineStatusEnum.getMap().get(this.status);
 	}
-	public Integer getFloorLayerId() {
-		return this.floorLayerId;
+	
+	public FloorLayer getFloorLayer() {
+		return floorLayer;
 	}
- 
-	public void setFloorLayerId(Integer floorLayerId) {
-		this.floorLayerId = floorLayerId;
+
+	public void setFloorLayer(FloorLayer floorLayer) {
+		this.floorLayer = floorLayer;
 	}
+
 	public Integer getFloorLayerX() {
 		return this.floorLayerX;
 	}
