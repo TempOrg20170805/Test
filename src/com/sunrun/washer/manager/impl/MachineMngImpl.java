@@ -89,7 +89,6 @@ public class MachineMngImpl implements MachineMng{
 		if (machineModelUpdate.getMachineNo() != null) {
 			bean.setMachineNo(machineModelUpdate.getMachineNo());
 		}
-		
 		bean.setBaseUpdateTime(new Date());
 		return updateMachine(bean);
 	}
