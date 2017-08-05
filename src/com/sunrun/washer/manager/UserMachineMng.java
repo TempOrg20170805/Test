@@ -32,6 +32,12 @@ public interface UserMachineMng {
 	public Machine updateUserMachinePutIn(UserMachineModelUpdatePutIn userMachineModelUpdatePutIn);
 	
 	/**
+	 * 渠道商删除投放的洗衣机
+	 * @param machineId 洗衣机Id
+	 * @return
+	 */
+	public Machine updateUserMachineFloorLayerDelete(Integer machineId);
+	/**
 	 * 保存用户关联洗衣机管理
 	 * @param userMachineModelSave 保存的信息对象
 	 * @return

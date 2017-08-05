@@ -1,6 +1,9 @@
 package com.sunrun.washer.dao.impl;
 import com.sunrun.washer.dao.*;import com.sunrun.washer.model.*;import com.sunrun.washer.entity.*;
+
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import com.jeecms.common.hibernate4.Finder;
@@ -66,6 +69,18 @@ public class FloorDaoImpl extends HibernateBaseDao<Floor, Integer> implements Fl
 		// 此处增加公用的过滤条件，例如：每个楼要是有效的
 		// finder.append(" and bean.status <> 0");
 		return finder;
+	}
+
+	@Override
+	public List<Floor> queryFloorByAddressDetail(String addressDetail) {
+		Finder f = queryFloorBaseFinder("select bean from Floor bean where 1=1 ");
+
+		if (StringUtils.isNotBlank(addressDetail)) {
+			f.append(" and bean.addressDetail =:addressDetail");
+			f.setParam("addressDetail", addressDetail);
+		}
+
+		return find(f);
 	}
 
 }

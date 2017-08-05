@@ -26,6 +26,20 @@ public interface MachineDao {
 	public Pagination queryMachineByModel(MachineModel machineModel, Integer pageNo, Integer pageSize);
 
 	/**
+	 * 查询该楼有多少洗衣机
+	 * @param floorId
+	 * @return
+	 */
+	public List<Machine> queryMachineByFloor(Integer floorId);
+	
+	/**
+	 * 查询该楼层有多少洗衣机
+	 * @param floorId
+	 * @return
+	 */
+	public List<Machine> queryMachineByFloorLayer(Integer floorLayerId);
+	
+	/**
 	 * 保存洗衣机管理
 	 * @param 洗衣机管理
 	 * @return
@@ -48,6 +62,7 @@ public interface MachineDao {
      */
 	public Machine findById(Integer machineId);
 
+	
 
 }
 

@@ -23,7 +23,21 @@ public interface MachineMng {
 	 * @return
 	 */
 	public Pagination queryMachineByModel(MachineModel machineModel, Integer pageNo, Integer pageSize);
-
+	
+	/**
+	 * 查询该楼有多少洗衣机
+	 * @param floorId
+	 * @return
+	 */
+	public List<Machine> queryMachineByFloor(Integer floorId);
+	
+	/**
+	 * 查询该楼层有多少洗衣机
+	 * @param floorId
+	 * @return
+	 */
+	public List<Machine> queryMachineByFloorLayer(Integer floorLayerId);
+	
 	/**
 	 * 保存洗衣机管理
 	 * @param machineModelSave 保存的信息对象
@@ -44,6 +58,13 @@ public interface MachineMng {
 	 * @return
 	 */
 	public Machine updateMachine(UserMachineModelUpdatePutIn userMachineModelSaveUpdatePutIn);
+	
+	/**
+	 * 渠道商删除投放的洗衣机
+	 * @param machineId
+	 * @return
+	 */
+	public Machine updateUserMachineFloorLayerDelete(Integer machineId);
 
 	/**
      * 删除

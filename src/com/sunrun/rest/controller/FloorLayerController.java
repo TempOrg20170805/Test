@@ -33,6 +33,8 @@ public class FloorLayerController extends BaseController{
 	private CmsUserMng cmsUserMng;
 	@Autowired
 	private FloorMng floorMng;
+	@Autowired
+	private MachineMng machineMng;
 
 	/**
 	 * 查询楼层管理列表
@@ -55,14 +57,15 @@ public class FloorLayerController extends BaseController{
 			floorLayerQueryDTO.setPageNo(pagination.getPageNo());
 			floorLayerQueryDTO.setPageSize(pagination.getPageSize());
 			floorLayerQueryDTO.setTotalCount(pagination.getTotalCount());
-
+			floorLayerQueryDTO.setFloorId(floorLayerModel.getFloorId());
 			// 赋值楼层管理必要信息信息
 			List<FloorLayerDTO> floorLayerDTOs = new ArrayList<FloorLayerDTO>(); 
 			for (FloorLayer floorLayer : floorLayers) {
-				FloorLayerDTO floorLayerDTO = new FloorLayerDTO();
-				// 设置DTO 例如
-				// floorLayerDTO.setXX("XX");
-				
+				FloorLayerDTO floorLayerDTO = new FloorLayerDTO(floorLayer);
+				List<Machine> machines = machineMng.queryMachineByFloorLayer(floorLayer.getFloorLayerId());
+				if (machines != null && machines.size() > 0) {
+					floorLayerDTO.setMachineCount(machines.size());
+				}
 				// 赋值商品列表
 				floorLayerDTOs.add(floorLayerDTO);
 			}
@@ -150,18 +153,19 @@ public class FloorLayerController extends BaseController{
 	}
 
 	/**
-	 * 删除楼层管理
+	 * 删除楼层
 	 * @param userId 
-	 * @param xx 
+	 * @param floorLayerId
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "/floorLayer/deleteFloorLayer.json")
 	@ResponseBody	
-	public FloorLayerDeleteDTO deleteFloorLayer(Integer xx, HttpServletRequest request){
+	public FloorLayerDeleteDTO deleteFloorLayer(Integer floorLayerId, HttpServletRequest request){
 		FloorLayerDeleteDTO floorLayerDeleteDTO = new FloorLayerDeleteDTO();
-		if(validateDeleteFloorLayer(floorLayerDeleteDTO,xx)){
-			// floorLayerMng.update(bean, xx);
+		if(validateDeleteFloorLayer(floorLayerDeleteDTO,getUserId(), floorLayerId)){
+			// 删除楼层，同时删除该楼层的所有洗衣机楼层关联数据
+			floorLayerMng.deleteById(floorLayerId);
 			floorLayerDeleteDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
 		}
 		return floorLayerDeleteDTO;
@@ -173,7 +177,7 @@ public class FloorLayerController extends BaseController{
 	 * @param userId 用户id
 	 * @return
 	 */
-	private Boolean validateDeleteFloorLayer(BaseDTO baseDTO, Integer userId) {
+	private Boolean validateDeleteFloorLayer(BaseDTO baseDTO, Integer userId, Integer floorLayerId) {
 		if (cmsUserMng.findById(userId)  == null) {
 			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			

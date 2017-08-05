@@ -11,7 +11,8 @@ package com.sunrun.washer.model;
 public class UserMachineModel {
 	private Integer userId;
 	private String machineNo; // 洗衣机序列号，模糊查询
-
+	private Integer queryType = 0; // 查询类型 0.所有洗衣机 1.未投放的洗衣机 默认0
+	
 	public Integer getUserId() {
 		return userId;
 	}
@@ -27,10 +28,13 @@ public class UserMachineModel {
 	public void setMachineNo(String machineNo) {
 		this.machineNo = machineNo;
 	}
-	
-	
-	
-	
 
+	public Integer getQueryType() {
+		return queryType;
+	}
+
+	public void setQueryType(Integer queryType) {
+		this.queryType = queryType;
+	}
 }
 

@@ -66,7 +66,6 @@ public class UserMachineController extends BaseController{
 			}
 			userMachineQueryDTO.setUserMachineDTOs(userMachineDTOs);
 			userMachineQueryDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
-			
 		}
 		return userMachineQueryDTO;
 	}
@@ -85,8 +84,8 @@ public class UserMachineController extends BaseController{
 	public UserMachineSaveDTO updateUserMachinePutIn(Integer machineId, Integer floorLayerId,Integer floorLayerX,Integer floorLayerY, HttpServletRequest request){
 		UserMachineSaveDTO userMachineSaveDTO = new UserMachineSaveDTO();
 		if(validateUpdateUserMachinePutIn(userMachineSaveDTO,getUserId(), machineId, floorLayerId, floorLayerX, floorLayerY)){
-			UserMachineModelUpdatePutIn userMachineModelSaveUpdatePutI = new UserMachineModelUpdatePutIn(machineId, floorLayerId, floorLayerX, floorLayerY);
-			userMachineMng.updateUserMachinePutIn(userMachineModelSaveUpdatePutI);
+			UserMachineModelUpdatePutIn userMachineModelSaveUpdatePutIn = new UserMachineModelUpdatePutIn(machineId, floorLayerId, floorLayerX, floorLayerY);
+			userMachineMng.updateUserMachinePutIn(userMachineModelSaveUpdatePutIn);
 			userMachineSaveDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
 		}
 		return userMachineSaveDTO;
@@ -114,6 +113,46 @@ public class UserMachineController extends BaseController{
 		FloorLayer floorLayer = floorLayerMng.findById(floorLayerId);
 		Machine machine = machineMng.findById(machineId);
 		if (floorLayer == null || machine == null) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_VALIDATECODE_NOTEXIST);
+		}
+		return true;
+	}
+	
+	/**
+	 * 渠道商删除投放的洗衣机
+	 * @param machineId 洗衣机Id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/userMachine/updateUserMachineFloorLayerDelete.json")
+	@ResponseBody
+	public UserMachineSaveDTO updateUserMachineFloorLayerDelete(Integer machineId, HttpServletRequest request){
+		UserMachineSaveDTO userMachineSaveDTO = new UserMachineSaveDTO();
+		if(validateUpdateUserMachineFloorLayerDelete(userMachineSaveDTO,getUserId(), machineId)){
+			userMachineMng.updateUserMachineFloorLayerDelete(machineId);
+			userMachineSaveDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+		}
+		return userMachineSaveDTO;
+	}
+	
+	/**
+	 * 校验渠道商投放洗衣机接口
+	 * @param baseDTO
+	 * @param userId 用户id
+	 * @param machineId
+	 * @return
+	 */
+	private Boolean validateUpdateUserMachineFloorLayerDelete(BaseDTO baseDTO, Integer userId, Integer machineId) {
+		if (cmsUserMng.findById(userId)  == null) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			return false;			
+		}
+		if (machineId == null) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_PARAM_NOT_NULL);
+			return false;
+		}
+		Machine machine = machineMng.findById(machineId);
+		if (machine == null) {
 			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_VALIDATECODE_NOTEXIST);
 		}
 		return true;
@@ -183,17 +222,17 @@ public class UserMachineController extends BaseController{
 	}
 
 	/**
-	 * 删除用户关联洗衣机管理
+	 * 删除用户删除洗衣机
 	 * @param userId 
-	 * @param xx 
+	 * @param machineId 洗衣机ID
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "/userMachine/deleteUserMachine.json")
 	@ResponseBody	
-	public UserMachineDeleteDTO deleteUserMachine(Integer xx, HttpServletRequest request){
+	public UserMachineDeleteDTO deleteUserMachine(Integer machineId, HttpServletRequest request){
 		UserMachineDeleteDTO userMachineDeleteDTO = new UserMachineDeleteDTO();
-		if(validateDeleteUserMachine(userMachineDeleteDTO,xx)){
+		if(validateDeleteUserMachine(userMachineDeleteDTO, getUserId(), machineId)){
 			// userMachineMng.update(bean, xx);
 			userMachineDeleteDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
 		}
@@ -206,10 +245,14 @@ public class UserMachineController extends BaseController{
 	 * @param userId 用户id
 	 * @return
 	 */
-	private Boolean validateDeleteUserMachine(BaseDTO baseDTO, Integer userId) {
+	private Boolean validateDeleteUserMachine(BaseDTO baseDTO, Integer userId ,Integer machineId) {
 		if (cmsUserMng.findById(userId)  == null) {
 			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
+		}
+		if (machineMng.findById(machineId) == null) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_VALIDATECODE_NOTEXIST);
+			return false;
 		}
 		return true;
 	}

@@ -30,7 +30,8 @@ public class MachineController extends BaseController{
 	private MachineMng machineMng;
 	@Autowired
 	private CmsUserMng cmsUserMng;
-
+	@Autowired
+	private FloorLayerMng floorLayerMng;
 	/**
 	 * 查询洗衣机管理列表
 	 * @param userId 用户Id
@@ -69,6 +70,48 @@ public class MachineController extends BaseController{
 		}
 		return machineQueryDTO;
 	}
+	
+	/**
+	 * 查询该楼层洗衣机列表
+	 * @param userId 用户Id
+	 * @param floorLayerId 楼层ID
+	 * @param pageNo 当前页
+	 * @param pageSize 每页数据量
+	 * @return
+	 */
+	@RequestMapping("/machine/queryMachineByFloorId.json")
+	@ResponseBody
+	public MachineByFloorLayerQueryDTO queryMachineByFloorId(Integer floorLayerId, Integer pageNo, Integer pageSize, HttpServletRequest request) {
+		MachineByFloorLayerQueryDTO machineQueryDTO = new MachineByFloorLayerQueryDTO();
+		if (validateQueryMachineByFloorLayer(machineQueryDTO, getUserId(), floorLayerId)) {
+			// 初始化查询条件
+			MachineModel machineModel = new MachineModel();
+			machineModel.setFloorLayerId(floorLayerId);
+			// 代码：设置默认相关值
+			Pagination pagination = machineMng.queryMachineByModel(machineModel, SimplePage.cpn(pageNo), pageSize);
+			List<Machine> machines = (List<Machine>) pagination.getList();
+					
+			// 赋值洗衣机管理分页信息
+			machineQueryDTO.setPageNo(pagination.getPageNo());
+			machineQueryDTO.setPageSize(pagination.getPageSize());
+			machineQueryDTO.setTotalCount(pagination.getTotalCount());
+			// 查询楼层
+			FloorLayer floorLayer = floorLayerMng.findById(floorLayerId);
+			machineQueryDTO.setFloorLayer(floorLayer);
+			
+			// 赋值洗衣机管理必要信息信息
+			List<MachineByFloorLayerDTO> machineDTOs = new ArrayList<MachineByFloorLayerDTO>(); 
+			for (Machine machine : machines) {
+				MachineByFloorLayerDTO machineDTO = new MachineByFloorLayerDTO(machine);
+				// 赋值商品列表
+				machineDTOs.add(machineDTO);
+			}
+			machineQueryDTO.setMachineDTOs(machineDTOs);
+			machineQueryDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			
+		}
+		return machineQueryDTO;
+	}
 
 	/**
 	 * 更新洗衣机管理
@@ -95,7 +138,7 @@ public class MachineController extends BaseController{
 	 */
 	private Boolean validateUpdateMachine(BaseDTO baseDTO, Integer userId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;
@@ -110,9 +153,9 @@ public class MachineController extends BaseController{
 	 */
 	@RequestMapping(value = "/machine/deleteMachine.json")
 	@ResponseBody	
-	public MachineDeleteDTO deleteMachine(Integer xx, HttpServletRequest request){
+	public MachineDeleteDTO deleteMachine(Integer machineId, HttpServletRequest request){
 		MachineDeleteDTO machineDeleteDTO = new MachineDeleteDTO();
-		if(validateDeleteMachine(machineDeleteDTO,xx)){
+		if(validateDeleteMachine(machineDeleteDTO,machineId)){
 			// machineMng.update(bean, xx);
 			machineDeleteDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
 		}
@@ -127,7 +170,7 @@ public class MachineController extends BaseController{
 	 */
 	private Boolean validateDeleteMachine(BaseDTO baseDTO, Integer userId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;
@@ -160,7 +203,7 @@ public class MachineController extends BaseController{
 	 */
 	private Boolean validateDetailMachine(BaseDTO baseDTO, Integer userId, Integer machineId) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		if (machineMng.findById(machineId) == null) {
@@ -180,11 +223,36 @@ public class MachineController extends BaseController{
 	 */
 	private Boolean validateQueryMachineByModel(BaseDTO baseDTO, Integer userId, MachineModel machineModel) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		return true;
 	}
+	
+	/**
+	 * 校验根据楼层ID查询洗衣机列表接口
+	 * @param baseDTO
+	 * @param userId 用户id
+	 * @param floorLayer 楼层Id
+	 * @return
+	 */
+	private Boolean validateQueryMachineByFloorLayer(BaseDTO baseDTO, Integer userId, Integer floorLayerId) {
+		if (cmsUserMng.findById(userId)  == null) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
+			return false;			
+		}
+		if (floorLayerId == null) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_PARAM_NOT_NULL);
+			return false;
+		}
+		FloorLayer floorLayer = floorLayerMng.findById(floorLayerId);
+		if (floorLayer == null) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_VALIDATECODE_NOTEXIST);
+			return false;
+		}
+		return true;
+	}
+
 
 }
 

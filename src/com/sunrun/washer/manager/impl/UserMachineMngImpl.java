@@ -86,6 +86,11 @@ public class UserMachineMngImpl implements UserMachineMng{
 		return machineMng.updateMachine(userMachineModelSaveUpdatePutIn);
 	}
 
+	@Override
+	public Machine updateUserMachineFloorLayerDelete(Integer machineId) {
+		return machineMng.updateUserMachineFloorLayerDelete(machineId);
+	}
+
 
 }
 

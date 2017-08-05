@@ -24,6 +24,13 @@ public interface FloorDao {
 	 * @return
 	 */
 	public Pagination queryFloorByModel(FloorModel floorModel, Integer pageNo, Integer pageSize);
+	
+	/**
+	 * 查询该楼地址
+	 * @param addressDetail
+	 * @return
+	 */
+	public List<Floor> queryFloorByAddressDetail(String addressDetail);
 
 	/**
 	 * 保存楼管理

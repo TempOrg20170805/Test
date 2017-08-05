@@ -1,20 +1,32 @@
 package com.sunrun.rest.controller;
-import com.sunrun.rest.dto.*;import com.sunrun.washer.manager.*;import com.sunrun.washer.entity.*;import com.sunrun.washer.model.*;
-import com.jeecms.core.manager.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.jeecms.common.page.Pagination;
 import com.jeecms.common.page.SimplePage;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.jeecms.core.manager.CmsUserMng;
+import com.sunrun.rest.dto.BaseDTO;
+import com.sunrun.rest.dto.UserFloorDTO;
+import com.sunrun.rest.dto.UserFloorDeleteDTO;
+import com.sunrun.rest.dto.UserFloorDetailDTO;
+import com.sunrun.rest.dto.UserFloorQueryDTO;
+import com.sunrun.rest.dto.UserFloorSaveDTO;
+import com.sunrun.rest.dto.UserFloorUpdateDTO;
+import com.sunrun.washer.entity.Machine;
+import com.sunrun.washer.entity.UserFloor;
+import com.sunrun.washer.manager.FloorMng;
+import com.sunrun.washer.manager.MachineMng;
+import com.sunrun.washer.manager.UserFloorMng;
+import com.sunrun.washer.model.UserFloorModel;
+import com.sunrun.washer.model.UserFloorModelSave;
 
 /**
  * 文 件 名 : UserFloorController.java
@@ -31,6 +43,10 @@ public class UserFloorController extends BaseController{
 	private UserFloorMng userFloorMng;
 	@Autowired
 	private CmsUserMng cmsUserMng;
+	@Autowired
+	private MachineMng machineMng;
+	@Autowired
+	private FloorMng floorMng;
 
 	/**
 	 * 查询用户关联楼管理列表
@@ -57,10 +73,9 @@ public class UserFloorController extends BaseController{
 			// 赋值用户关联楼管理必要信息信息
 			List<UserFloorDTO> userFloorDTOs = new ArrayList<UserFloorDTO>(); 
 			for (UserFloor userFloor : userFloors) {
-				UserFloorDTO userFloorDTO = new UserFloorDTO();
-				// 设置DTO 例如
-				// userFloorDTO.setXX("XX");
 				
+				List<Machine> machines = machineMng.queryMachineByFloor(userFloor.getFloor().getFloorId());
+				UserFloorDTO userFloorDTO = new UserFloorDTO(userFloor, machines.size());
 				// 赋值商品列表
 				userFloorDTOs.add(userFloorDTO);
 			}
@@ -104,6 +119,11 @@ public class UserFloorController extends BaseController{
 		}
 		if (StringUtils.isBlank(addressDetail)) {
 			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_NO_DATA);
+			return false;
+		}
+		
+		if (floorMng.isAddressDetailExists(addressDetail)) {
+			baseDTO.setState(UserFloorSaveDTO.UserFloorSaveDTOEnum.FLOOR_NAME_EXIST);
 			return false;
 		}
 		return true;

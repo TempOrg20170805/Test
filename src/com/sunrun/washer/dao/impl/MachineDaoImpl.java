@@ -1,5 +1,6 @@
 package com.sunrun.washer.dao.impl;
 import com.sunrun.washer.dao.*;import com.sunrun.washer.model.*;import com.sunrun.washer.entity.*;
+
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -23,9 +24,16 @@ public class MachineDaoImpl extends HibernateBaseDao<Machine, Integer> implement
 	public Pagination queryMachineByModel(MachineModel machineModel, Integer pageNo, Integer pageSize) {
 		Finder f = queryMachineBaseFinder("select bean from Machine bean where 1=1 ");
 
+		
+		
 		if (StringUtils.isNotBlank(machineModel.getMachineNo())) {
-			f.append(" and bean.machineNo =:machineNo");
+			f.append(" and bean.machineNo like :machineNo");
 			f.setParam("machineNo", "%"+machineModel.getMachineNo()+"%");
+		}
+		
+		if (machineModel.getFloorLayerId() != null && machineModel.getFloorLayerId() > 0) {
+			f.append(" and bean.floorLayer.floorLayerId =:floorLayerId");
+			f.setParam("floorLayerId", machineModel.getFloorLayerId());
 		}
 		
 		f.append(" order by bean.createTime desc");
@@ -70,6 +78,24 @@ public class MachineDaoImpl extends HibernateBaseDao<Machine, Integer> implement
 		// 此处增加公用的过滤条件，例如：每个洗衣机要是有效的
 		finder.append(" and bean.status <> 0");
 		return finder;
+	}
+
+	@Override
+	public List<Machine> queryMachineByFloor(Integer floorId) {
+		Finder f = queryMachineBaseFinder("select bean from Machine bean where 1=1 ");
+		f.append(" and bean.floorLayer.floor.floorId =:floorId");
+		f.setParam("floorId", floorId);
+		f.append(" order by bean.createTime desc");
+		return find(f);
+	}
+
+	@Override
+	public List<Machine> queryMachineByFloorLayer(Integer floorLayerId) {
+		Finder f = queryMachineBaseFinder("select bean from Machine bean where 1=1 ");
+		f.append(" and bean.floorLayer.floorLayerId =:floorLayerId");
+		f.setParam("floorLayerId", floorLayerId);
+		f.append(" order by bean.createTime desc");
+		return find(f);
 	}
 
 }

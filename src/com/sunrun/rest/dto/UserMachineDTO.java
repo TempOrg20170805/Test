@@ -17,12 +17,7 @@ public class UserMachineDTO {
 	private String type; // 洗衣机型号
 	private String machineNo; // 序列号
 	private Integer status; // 状态 0.删除 1.空闲 2.使用中 3.停用
-	private Integer floorLayerId; // 楼层Id
-	private Integer floorLayerX; // 楼层位置x
-	private Integer floorLayerY; // 楼层位置y
 	private Date createTime; // 创建时间
-	private Date useTime; // 投放时间
-	private Date baseUpdateTime; // 基本数据更新时间 
 	
 	
 	public UserMachineDTO() {};
@@ -36,15 +31,7 @@ public class UserMachineDTO {
 		this.type = userMachine.getMachine().getType();
 		this.machineNo = userMachine.getMachine().getMachineNo();
 		this.status = userMachine.getMachine().getStatus();
-		FloorLayer floorLayer = userMachine.getMachine().getFloorLayer();
-		if (floorLayer != null) {
-			this.floorLayerId = floorLayer.getFloorLayerId();
-		}
-		this.floorLayerX = userMachine.getMachine().getFloorLayerX();
-		this.floorLayerY = userMachine.getMachine().getFloorLayerY();
 		this.createTime = userMachine.getMachine().getCreateTime();
-		this.useTime = userMachine.getMachine().getUseTime();
-		this.baseUpdateTime = userMachine.getMachine().getBaseUpdateTime();
 	}
 
 	public String getName() {
@@ -79,30 +66,6 @@ public class UserMachineDTO {
 		this.status = status;
 	}
 
-	public Integer getFloorLayerId() {
-		return floorLayerId;
-	}
-
-	public void setFloorLayerId(Integer floorLayerId) {
-		this.floorLayerId = floorLayerId;
-	}
-
-	public Integer getFloorLayerX() {
-		return floorLayerX;
-	}
-
-	public void setFloorLayerX(Integer floorLayerX) {
-		this.floorLayerX = floorLayerX;
-	}
-
-	public Integer getFloorLayerY() {
-		return floorLayerY;
-	}
-
-	public void setFloorLayerY(Integer floorLayerY) {
-		this.floorLayerY = floorLayerY;
-	}
-
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -111,23 +74,5 @@ public class UserMachineDTO {
 		this.createTime = createTime;
 	}
 
-	public Date getUseTime() {
-		return useTime;
-	}
-
-	public void setUseTime(Date useTime) {
-		this.useTime = useTime;
-	}
-
-	public Date getBaseUpdateTime() {
-		return baseUpdateTime;
-	}
-
-	public void setBaseUpdateTime(Date baseUpdateTime) {
-		this.baseUpdateTime = baseUpdateTime;
-	}
-	
-	
-	
 }
 

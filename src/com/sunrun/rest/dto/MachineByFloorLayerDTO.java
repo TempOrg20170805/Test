@@ -10,32 +10,26 @@ import com.sunrun.washer.entity.*;
  * 日 期： 
  * 描 述：洗衣机DTO
  */
-public class MachineDTO {
+public class MachineByFloorLayerDTO {
 	
 	private Integer machineId; // 洗衣机id
-	private String name; // 洗衣机名称
-	private String type; // 洗衣机型号
 	private String machineNo; // 序列号
 	private Integer status = 1; // 状态 0.删除 1.空闲 2.使用中 3.停用
 	private Integer floorLayerX; // 楼层位置x
 	private Integer floorLayerY; // 楼层位置y
-	private Date createTime = new Date(); // 创建时间
 	
-	public MachineDTO() {};
+	public MachineByFloorLayerDTO() {};
 	
 	/**
 	 * 初始化洗衣机
 	 * @param machine
 	 */
-	public MachineDTO(Machine machine) {
+	public MachineByFloorLayerDTO(Machine machine) {
 		this.machineId = machine.getMachineId();
-		this.name = machine.getName();
-		this.type = machine.getType();
 		this.machineNo = machine.getMachineNo();
 		this.status = machine.getStatus();
 		this.floorLayerX = machine.getFloorLayerX();
 		this.floorLayerY = machine.getFloorLayerY();
-		this.createTime = machine.getCreateTime();
 	}
 
 	public Integer getMachineId() {
@@ -45,23 +39,6 @@ public class MachineDTO {
 	public void setMachineId(Integer machineId) {
 		this.machineId = machineId;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 	public String getMachineNo() {
 		return machineNo;
 	}
@@ -94,13 +71,6 @@ public class MachineDTO {
 		this.floorLayerY = floorLayerY;
 	}
 
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
 	
 	
 }

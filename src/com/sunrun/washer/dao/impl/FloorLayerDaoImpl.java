@@ -26,6 +26,7 @@ public class FloorLayerDaoImpl extends HibernateBaseDao<FloorLayer, Integer> imp
 			f.setParam("floorId", floorLayerModel.getFloorId());
 		}
 
+		f.append(" order by bean.layer asc");
 		return find(f, pageNo, pageSize);
 	}
 

@@ -24,16 +24,22 @@ public class UserMachineDaoImpl extends HibernateBaseDao<UserMachine, Integer> i
 		Finder f = queryUserMachineBaseFinder("select bean from UserMachine bean where 1=1 ");
 
 		if (userMachineModel.getUserId() != null) {
-			f.append(" and bean.cmsUser.userId =:userId");
+			f.append(" and bean.cmsUser.id =:userId");
 			f.setParam("userId", userMachineModel.getUserId());
 		}
 		
 		if (StringUtils.isNotBlank(userMachineModel.getMachineNo())) {
-			f.append(" and bean.machine.machineNo =:machineNo");
+			f.append(" and bean.machine.machineNo like :machineNo");
 			f.setParam("machineNo", "%"+userMachineModel.getMachineNo()+"%");
 		}
+		
+		// 1.未投放的洗衣机过滤条件
+		if (userMachineModel.getQueryType().equals(1)) {
+			f.append(" and (bean.machine.floorLayerX is null or bean.machine.floorLayerX <= 0)");
+			f.append(" and (bean.machine.floorLayerY is null or bean.machine.floorLayerY <= 0)");
+		}
 
-		f.append(" order by bean.createTime desc");
+		f.append(" order by bean.machine.createTime desc");
 		return find(f, pageNo, pageSize);
 	}
 

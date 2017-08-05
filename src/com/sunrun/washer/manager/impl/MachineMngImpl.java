@@ -1,5 +1,6 @@
 package com.sunrun.washer.manager.impl;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,6 +126,26 @@ public class MachineMngImpl implements MachineMng{
 		machine.setFloorLayerY(userMachineModelSaveUpdatePutIn.getFloorLayerY());
 		machine.setUseTime(new Date());
 		return updateMachine(machine);
+	}
+
+	@Override
+	public List<Machine> queryMachineByFloor(Integer floorId) {
+		return machineDao.queryMachineByFloor(floorId);
+	}
+
+	@Override
+	public Machine updateUserMachineFloorLayerDelete(Integer machineId) {
+		Machine machine = machineMng.findById(machineId);
+		machine.setFloorLayer(null);
+		machine.setFloorLayerX(0);
+		machine.setFloorLayerY(0);
+		machine.setUseTime(new Date());
+		return updateMachine(machine);
+	}
+
+	@Override
+	public List<Machine> queryMachineByFloorLayer(Integer floorLayerId) {
+		return machineDao.queryMachineByFloorLayer(floorLayerId);
 	}
 
 

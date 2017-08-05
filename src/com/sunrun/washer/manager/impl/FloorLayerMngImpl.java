@@ -1,5 +1,6 @@
 package com.sunrun.washer.manager.impl;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,11 +11,14 @@ import com.jeecms.common.page.Pagination;
 import com.sunrun.washer.dao.FloorLayerDao;
 import com.sunrun.washer.entity.Floor;
 import com.sunrun.washer.entity.FloorLayer;
+import com.sunrun.washer.entity.Machine;
 import com.sunrun.washer.manager.FloorLayerMng;
 import com.sunrun.washer.manager.FloorMng;
+import com.sunrun.washer.manager.MachineMng;
 import com.sunrun.washer.model.FloorLayerModel;
 import com.sunrun.washer.model.FloorLayerModelSave;
 import com.sunrun.washer.model.FloorLayerModelUpdate;
+import com.sunrun.washer.model.MachineModel;
 /**
  * 文 件 名 : FloorLayerMngImpl.java
  * 创 建 人： 金明明
@@ -31,7 +35,8 @@ public class FloorLayerMngImpl implements FloorLayerMng{
 	private FloorLayerDao floorLayerDao;
 	@Autowired
 	private FloorMng floorMng;
-	
+	@Autowired
+	private MachineMng machineMng;
 	@Override
 	public Pagination queryFloorLayerByModel(FloorLayerModel floorLayerModel, Integer pageNo, Integer pageSize) {
 		Pagination pagination = floorLayerDao.queryFloorLayerByModel(floorLayerModel, pageNo, pageSize);
@@ -70,6 +75,15 @@ public class FloorLayerMngImpl implements FloorLayerMng{
 
 	@Override
 	public FloorLayer deleteById(Integer id) {
+		// 该楼层的所有投放的洗衣机全部去除
+		MachineModel machineModel = new MachineModel();
+		machineModel.setFloorLayerId(id);
+		Pagination page = machineMng.queryMachineByModel(machineModel, 1, Integer.MAX_VALUE);
+		List<Machine> machines = (List<Machine>)page.getList();
+		for (Machine machine : machines) {
+			// 删除渠道商投放的洗衣机
+			machineMng.updateUserMachineFloorLayerDelete(machine.getMachineId());
+		}
 		FloorLayer bean = floorLayerDao.deleteById(id);
 		return bean;
 	}

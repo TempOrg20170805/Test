@@ -10,6 +10,7 @@ package com.sunrun.washer.model;
  */
 public class MachineModel {
 	
+	private Integer floorLayerId; // 楼层Id
 	private String machineNo; // 序列号
 	
 	public String getMachineNo() {
@@ -18,6 +19,11 @@ public class MachineModel {
 	public void setMachineNo(String machineNo) {
 		this.machineNo = machineNo;
 	}
-
+	public Integer getFloorLayerId() {
+		return floorLayerId;
+	}
+	public void setFloorLayerId(Integer floorLayerId) {
+		this.floorLayerId = floorLayerId;
+	}
 }
 

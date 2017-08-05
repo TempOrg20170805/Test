@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class UserFloorSaveDTO extends BaseDTO {
 	public enum UserFloorSaveDTOEnum implements BaseStateDTOEnum{
-		;
+		FLOOR_NAME_EXIST(601, "该楼名称已存在");
 		
 		private Integer stateCode;
 		private String msg;

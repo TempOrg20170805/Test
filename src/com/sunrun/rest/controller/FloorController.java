@@ -4,6 +4,7 @@ import com.jeecms.core.manager.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -98,6 +99,46 @@ public class FloorController extends BaseController{
 		if (cmsUserMng.findById(userId)  == null) {
 			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
+		}
+		return true;
+	}
+	
+	/**
+	 * 根据地址查询楼
+	 * @param addressDetail
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/floor/queryFloorByAddressDetail.json")
+	@ResponseBody
+	public FloorByAddressDetailQueryDTO queryFloorByAddressDetail(String addressDetail, HttpServletRequest request){
+		FloorByAddressDetailQueryDTO floorByAddressDetailQueryDTO = new FloorByAddressDetailQueryDTO();
+		if(validateFloorByAddressDetail(floorByAddressDetailQueryDTO,getUserId(),addressDetail)){
+			Floor floor = floorMng.queryFloorByAddressDetail(addressDetail);
+			floorByAddressDetailQueryDTO.initFloorByAddressDetailQueryDTO(floor);
+			floorByAddressDetailQueryDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+		}
+		return floorByAddressDetailQueryDTO;
+	}
+	
+	/**
+	 * 根据地址查询楼
+	 * @param baseDTO
+	 * @param userId 用户id
+	 * @return
+	 */
+	private Boolean validateFloorByAddressDetail(BaseDTO baseDTO, Integer userId, String addressDetail) {
+		if (cmsUserMng.findById(userId)  == null) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
+			return false;			
+		}
+		if (StringUtils.isBlank(addressDetail)) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_PARAM_NOT_NULL);
+			return false;
+		}
+		if (!floorMng.isAddressDetailExists(addressDetail)) {
+			baseDTO.setState(FloorByAddressDetailQueryDTO.FloorSaveDTOEnum.FLOOR_ADDRESS_DETAIL_NOT_EXIST);
+			return false;
 		}
 		return true;
 	}

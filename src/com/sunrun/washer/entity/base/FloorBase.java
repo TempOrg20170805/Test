@@ -3,8 +3,6 @@ package com.sunrun.washer.entity.base;
 
 import java.util.Date;
 
-import com.jeecms.core.entity.*;
-
 public class FloorBase implements java.io.Serializable {
 	
 	private Integer floorId; // id

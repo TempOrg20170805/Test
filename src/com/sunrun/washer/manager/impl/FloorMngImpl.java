@@ -1,5 +1,6 @@
 package com.sunrun.washer.manager.impl;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,26 @@ public class FloorMngImpl implements FloorMng{
 	@Override
 	public Floor findById(Integer id) {
 		return floorDao.findById(id);
+	}
+
+	@Override
+	public boolean isAddressDetailExists(String addressDetail) {
+		List<Floor> floors = floorDao.queryFloorByAddressDetail(addressDetail);
+		if (floors != null && floors.size() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public Floor queryFloorByAddressDetail(String addressDetail) {
+		List<Floor> floors = floorDao.queryFloorByAddressDetail(addressDetail);
+		if (floors != null && floors.size() > 0) {
+			return floors.get(0);
+		} else {
+			return null;
+		}
 	}
 
 

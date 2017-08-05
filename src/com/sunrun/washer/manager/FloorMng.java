@@ -25,6 +25,20 @@ public interface FloorMng {
 	public Pagination queryFloorByModel(FloorModel floorModel, Integer pageNo, Integer pageSize);
 
 	/**
+	 * 该楼地址是否存在
+	 * @param addressDetail 楼地址
+	 * @return
+	 */
+	public boolean isAddressDetailExists(String addressDetail);
+	
+	/**
+	 * 查询楼，根据楼的地址查询
+	 * @param addressDetail 楼地址
+	 * @return
+	 */
+	public Floor queryFloorByAddressDetail(String addressDetail);
+
+	/**
 	 * 保存楼管理
 	 * @param floorModelSave 保存的信息对象
 	 * @return

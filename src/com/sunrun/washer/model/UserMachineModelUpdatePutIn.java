@@ -1,7 +1,7 @@
 package com.sunrun.washer.model;
 
 /**
- * 文 件 名 : UserMachineModelSave.java
+ * 文 件 名 : UserMachineModelUpdatePutIn.java
  * 创 建 人： 金明明
  * 日 期：2017-8-3
  * 修 改 人： 
