@@ -36,7 +36,7 @@ public class UserMachineController extends BaseController{
 	@Autowired
 	private MachineMng machineMng;
 	/**
-	 * 查询用户关联洗衣机管理列表
+	 * 查询渠道商的洗衣机（未查询未投放的洗衣机）
 	 * @param userId 用户Id
 	 * @param userMachineModel 用户关联洗衣机管理查询条件
 	 * @param pageNo 当前页

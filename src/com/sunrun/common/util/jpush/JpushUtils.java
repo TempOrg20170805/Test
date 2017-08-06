@@ -33,7 +33,7 @@ public class JpushUtils {
 	protected static final Logger LOG = LoggerFactory
 			.getLogger(JpushUtils.class);
 	//安卓和iOS
-	private static final String appKey = "9bbe8b2110d9e76d9984ef3a";//猎狐
+	private static final String appKey = "9bbe8b2110d9e76d9984ef3a";
 	private static final String masterSecret = "d2bb9c4cb215b2e924d66cff";
 	
 	public static void main(String[] args) {

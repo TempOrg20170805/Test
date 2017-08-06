@@ -15,7 +15,7 @@ import com.sunrun.washer.entity.WalletCashOut;
  */
 public class WalletCashOutDTO {
 	private Integer id;
-	private Integer state; // 交易状态 1.运费付款 2.司机服务费付款
+	private Integer state; // 提现状态 1.提现申请中 2.提现成功 3.提现失败
 	private BigDecimal money; // 交易金额
 	private Date time; // 交易时间
 	

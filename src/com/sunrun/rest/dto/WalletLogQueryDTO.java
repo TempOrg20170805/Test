@@ -13,10 +13,7 @@ import java.util.List;
  */
 public class WalletLogQueryDTO extends BaseDTO {
 	public enum WalletLogQueryDTOEnum implements BaseStateDTOEnum{
-		/**
-		 * 2501.用户不存在
-		 */
-		USER_IS_NOT_EXIST(2501, "用户不存在");
+		;
 		
 		private Integer stateCode;
 		private String msg;

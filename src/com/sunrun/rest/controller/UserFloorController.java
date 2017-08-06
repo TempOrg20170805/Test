@@ -118,7 +118,7 @@ public class UserFloorController extends BaseController{
 			return false;			
 		}
 		if (StringUtils.isBlank(addressDetail)) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_NO_DATA);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_PARAM_REQUIRED);
 			return false;
 		}
 		

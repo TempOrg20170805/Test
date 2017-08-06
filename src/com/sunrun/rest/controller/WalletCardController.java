@@ -54,7 +54,7 @@ public class WalletCardController extends BaseController {
 	private CmsFileMng fileMng;
 
 	/**
-	 * 查询银行卡/支付宝列表（不分页）
+	 * 查询银行卡列表（不分页）
 	 * @param userId 用户Id
 	 * @param walletCardModel 银行卡/支付宝查询条件
 	 * @return
@@ -145,7 +145,7 @@ public class WalletCardController extends BaseController {
 	}
 	
 	/**
-	 * 删除银行卡/支付宝
+	 * 删除银行卡/支付宝/微信
 	 * @param userId 
 	 * @param cardId 卡Id 
 	 * @param request
@@ -186,7 +186,7 @@ public class WalletCardController extends BaseController {
 	 */
 	private Boolean validateSaveWalletCard(BaseDTO baseDTO, Integer userId,String realname,Integer type,String bankName,String bankNum,String bankBranches,String alipayNum) {
 		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(WalletCardSaveDTOEnum.USER_IS_NOT_EXIST);
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
 		if (!WalletCardTypeEnum.ALIPAY_CARD.getValue().equals(type) && !WalletCardTypeEnum.BANK_CARD.getValue().equals(type) && !WalletCardTypeEnum.WEIXIN.getValue().equals(type)){

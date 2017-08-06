@@ -19,29 +19,21 @@ public class CmsGroup extends BaseCmsGroup implements PriorityInterface {
 	private static final long serialVersionUID = 1L;
 	/**
 	 * 文 件 名 : CmsGroupEnum
-	 * 创 建 人： 汪长义
-	 * 日 期：2017年6月2日
+	 * 创 建 人： 金明明
+	 * 日 期：2017年8月6日
 	 * 修 改 人： 
 	 * 日 期： 
 	 * 描 述：会员组枚举，#同步数据库#
 	 */
 	public enum CmsGroupEnum {
 		/**
-		 *  1.民用端会员   
+		 *  1.渠道端  
 		 */
-		MIN_YONG ( "民用端会员" ,1),
+		CANAL("渠道端" ,1),
 		/**
-		 *  2.安装端会员
+		 *  2.普通端
 		 */
-		AN_ZHUANG( "安装端会员" ,2),
-		/**
-		 * 3.警用端会员
-		 */
-		JING_YONG("警用端会员",3),
-		/**
-		 *  4.管理端会员
-		 */
-		ADMIN("管理端会员",4);
+		NORMAL("普通端" ,2);
 		private String name;
 		private Integer value;
 		

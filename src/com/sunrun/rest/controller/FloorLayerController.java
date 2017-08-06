@@ -37,7 +37,7 @@ public class FloorLayerController extends BaseController{
 	private MachineMng machineMng;
 
 	/**
-	 * 查询楼层管理列表
+	 * 查询楼层列表
 	 * @param userId 用户Id
 	 * @param floorLayerModel 楼层管理查询条件
 	 * @param pageNo 当前页
@@ -181,6 +181,10 @@ public class FloorLayerController extends BaseController{
 		if (cmsUserMng.findById(userId)  == null) {
 			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
+		}
+		if (floorLayerMng.findById(floorLayerId) == null) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_VALIDATECODE_NOTEXIST);
+			return false;	
 		}
 		return true;
 	}

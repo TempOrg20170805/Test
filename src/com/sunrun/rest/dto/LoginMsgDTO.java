@@ -12,7 +12,27 @@ import com.jeecms.core.entity.CmsUser;
  * @editDate
  */
 public class LoginMsgDTO extends BaseDTO{
-	
+	public enum LoginMsgDTOEnum implements BaseStateDTOEnum{
+		GROUP_NULL(701, "该用户未分组,请联系管理员更改会员组"),
+		GROUP_ERROR(702, "该用户不能在该app上登录，请联系管理员更改会员组，或更换其它端登录");
+		
+		private Integer stateCode;
+		private String msg;
+		private LoginMsgDTOEnum(Integer stateCode, String msg) {
+			this.stateCode = stateCode;
+			this.msg = msg;
+		}
+		@Override
+		public String getMsg() {
+			return this.msg;
+		}
+
+		@Override
+		public Integer getStateCode() {
+			return this.stateCode;
+		}
+		
+	}
 	
 	
 	private Integer userId; // 用户id
@@ -20,14 +40,7 @@ public class LoginMsgDTO extends BaseDTO{
 	private String nickname;//昵称
 	private String realname; // 真实姓名
 	private String groupname; // 分组分名称 
-	private Integer groupId; // 分组Id 1.民用端会员 2.安装端会员 3.警用端会员4.管理端会员
-	private java.lang.String userImg;//头像
-	private Integer realnameStatus;//实名状态:1不需要实名，2、待实名，3、实名通过，4、实名未通过
-	private Integer membership;//会员状态 0表示不是会员
-	private String icon1Url;//会员图标
-	private String imgUrl;//会员背景图
-	private Long dueDate;//到期日期
-	private String plateNumber;//靓号
+	private Integer groupId; // 分组Id 1.渠道端 2.普通端
 	
 	public void initCmsUserDTO(CmsUser cmsUser) {
 		this.userId = cmsUser.getId();
@@ -36,12 +49,6 @@ public class LoginMsgDTO extends BaseDTO{
 		this.realname = cmsUser.getUserExt().getRealname();
 		this.groupId = cmsUser.getGroup().getId();
 		this.groupname = cmsUser.getGroup().getName();
-		if(cmsUser.getUserImg()==null){
-			this.userImg = "";
-		}else{
-			this.userImg = cmsUser.getUserImg();
-		}
-		this.realnameStatus=cmsUser.getRealnameStatus();
 	}
 	public Integer getUserId() {
 		return userId;
@@ -58,12 +65,6 @@ public class LoginMsgDTO extends BaseDTO{
 	public Integer getGroupId() {
 		return groupId;
 	}
-	public java.lang.String getUserImg() {
-		return userImg;
-	}
-	public void setUserImg(java.lang.String userImg) {
-		this.userImg = userImg;
-	}
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
@@ -79,47 +80,12 @@ public class LoginMsgDTO extends BaseDTO{
 	public void setGroupId(Integer groupId) {
 		this.groupId = groupId;
 	}
-	public Integer getRealnameStatus() {
-		return realnameStatus;
-	}
-	public void setRealnameStatus(Integer realnameStatus) {
-		this.realnameStatus = realnameStatus;
-	}
 	public String getNickname() {
 		return nickname;
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-	public Integer getMembership() {
-		return membership;
-	}
-	public void setMembership(Integer membership) {
-		this.membership = membership;
-	}
-	public String getIcon1Url() {
-		return icon1Url;
-	}
-	public void setIcon1Url(String icon1Url) {
-		this.icon1Url = icon1Url;
-	}
-	public String getImgUrl() {
-		return imgUrl;
-	}
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
-	}
-	public Long getDueDate() {
-		return dueDate;
-	}
-	public void setDueDate(Long dueDate) {
-		this.dueDate = dueDate;
-	}
-	public String getPlateNumber() {
-		return plateNumber;
-	}
-	public void setPlateNumber(String plateNumber) {
-		this.plateNumber = plateNumber;
-	}
+
 	
 }

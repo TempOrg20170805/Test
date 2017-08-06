@@ -104,7 +104,7 @@ public class FloorController extends BaseController{
 	}
 	
 	/**
-	 * 根据地址查询楼
+	 * 查询楼地址
 	 * @param addressDetail
 	 * @param request
 	 * @return
