@@ -36,6 +36,24 @@ public class FrameAct {
 	public String machineRight(ModelMap model) {
 		return "frame/machine_right";
 	}
+	// 交易管理
+	@RequiresPermissions("frame:trade_main")
+	@RequestMapping("/frame/trade_main.do")
+	public String tradeMain(ModelMap model) {
+		return "frame/trade_main";
+	}
+	
+	@RequiresPermissions("frame:trade_left")
+	@RequestMapping("/frame/trade_left.do")
+	public String tradeLeft(ModelMap model) {
+		return "frame/trade_left";
+	}
+
+	@RequiresPermissions("frame:trade_right")
+	@RequestMapping("/frame/trade_right.do")
+	public String tradeRight(ModelMap model) {
+		return "frame/trade_right";
+	}
 	
 	@RequiresPermissions("frame:other_main")
 	@RequestMapping("/frame/other_main.do")

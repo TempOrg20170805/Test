@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+
+</script>
+</head>
+<body>
+<div class="page-positon ove">
+  <div class="position-div"><@s.m "global.position"/>: <@s.m "function.walletCashOut"/> - <@s.m "global.list"/></div>
+</div>
+<div class="body-box">
+<form id="queryForm" action="queryWalletCashOutByModel.do" method="post">
+
+
+用户名：<input type="text" name="username" value="${walletCashOutModel.username!}" style="width:100px; margin-right:10px;"/>
+<@p.select style="margin-left:10px" value="${walletCashOutModel.state!}" name="state"  list={"0":"全部","1":"提现申请中","2":"提现成功","3":"提现失败"} />
+<input class="query" type="submit" value="<@s.m "global.query"/>" />
+<div style="padding-bottom:10px; text-indent:6px;">
+</div>
+</form>
+<br/>
+<form id="tableForm" method="post">
+<input type="hidden" name="username" value="${walletCashOutModel.username!}"/>
+<input type="hidden" name="state" value="${walletCashOutModel.state!}"/>
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table listAction="queryWalletCashOutByModel.do" value=pagination;bean,i,has_next><#rt/>
+	<@p.column title="ID" align="center">${bean.cashOutId}</@p.column><#t/>
+	<@p.column title="申请用户" align="center">${bean.jcUser.username!}</@p.column><#t/> 
+	<@p.column title="提现金额" align="center">${bean.money!}</@p.column><#t/> 
+	<@p.column title="用户当前余额" align="center">${bean.jcUser.money!}</@p.column><#t/> 
+	<@p.column title="提现状态" align="center">${bean.stateStr!}</@p.column><#t/> 
+	<@p.column title="提现类型" align="center">${bean.cashOutTypeStr!}</@p.column><#t/> 
+	<@p.column title="卡号" align="center">${bean.cardNo!}</@p.column><#t/> 
+	<@p.column title="卡用户姓名" align="center">${bean.cardName!}</@p.column><#t/>
+	<@p.column title="发起时间" align="center">${(bean.createTime?string("yyyy-MM-dd HH:mm:ss"))!}</@p.column><#t/> 
+	<@p.column title="处理时间" align="center">${(bean.handleTime?string("yyyy-MM-dd HH:mm:ss"))!}</@p.column><#t/> 
+	<@p.column code="global.operate" align="center">
+		<a href="../walletCashOut/viewWalletCashOut.do?walletCashOutId=${bean.cashOutId}" class="pn-opt"><@s.m "global.view"/></a>
+		<#if bean.state==1> | <#if bean.jcUser.money gte bean.money> <a href="../walletCashOut/editWalletCashOut.do?walletCashOutId=${bean.cashOutId}" class="pn-opt">提现处理</a> <#else> 用户金额不足</#if></#if> 
+		<#t/>
+	</@p.column><#t/>
+</@p.table>
+</div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>
+

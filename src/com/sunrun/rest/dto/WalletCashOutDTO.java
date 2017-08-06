@@ -18,14 +18,12 @@ public class WalletCashOutDTO {
 	private Integer state; // 交易状态 1.运费付款 2.司机服务费付款
 	private BigDecimal money; // 交易金额
 	private Date time; // 交易时间
-	private String failReason; // 交易失败原因
 	
 	public WalletCashOutDTO(WalletCashOut walletCashOut) {
 		this.id = walletCashOut.getCashOutId();
 		this.state = walletCashOut.getState();
 		this.money = walletCashOut.getMoney();
 		this.time = walletCashOut.getCreateTime();
-		this.failReason = walletCashOut.getCashOutFailReason();
 	}
 	
 	public java.lang.Integer getId() {
@@ -57,12 +55,5 @@ public class WalletCashOutDTO {
 		this.state = state;
 	}
 
-	public String getFailReason() {
-		return failReason;
-	}
-
-	public void setFailReason(String failReason) {
-		this.failReason = failReason;
-	}
 }
 

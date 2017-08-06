@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#advBgcolor").colorPicker();
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="page-positon ove">
+  <div class="position-div"><@s.m "global.position"/>: <@s.m "function.walletCashOut"/> - <@s.m "global.edit"/></div>
+</div>
+<div class="box-positon ck">
+	<form class="ropt">
+		<input  value="  <@s.m "global.backToList"/>" onclick="javascript:history.go(-1)" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="updateWalletCashOut.do" labelWidth="12">
+<@p.td colspan="2" width="50" label="申请用户" >${bean.jcUser.username!}</@p.td> 
+<@p.tr/> 
+<@p.td colspan="1" width="50" label="提现状态" >${bean.stateStr!}</@p.td> 
+<@p.td colspan="1" width="50" label="提现类型" >${bean.cashOutTypeStr!}</@p.td><@p.tr/>
+<@p.td colspan="1" width="50" label="卡用户姓名" >${bean.cardName!}</@p.td>
+<#if bean.cashOutType==2 || bean.cashOutType==1>
+<@p.td colspan="1" width="50" label="卡号" >${bean.cardNo!}</@p.td>
+<#elseif bean.cashOutType==3>
+<@p.td colspan="1" width="50" label="收款码" ><img src="${bean.collectionCode!}" width="150px"/></@p.td>
+</#if> 
+<@p.tr/>
+<#if bean.cashOutType==1>
+<@p.td colspan="1" width="50" label="卡所对应银行" >${bean.cardCompany!}</@p.td> 
+<@p.td colspan="1" width="50" label="卡网点" >${bean.cardNetwork!}</@p.td> <@p.tr/>
+</#if>
+<@p.td colspan="2" width="50" label="发起时间" >${(bean.createTime?string("yyyy-MM-dd HH:mm:ss"))!}</@p.td><@p.tr/>
+<@p.td colspan="1" width="50" label="提现金额" >${bean.money!}</@p.td> 
+<@p.td colspan="1" width="50" label="用户当前余额" >${bean.jcUser.money!}</@p.td> <@p.tr/>
+<@p.radio width="50" colspan="2" label="提现结果" name="state" value=2 list={"2":"提现成功","3":"提现失败"}/><@p.tr/>
+<@p.td colspan="2"><@p.hidden name="walletCashOutId" value=bean.cashOutId/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>
+

@@ -1,6 +1,9 @@
 package com.sunrun.washer.entity;
 // default package
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.sunrun.washer.entity.base.WalletCashOutBase;
 /**
  * 文 件 名 : WalletCashOut.java
@@ -52,6 +55,13 @@ public class WalletCashOut extends WalletCashOutBase implements java.io.Serializ
 			}
 			return "";
 		}
+	    public static Map<Integer, String> getMap() {
+	        Map<Integer,String> map = new HashMap<Integer,String>();
+	        for (WalletCashOutStateEnum item : WalletCashOutStateEnum.values()) {
+	            map.put(item.getValue(), item.getName());
+	        }
+	        return map;
+	    }
 	}
 
     /** default constructor */

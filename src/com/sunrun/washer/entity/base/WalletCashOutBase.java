@@ -2,10 +2,11 @@ package com.sunrun.washer.entity.base;
 // default package
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
 
 import com.jeecms.core.entity.CmsUser;
+import com.sunrun.washer.entity.WalletCard;
+import com.sunrun.washer.entity.WalletCashOut;
 
 /**
  * 文 件 名 : WalletCashOutBase.java
@@ -80,6 +81,9 @@ public abstract class WalletCashOutBase  implements java.io.Serializable {
 		this.state = state;
 	}
 
+	public String getStateStr() {
+		return WalletCashOut.WalletCashOutStateEnum.getNameByValue(state);
+	}
 
 	public Integer getCashOutType() {
 		return cashOutType;
@@ -88,6 +92,10 @@ public abstract class WalletCashOutBase  implements java.io.Serializable {
 
 	public void setCashOutType(Integer cashOutType) {
 		this.cashOutType = cashOutType;
+	}
+	
+	public String getCashOutTypeStr() {
+		return WalletCard.WalletCardTypeEnum.getNameByValue(cashOutType);
 	}
 
 

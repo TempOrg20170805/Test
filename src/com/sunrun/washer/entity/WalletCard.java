@@ -1,6 +1,10 @@
 package com.sunrun.washer.entity;
 // default package
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.sunrun.washer.entity.WalletCashOut.WalletCashOutStateEnum;
 import com.sunrun.washer.entity.base.WalletCardBase;
 /**
  * 文 件 名 : WalletCard.java
@@ -67,6 +71,14 @@ public class WalletCard extends WalletCardBase implements java.io.Serializable {
     		}
     		return "";
     	}
+    	
+	    public static Map<Integer, String> getMap() {
+	        Map<Integer,String> map = new HashMap<Integer,String>();
+	        for (WalletCardTypeEnum item : WalletCardTypeEnum.values()) {
+	            map.put(item.getValue(), item.getName());
+	        }
+	        return map;
+	    }
     	
     }
     
