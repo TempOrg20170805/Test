@@ -108,6 +108,10 @@ public class Constants {
 	 */
 	public static final String CODE_IMG_PATH = "/codeimg/";
 	/**
+	 * 收款码图片地址
+	 */
+	public static final String COLLECTION_CODE_IMG_PATH = "/collectionCodeImg/";
+	/**
 	 * 文库上传文件后缀
 	 */
 	public static final String LIBRARY_SUFFIX = "odt,txt,pdf,wps,et,dps,vsd,pot,pps,rtf,doc,docx,xls,xlsx,ppt,pptx";

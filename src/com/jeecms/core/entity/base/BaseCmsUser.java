@@ -1,6 +1,7 @@
 package com.jeecms.core.entity.base;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import com.jeecms.core.entity.CmsLog;
@@ -70,7 +71,7 @@ public abstract class BaseCmsUser  implements Serializable {
 		java.lang.Boolean selfAdmin,
 		java.lang.Boolean disabled,
 		Date dueDate,
-		Double money) {
+		BigDecimal money) {
 
 		this.setId(id);
 		this.setGroup(group);
@@ -118,7 +119,7 @@ public abstract class BaseCmsUser  implements Serializable {
 	private java.lang.String sessionId;
 	private java.lang.Integer realnameStatus;//实名状态:1不需要实名，2、待实名，3、实名通过，4、实名未通过 ，5、认证中
 	private Date dueDate;//会员到期日期
-	private Double money;
+	private BigDecimal money = new BigDecimal(0);
 	//区域信息
 	private Area province;
 	private Area city;
@@ -651,11 +652,12 @@ public abstract class BaseCmsUser  implements Serializable {
 		this.district = district;
 	}
 
-	public Double getMoney() {
+
+	public BigDecimal getMoney() {
 		return money;
 	}
 
-	public void setMoney(Double money) {
+	public void setMoney(BigDecimal money) {
 		this.money = money;
 	}
 

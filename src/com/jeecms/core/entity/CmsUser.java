@@ -1,5 +1,6 @@
 package com.jeecms.core.entity;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -782,7 +783,7 @@ public class CmsUser extends BaseCmsUser implements PriorityInterface {
 			java.lang.Integer rank, java.lang.Long uploadTotal,
 			java.lang.Integer uploadSize, java.lang.Boolean admin,
 			java.lang.Boolean viewonlyAdmin, java.lang.Boolean selfAdmin,
-			java.lang.Boolean disabled,Date dueDate,Double money) {
+			java.lang.Boolean disabled,Date dueDate,BigDecimal money) {
 
 		super(id, group, username, nickname,registerTime, registerIp, loginCount, rank,
 				uploadTotal, uploadSize, admin, viewonlyAdmin, selfAdmin,

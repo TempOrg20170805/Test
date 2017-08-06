@@ -1,6 +1,7 @@
 package com.jeecms.core.manager.impl;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import com.jeecms.cms.entity.main.Channel;
 import com.jeecms.cms.manager.main.ChannelMng;
@@ -34,13 +34,19 @@ import com.jeecms.core.manager.CmsUserExtMng;
 import com.jeecms.core.manager.CmsUserMng;
 import com.jeecms.core.manager.CmsUserSiteMng;
 import com.jeecms.core.manager.UnifiedUserMng;
+import com.sunrun.common.util.BigDecimalUtil;
 import com.sunrun.washer.entity.Area;
+import com.sunrun.washer.entity.WalletLog.WalletLogPayPlatformEnum;
 import com.sunrun.washer.manager.AreaMng;
+import com.sunrun.washer.manager.WalletLogMng;
+import com.sunrun.washer.model.WalletLogModelSave;
 
 
 @Service
 @Transactional
 public class CmsUserMngImpl implements CmsUserMng {
+	@Autowired
+	private WalletLogMng walletLogMng;
 	@Transactional(readOnly = true)
 	public Pagination getPage(Integer realnameStatus,Integer provinceId,Integer cityId,String username, String email, Integer siteId,
 			Integer groupId, Boolean disabled, Boolean admin, Integer rank,
@@ -510,6 +516,34 @@ public class CmsUserMngImpl implements CmsUserMng {
 		return dao.findByIdNumber(idNum);
 	}
 
-
+	@Override
+	public CmsUser updateMoney(Integer id, BigDecimal changeMoney, Integer type,
+			String logMsg) {
+		
+		
+		CmsUser jcUser = findById(id);
+		
+		// 赋值金额前后
+		BigDecimal moneyBefore = new BigDecimal(jcUser.getMoney().toString());
+		BigDecimal moneyAfter = new BigDecimal(0);
+		
+		// 更改金额
+		jcUser.setMoney(BigDecimalUtil.roundHalfUp(jcUser.getMoney().add(changeMoney)));
+		updateAdmin(jcUser);
+		moneyAfter = jcUser.getMoney();
+		// 日志添加
+		walletLogMng.saveWalletLog(new WalletLogModelSave(jcUser.getId(),type, WalletLogPayPlatformEnum.WALLET.getValue(), changeMoney, logMsg, moneyBefore, moneyAfter));
+		return jcUser;
+	}
+	
+	/**
+	 * 更新管理员信息
+	 * @param bean
+	 * @return
+	 */
+	private CmsUser updateAdmin(CmsUser bean) {
+		Updater<CmsUser> updater = new Updater<CmsUser>(bean);
+		return dao.updateByUpdater(updater);
+	}
 
 }

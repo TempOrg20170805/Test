@@ -1,6 +1,7 @@
 package com.jeecms.core.manager;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -87,5 +88,15 @@ public interface CmsUserMng {
 	public boolean usernameNotExistInMember(String username);
 
 	public boolean emailNotExist(String email);
+	
+	/**
+	 * 钱包变更金额
+	 * @param id 用户Id
+	 * @param changeMoney 金额变更 有正负
+	 * @param payWay 支付方式 (输入类型：WalletLog.WalletLogPayWayEnum)
+	 * @param logMsg 消费日志
+	 * @return
+	 */
+	public CmsUser updateMoney(Integer id, BigDecimal changeMoney, Integer payWay, String logMsg);
 
 }
