@@ -65,6 +65,9 @@ $(function() {
 	</div>
     <div class="w229">
       <ol>
+		<@cms_perm url="/mode/queryModeByModel.do">
+			<li class="leftCurr"><a href="../mode/queryModeByModel.do" target="rightFrame"><@s.m 'function.mode'/></a></li>
+		</@cms_perm>
         <@cms_perm url="/dictionary/v_list.do">
 	 	<li><a href="../dictionary/v_list.do" target="rightFrame"><@s.m "cmsDictionary.function"/></a></li>
 	 	</@cms_perm>

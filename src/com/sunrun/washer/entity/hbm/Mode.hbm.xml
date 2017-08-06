@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.sunrun.washer.entity">
+    <class name="Mode" table="washer_mode">
+         <id name="modeId" type="java.lang.Integer">
+            <column name="mode_id" />
+            <generator class="identity" />
+         </id>
+         <property name="name" column="name" type="java.lang.String" length="255"/>
+         <property name="modeMoney" column="mode_money" type="java.math.BigDecimal" not-null="true" length="19"/>
+         <property name="modeTime" column="mode_time" type="java.lang.Integer" length="11"/>
+         <property name="status" column="status" type="java.lang.Integer" not-null="true" length="3"/>
+
+    </class>
+</hibernate-mapping>
+
