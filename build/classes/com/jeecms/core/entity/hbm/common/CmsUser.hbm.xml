@@ -23,7 +23,7 @@
 		<property name="sessionId" column="session_id" type="string" not-null="false" length="100"/>
 		<property name="realnameStatus" column="realname_status" type="integer" not-null="true" length="10"/>
 		<property name="dueDate" column="due_date" type="timestamp" not-null="false" length="19"/>
-		<property name="money" column="money" type="java.lang.Double" not-null="false" length="19"/>
+		<property name="money" column="money" type="java.math.BigDecimal" not-null="false" length="19"/>
 		<many-to-one name="group" column="group_id" class="CmsGroup" not-null="true" lazy="false"></many-to-one>
 		 
         <many-to-one name="province" class="com.sunrun.washer.entity.Area" fetch="select" lazy="false">

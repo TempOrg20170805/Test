@@ -13,6 +13,7 @@ default-lazy-init="true">
 		<property name="locations">
 			<list>
 				<value>/WEB-INF/config/jdbc.properties</value>
+				<value>/WEB-INF/config/redis.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -89,4 +90,7 @@ default-lazy-init="true">
 	</bean>
 	<context:annotation-config/>
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+    <!-- 配置redis -->
+    <import resource="redis-config.xml" />
 </beans>

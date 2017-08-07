@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.sunrun.washer.entity">
+    <class name="UserMachine" table="washer_user_machine">
+         <id name="userMachineId" type="java.lang.Integer">
+            <column name="user_machine_id" />
+            <generator class="identity" />
+         </id>
+        <property name="useType" column="use_type" type="java.lang.Integer" length="11"/>
+        <property name="authLevel" column="auth_level" type="java.lang.Integer" length="11"/>
+		<many-to-one name="cmsUser" class="com.jeecms.core.entity.CmsUser" fetch="select" lazy="false">
+		    <column name="user_id"></column>
+		</many-to-one>
+		<many-to-one name="machine" class="com.sunrun.washer.entity.Machine" fetch="select" lazy="false">
+		    <column name="machine_id"></column>
+		</many-to-one>
+    </class>
+</hibernate-mapping>
+
