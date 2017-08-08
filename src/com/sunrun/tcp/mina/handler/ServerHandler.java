@@ -4,12 +4,15 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.sunrun.tcp.common.DataUtils;
+import com.sunrun.tcp.common.ProtocolConsts;
 import com.sunrun.tcp.mina.entity.HeartBeat;
 import com.sunrun.tcp.mina.entity.WashAnswer;
 
@@ -83,10 +86,12 @@ public class ServerHandler extends IoHandlerAdapter {
 			String sn=DataUtils.bytesToHexString(heartBeat.getDeviceId(),1);
 			checkDeviceOnline(sn,session);
 		}
-		else if(message instanceof WashAnswer){//RFID数据
+		else if(message instanceof WashAnswer){//洗涤响应
 			logger.info("洗涤响应数据");
 			WashAnswer washAnswer=(WashAnswer)message;
 			//add push code
+			//washAnswer.getMsgType()=ProtocolConsts.MSGTYPE_WASH_START-洗涤开始 
+			//washAnswer.getMsgType()=ProtocolConsts.MSGTYPE_WASH_OVER-洗涤结束
 		}
 	}
 
