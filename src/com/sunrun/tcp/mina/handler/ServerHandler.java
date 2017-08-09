@@ -104,15 +104,19 @@ public class ServerHandler extends IoHandlerAdapter {
 			logger.info("洗涤响应数据");
 			WashAnswer washAnswer=(WashAnswer)message;
 			String sn=DataUtils.bytesToHexString(washAnswer.getDeviceId(),1);
-			if(washAnswer.getMsgType()==ProtocolConsts.MSGTYPE_WASH_START)
+			if(washAnswer.getMsgType()==ProtocolConsts.MSGTYPE_WASH_START)//设备响应洗涤开始
 			{	
 				machineMng.updateStatus(sn, 2);
 			}
-			else
+			else//设备响应洗涤完成
 			{
 				machineMng.updateStatus(sn, 1);
 			}
 			//add push code
+			//washAnswer.getMsgType()值为设备响应类型
+			//washAnswer.getMsgType()==ProtocolConsts.MSGTYPE_WASH_START 开始洗涤
+			//washAnswer.getMsgType()==ProtocolConsts.MSGTYPE_WASH_OVER 洗涤完成
+			
 			
 		}
 	}
