@@ -1,8 +1,8 @@
 package com.sunrun.washer.manager;
 import com.sunrun.washer.model.*;import com.sunrun.washer.entity.*;
 
-
 import java.util.List;
+import java.util.Map;
 
 import com.jeecms.common.page.Pagination;
 /**
@@ -79,6 +79,30 @@ public interface MachineMng {
 	 * @return
 	 */
 	public Machine findById(Integer id);
+	
+	/**
+	* @author: HL
+	* @date: 2017年8月9日 下午2:23:48
+	* @function: updateOnline  
+	* @Description: 更新洗衣机在线离线状态
+	* @param: @param onlineMap
+	* @param: @return
+	* @return: Integer
+	* @throws
+	*/
+	public Integer updateOnline(Map<String, Integer> onlineMap);
+	
+	/**
+	* @author: HL
+	* @date: 2017年8月9日 下午3:05:23
+	* @function: updateStatus  
+	* @Description: 更新洗衣机工作状态  
+	* @param: @param status
+	* @param: @return
+	* @return: Integer
+	* @throws
+	 */
+	public Integer updateStatus(String sn,Integer status);
 
 
 }

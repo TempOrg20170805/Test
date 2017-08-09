@@ -17,8 +17,8 @@ public class RedisWasherLog extends RedisWasherLogBase {
 	*/  
 	private static final long serialVersionUID = 1L;
 
-	public RedisWasherLog(String id, Integer type, String log, String time) {
-		super(id, type, log, time);
+	public RedisWasherLog(String sn, Integer type, String log, String time) {
+		super(sn, type, log, time);
 		// TODO Auto-generated constructor stub
 	}
 

@@ -9,13 +9,13 @@
 
 
 	<!-- 自定义的serverHandler -->
-	<bean id="serverHandler" class="com.sunrun.smartwasher.tcp.handler.ServerHandler">	
+	<bean id="serverHandler" class="com.sunrun.tcp.mina.handler.ServerHandler">	
 	</bean>
 
 	<!-- 自定义的编解码过滤器 -->
 	<bean id="codecFilter" class="org.apache.mina.filter.codec.ProtocolCodecFilter">
 		<constructor-arg>
-			<bean class="com.sunrun.smartwasher.tcp.codefactory.ServerCodecFactory" />
+			<bean class="com.sunrun.tcp.mina.codefactory.ServerCodecFactory" />
 		</constructor-arg>
 	</bean>
 

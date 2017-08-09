@@ -1,5 +1,7 @@
 package com.sunrun.tcp.mina.handler;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -10,11 +12,15 @@ import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sunrun.tcp.common.DataUtils;
 import com.sunrun.tcp.common.ProtocolConsts;
 import com.sunrun.tcp.mina.entity.HeartBeat;
 import com.sunrun.tcp.mina.entity.WashAnswer;
+import com.sunrun.tcp.redis.entity.RedisWasherLog;
+import com.sunrun.tcp.redis.manager.RedisMng;
+import com.sunrun.washer.manager.MachineMng;
 
 /** 
 * @Package:com.sunrun.commserver.tcp.mina.handler 
@@ -29,8 +35,16 @@ public class ServerHandler extends IoHandlerAdapter {
 	
 	//logback打印日志，打印等级配置在logback.xml文件
 	private static Logger logger = LoggerFactory.getLogger(ServerHandler.class); 
-	
-
+	/**
+	 * REDIS 业务层
+	 */
+	@Autowired
+	private RedisMng redisMng;
+	/**
+	 * 洗衣机实体类业务层
+	 */
+	@Autowired
+	private MachineMng machineMng;
 	/**
 	 * 设备ID和通道对应关系
 	 */
@@ -89,9 +103,17 @@ public class ServerHandler extends IoHandlerAdapter {
 		else if(message instanceof WashAnswer){//洗涤响应
 			logger.info("洗涤响应数据");
 			WashAnswer washAnswer=(WashAnswer)message;
+			String sn=DataUtils.bytesToHexString(washAnswer.getDeviceId(),1);
+			if(washAnswer.getMsgType()==ProtocolConsts.MSGTYPE_WASH_START)
+			{	
+				machineMng.updateStatus(sn, 2);
+			}
+			else
+			{
+				machineMng.updateStatus(sn, 1);
+			}
 			//add push code
-			//washAnswer.getMsgType()=ProtocolConsts.MSGTYPE_WASH_START-洗涤开始 
-			//washAnswer.getMsgType()=ProtocolConsts.MSGTYPE_WASH_OVER-洗涤结束
+			
 		}
 	}
 
@@ -134,11 +156,9 @@ public class ServerHandler extends IoHandlerAdapter {
 	 			String value = mapentry_deviceiomap.getValue().toString();
 	 			if(value.equals(session.toString())){
 	 				deviceIoMap.remove(sn);
-	 				//RedisOnline redisOnline=new RedisOnline(sn,(int)ProtocolConsts.DEVICE_OFFLINE);//设备离线
-	 				//redisMng.pushOnlineList(redisOnline);
-	 				//String time=new SimpleDateFormat(ProtocolConsts.LOCAL_DATE_PATTEN).format(new Date());//时间
-	 				//RedisGatewayLog redisGatewayLog=new RedisGatewayLog(sn, (int)ProtocolConsts.DEVICE_OFFLINE, "设备离线", time);
-	 				//redisMng.pushGatewayLogList(redisGatewayLog);
+	 				String time=new SimpleDateFormat(ProtocolConsts.LOCAL_DATE_PATTEN).format(new Date());//时间
+	 				RedisWasherLog redisWasherLog=new RedisWasherLog(sn, (int)ProtocolConsts.DEVICE_OFFLINE, "设备离线", time);
+	 				redisMng.pushWasherLogList(redisWasherLog);
 	 				break;
 	 			}
 	 		}  
@@ -172,7 +192,7 @@ public class ServerHandler extends IoHandlerAdapter {
 	* @return: void
 	* @throws
 	 */
-	private   void checkDeviceOnline(String sn,IoSession session)
+	private void checkDeviceOnline(String sn,IoSession session)
 	{
 		synchronized (ServerHandler.deviceIoMap) {
 			
@@ -181,11 +201,9 @@ public class ServerHandler extends IoHandlerAdapter {
 			{  
 				logger.info(session.toString());
 				ServerHandler.getDeviceIoMap().put(sn, session);//关联设备ID和通道
-				//RedisOnline redisOnline=new RedisOnline(sn,(int)ProtocolConsts.DEVICE_ONLINE);//设备在线
-				//redisMng.pushOnlineList(redisOnline);
-				//String time=new SimpleDateFormat(ProtocolConsts.LOCAL_DATE_PATTEN).format(new Date());//时间
-				//RedisGatewayLog redisGatewayLog=new RedisGatewayLog(sn, (int)ProtocolConsts.DEVICE_ONLINE, "设备上线", time);
-				//redisMng.pushGatewayLogList(redisGatewayLog);
+				String time=new SimpleDateFormat(ProtocolConsts.LOCAL_DATE_PATTEN).format(new Date());//时间
+				RedisWasherLog redisWasherLog=new RedisWasherLog(sn, (int)ProtocolConsts.DEVICE_ONLINE, "设备上线", time);
+				redisMng.pushWasherLogList(redisWasherLog);
 			}	
 		}
 	}

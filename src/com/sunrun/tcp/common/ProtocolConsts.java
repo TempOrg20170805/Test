@@ -49,6 +49,16 @@ public class ProtocolConsts {
 	public static final byte[] PACKET_HEADER = { (byte) 0x53, (byte) 0x4A};
 	
 	/**
+	 * 设备在线
+	 */
+	public static final byte DEVICE_ONLINE = 0x01;
+	/**
+	 * 设备离线
+	 */
+	public static final byte DEVICE_OFFLINE = 0x00;
+	
+	
+	/**
 	* @ClassName: ProtocolField  
 	* @Description: 协议字段在数据包中位置常量枚举类  
 	* @author HL  

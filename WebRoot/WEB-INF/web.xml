@@ -13,10 +13,10 @@
 			/WEB-INF/config/jeecms/jeecore-context.xml
 			/WEB-INF/config/jeecms/jeecms-context.xml
 			/WEB-INF/config/jeecms/sunrun-context.xml
-			
 			/WEB-INF/config/shiro-context.xml
 			/WEB-INF/config/plug/**/*-context.xml
 			/WEB-INF/config/quartz-task.xml
+			/WEB-INF/config/mina.xml
 		</param-value>
 	</context-param>
 	<filter>

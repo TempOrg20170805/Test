@@ -1,10 +1,15 @@
 package com.sunrun.washer.manager.impl;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jeecms.common.hibernate4.Updater;
@@ -46,6 +51,11 @@ public class MachineMngImpl implements MachineMng{
 	private MachineMng machineMng;
 	@Autowired
 	private FloorLayerMng floorLayerMng;
+	
+	/**
+	 * logback打印日志，打印等级配置在logback.xml文件
+	 */
+	private static Logger logger = LoggerFactory.getLogger(MachineMngImpl.class); 
 	
 	@Override
 	public Pagination queryMachineByModel(MachineModel machineModel, Integer pageNo, Integer pageSize) {
@@ -146,6 +156,42 @@ public class MachineMngImpl implements MachineMng{
 	@Override
 	public List<Machine> queryMachineByFloorLayer(Integer floorLayerId) {
 		return machineDao.queryMachineByFloorLayer(floorLayerId);
+	}
+
+	@Override
+	@Transactional(value="transactionManager",propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
+	public Integer updateOnline(Map<String, Integer> onlineMap) {
+		// TODO Auto-generated method stub
+		int result=0;
+		try {
+			Iterator<Map.Entry<String,Integer>> ite_online = onlineMap.entrySet().iterator();
+			while (ite_online.hasNext()) {
+				Map.Entry<String,Integer> mapentry_online =ite_online.next();
+				String sn =  mapentry_online.getKey().toString();
+				Integer online = mapentry_online.getValue();
+				result=machineDao.updateOnline(sn, online);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("MachineMngImpl-updateOnline", e);
+		}
+		return result;
+	}
+
+	@Override
+	@Transactional(value="transactionManager",propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
+	public Integer updateStatus(String sn, Integer status) {
+		// TODO Auto-generated method stub
+		int result=0;
+		try 
+		{
+			result=machineDao.updateStatus(sn, status);
+				
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("MachineMngImpl-updateStatus", e);
+		}
+		return result;
 	}
 
 

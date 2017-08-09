@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-6-28 16:39:07 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping package="com.sunrun.washer.entity">
+    <class name="WasherLog" table="washer_log">
+        <id name="id" type="java.lang.Integer" length="11">
+            <column name="id" />
+            <generator class="identity" />
+        </id> 
+        <property name="sn" type="java.lang.String" length="12">
+            <column name="sn">
+           		 <comment>设备序列号</comment>
+            </column>
+        </property>
+        <property name="log" type="java.lang.String" length="10">
+            <column name="log">
+           		 <comment>设备日志(在线、离线)</comment>
+            </column>
+        </property>
+        <property name="time" type="java.util.Date">
+            <column name="time" >
+            	<comment>时间</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

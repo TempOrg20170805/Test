@@ -9,8 +9,9 @@
          </id>
          <property name="name" column="name" type="java.lang.String" length="255"/>
          <property name="type" column="type" type="java.lang.String" length="255"/>
-         <property name="machineNo" column="machine_no" type="java.lang.String" not-null="true" length="100"/>
-         <property name="status" column="status" type="java.lang.Integer" not-null="true" length="3"/>
+         <property name="machineNo" column="machine_no" type="java.lang.String" not-null="true" length="12"/>
+         <property name="online" column="online" type="java.lang.Integer" not-null="true" length="1"/>
+         <property name="status" column="status" type="java.lang.Integer" not-null="true" length="1"/>
          <property name="floorLayerX" column="floor_layer_x" type="java.lang.Integer" length="3"/>
          <property name="floorLayerY" column="floor_layer_y" type="java.lang.Integer" length="3"/>
          <property name="createTime" column="create_time" type="java.sql.Timestamp" length="19"/>

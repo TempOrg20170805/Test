@@ -142,32 +142,17 @@
     	<appender-ref ref="STDOUT_CODE" /> 
 	</logger>
 	
-	<logger name="com.sunrun.tcp.database.dao.impl" level="ERROR" additivity="false">  
+	<logger name="com.sunrun.tcp.task" level="DEBUG" additivity="false">  
     	<appender-ref ref="FILE" /> 
     	<appender-ref ref="STDOUT_CODE" /> 
 	</logger>
 	
-	<logger name="com.sunrun.tcp.database.manager.impl" level="ERROR" additivity="false">  
+	<logger name="com.sunrun.tcp.mina" level="DEBUG" additivity="false">  
     	<appender-ref ref="FILE" /> 
     	<appender-ref ref="STDOUT_CODE" /> 
 	</logger>
 	
-	<logger name="com.sunrun.tcp.handler" level="DEBUG" additivity="false">  
-    	<appender-ref ref="FILE" /> 
-    	<appender-ref ref="STDOUT_CODE" /> 
-	</logger>
-	
-	<logger name="com.sunrun.tcp.codefactory" level="DEBUG" additivity="false">  
-    	<appender-ref ref="FILE" /> 
-    	<appender-ref ref="STDOUT_CODE" /> 
-	</logger>
-	
-	<logger name="com.sunrun.tcp.handler" level="INFO" additivity="false">  
-    	<appender-ref ref="FILE" /> 
-    	<appender-ref ref="STDOUT_CODE" /> 
-	</logger>
-	
-	<logger name="com.sunrun.tcp.redis" level="ERROR" additivity="false">  
+	<logger name="com.sunrun.tcp.redis" level="DEBUG" additivity="false">  
     	<appender-ref ref="FILE" /> 
     	<appender-ref ref="STDOUT_CODE" /> 
 	</logger>

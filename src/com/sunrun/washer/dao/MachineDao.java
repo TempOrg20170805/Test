@@ -1,7 +1,6 @@
 package com.sunrun.washer.dao;
 import com.sunrun.washer.model.*;import com.sunrun.washer.entity.*;
 
-
 import java.util.List;
 
 import com.jeecms.common.page.Pagination;
@@ -62,7 +61,31 @@ public interface MachineDao {
      */
 	public Machine findById(Integer machineId);
 
+	/**
+	* @author: HL
+	* @date: 2017年08月08日 下午4:02:14
+	* @function: updateOnline  
+	* @Description: 更新洗衣机在线离线状态
+	* @param: @param sn  设备序列号
+	* @param: @param online 设备在线离线状态 1-在线 0-离线
+	* @param: @return
+	* @return: int
+	* @throws
+	 */
+	public Integer updateOnline(String sn,Integer online);
 	
+	/**
+	* @author: HL
+	* @date: 2017年8月9日 下午3:02:44
+	* @function: updateStatus  
+	* @Description: 更新洗衣机工作状态
+	* @param: @param sn
+	* @param: @param status
+	* @param: @return
+	* @return: Integer
+	* @throws
+	 */
+	public Integer updateStatus(String sn,Integer status);
 
 }
 

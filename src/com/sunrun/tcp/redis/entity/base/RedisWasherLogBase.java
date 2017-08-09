@@ -19,7 +19,7 @@ public abstract class RedisWasherLogBase implements Serializable{
 	/**
 	 * 设备ID
 	 */
-	private String id;
+	private String sn;
 	/**
 	 * 设备日志类型：0-离线 1-上线
 	 */
@@ -33,20 +33,20 @@ public abstract class RedisWasherLogBase implements Serializable{
 	 */
 	private String time;
 	
-	public RedisWasherLogBase(String id, Integer type, String log, String time) {
+	public RedisWasherLogBase(String sn, Integer type, String log, String time) {
 		super();
-		this.id = id;
+		this.sn = sn;
 		this.type = type;
 		this.log = log;
 		this.time = time;
 	}
 
-	public String getId() {
-		return id;
+	public String getSn() {
+		return sn;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setId(String sn) {
+		this.sn = sn;
 	}
 
 	public Integer getType() {

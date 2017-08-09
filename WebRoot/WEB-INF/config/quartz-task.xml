@@ -27,6 +27,18 @@
 		<property name="jobDetail" ref="siteDayJobDetail" />
 		<property name="cronExpression" value="0 0 0 * * ?" />
 	</bean>
+	
+	<!-- 检测数据库存储线程是否挂掉的定时任务 每隔5分钟执行一次-->
+	<bean id="databaseThreadJob" class="com.sunrun.tcp.task.DatabaseThreadCheck"></bean>
+	<bean id="databaseThreadJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="databaseThreadJob" />
+		<property name="targetMethod" value="execute" />
+	</bean>
+	<bean id="databaseThreadJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="databaseThreadJobDetail" />
+		<property name="cronExpression" value="0 0/5 * * * ?" />
+	</bean>
+	
 	<!-- 调度器 -->
     <bean name="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> 
        <!-- 通过applicationContextSchedulerContextKey属性配置spring上下文 -->    
@@ -36,7 +48,8 @@
         <property name="triggers">  
 			<list>   
 				<ref bean="contentDayJobTrigger" /> 
-				<ref bean="siteDayJobTrigger" />   
+				<ref bean="siteDayJobTrigger" /> 
+				<ref bean="databaseThreadJobTrigger" />    
 			</list> 
 		</property> 
     	<property name="taskExecutor" ref="executor" /> 

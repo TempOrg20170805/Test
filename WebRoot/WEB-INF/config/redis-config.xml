@@ -43,5 +43,5 @@
     
     <context:component-scan base-package="com.sunrun.tcp.redis.manager.impl" />
     
-    <context:component-scan base-package="com.sunrun.tcp.handler" />
+    <context:component-scan base-package="com.sunrun.tcp.task" />
 </beans>
