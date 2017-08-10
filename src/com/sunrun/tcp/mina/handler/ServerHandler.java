@@ -171,6 +171,7 @@ public class ServerHandler extends IoHandlerAdapter {
 	 				String time=new SimpleDateFormat(ProtocolConsts.LOCAL_DATE_PATTEN).format(new Date());//时间
 	 				RedisWasherLog redisWasherLog=new RedisWasherLog(sn, (int)ProtocolConsts.DEVICE_OFFLINE, "设备离线", time);
 	 				redisMng.pushWasherLogList(redisWasherLog);
+	 				machineMng.updateStatus(sn, 3);
 	 				break;
 	 			}
 	 		}  
