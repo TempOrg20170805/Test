@@ -103,7 +103,7 @@ public class ServerHandler extends IoHandlerAdapter {
 		else if(message instanceof WashAnswer){//洗涤响应
 			logger.info("洗涤响应数据");
 			WashAnswer washAnswer=(WashAnswer)message;
-			String sn=DataUtils.bytesToHexString(washAnswer.getDeviceId(),1);
+			String sn=DataUtils.bytesToHexString(washAnswer.getDeviceId(),1);//设备序列号
 			if(washAnswer.getMsgType()==ProtocolConsts.MSGTYPE_WASH_START)//设备响应洗涤开始
 			{	
 				machineMng.updateStatus(sn, 2);
