@@ -258,5 +258,28 @@ public class DataUtils {
 		| ((res[2] << 24) >>> 8) | (res[3] << 24);   
 		return targets;   
 	}   
+	 
+	 /**
+	 * @author: HL
+	 * @date: 2017年8月10日 下午2:23:18
+	 * @function: XOR  
+	 * @Description: 对data数据每个字节进行异或 
+	 * @param: @param data
+	 * @param: @return
+	 * @return: byte
+	 * @throws
+	  */
+	public static byte XOR(byte[] data)
+	{
+		byte chkcode=0x00;
+		try 
+		{
+			for(int i=0;i<data.length;i++)
+				chkcode=(byte) (data[i]^chkcode);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return chkcode;
+	}
 	
 }

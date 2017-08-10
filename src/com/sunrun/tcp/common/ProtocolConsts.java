@@ -34,9 +34,13 @@ public class ProtocolConsts {
 	 */
 	public final static int PACKAGE_HEARTBEAT_LEN=0x0B;
 	/**
-	 *开始洗涤数据包长度
+	 *设备端洗涤响应数据包长度
 	 */
-	public final static int PACKAGE_WASHRESP_LEN=0x0D;
+	public final static int PACKAGE_WASHANSWER_LEN=0x0D;
+	/**
+	 *服务端指令下发数据包长度
+	 */
+	public final static int PACKAGE_WASHORDER_LEN=0x0B;
 	
 	 /**
      * 本地东八区北京时间时间戳格式

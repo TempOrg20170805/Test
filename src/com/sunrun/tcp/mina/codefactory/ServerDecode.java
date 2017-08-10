@@ -73,7 +73,7 @@ public class ServerDecode extends CumulativeProtocolDecoder {
 				byte lenght=in.get();
 				/*检验数据包头效验码、数据包长度是否合法有效*/
 				if(Arrays.equals(header, ProtocolConsts.PACKET_HEADER) 
-				  && (lenght == ProtocolConsts.PACKAGE_HEARTBEAT_LEN ||lenght == ProtocolConsts.PACKAGE_WASHRESP_LEN) )
+				  && (lenght == ProtocolConsts.PACKAGE_HEARTBEAT_LEN ||lenght == ProtocolConsts.PACKAGE_WASHANSWER_LEN) )
 				{
 					in.reset(); // IoBuffer position回到原来标记的地方 
 					/*未接受到一个完整的数据包，则不读取本次IoBuffer中数据*/
@@ -142,7 +142,7 @@ public class ServerDecode extends CumulativeProtocolDecoder {
 			{
 				case ProtocolConsts.MSGTYPE_WASH_START://开始洗涤
 				case ProtocolConsts.MSGTYPE_WASH_OVER://洗涤结束
-					if(ProtocolConsts.PACKAGE_WASHRESP_LEN==length)//检测数据包是否合法
+					if(ProtocolConsts.PACKAGE_WASHANSWER_LEN==length)//检测数据包是否合法
 					{
 						/*预留数据*/
 						byte[] reserve=new byte[ProtocolConsts.ProtocolField.RESERVE.getLen()];

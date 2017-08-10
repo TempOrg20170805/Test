@@ -18,6 +18,7 @@ import com.sunrun.tcp.common.DataUtils;
 import com.sunrun.tcp.common.ProtocolConsts;
 import com.sunrun.tcp.mina.entity.HeartBeat;
 import com.sunrun.tcp.mina.entity.WashAnswer;
+import com.sunrun.tcp.mina.entity.WashOrder;
 import com.sunrun.tcp.redis.entity.RedisWasherLog;
 import com.sunrun.tcp.redis.manager.RedisMng;
 import com.sunrun.washer.manager.MachineMng;
@@ -96,7 +97,6 @@ public class ServerHandler extends IoHandlerAdapter {
 			//暂时不需要处理，直接忽略
 	    	logger.debug("心跳包");	
 	    	HeartBeat heartBeat=(HeartBeat)message;
-			//session.write(heartBeat);
 			String sn=DataUtils.bytesToHexString(heartBeat.getDeviceId(),1);
 			checkDeviceOnline(sn,session);
 		}
@@ -112,6 +112,14 @@ public class ServerHandler extends IoHandlerAdapter {
 			{
 				machineMng.updateStatus(sn, 1);
 			}
+			//响应设备端
+			byte[] data=new byte[ProtocolConsts.PACKAGE_WASHORDER_LEN-1];
+			System.arraycopy(data, ProtocolConsts.ProtocolField.HEADER.getPos(), washAnswer.getHeader(), 0,washAnswer.getHeader().length);
+			System.arraycopy(data, ProtocolConsts.ProtocolField.PACKAGE_LEN.getPos(), ProtocolConsts.PACKAGE_WASHORDER_LEN, 0,1);
+			System.arraycopy(data, ProtocolConsts.ProtocolField.DEVICEID.getPos(), washAnswer.getDeviceId(), 0,washAnswer.getDeviceId().length);
+			System.arraycopy(data, ProtocolConsts.ProtocolField.MSGTYPE.getPos(), washAnswer.getMsgType(), 0,1);
+			WashOrder washOrder=new WashOrder(washAnswer.getHeader(), (byte)ProtocolConsts.PACKAGE_WASHORDER_LEN, washAnswer.getDeviceId(), washAnswer.getMsgType(), DataUtils.XOR(data));
+			session.write(washOrder);
 			//add push code
 			//washAnswer.getMsgType()值为设备响应类型
 			//washAnswer.getMsgType()==ProtocolConsts.MSGTYPE_WASH_START 开始洗涤
