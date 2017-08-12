@@ -7,7 +7,7 @@ import java.util.Date;
 import com.jeecms.core.entity.CmsUser;
 import com.sunrun.common.util.DateUtil;
 import com.sunrun.washer.entity.Machine;
-import com.sunrun.washer.entity.WalletLog.WalletLogPayPlatformEnum;
+import com.sunrun.washer.enums.WalletLogPayPlatformEnum;
 import com.sunrun.washer.enums.WasherOrderStatusEnum;
 
 public class WasherOrderBase implements java.io.Serializable {

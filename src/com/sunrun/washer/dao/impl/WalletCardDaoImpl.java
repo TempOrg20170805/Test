@@ -7,6 +7,7 @@ import com.jeecms.common.hibernate4.Finder;
 import com.jeecms.common.hibernate4.HibernateBaseDao;
 import com.sunrun.washer.dao.WalletCardDao;
 import com.sunrun.washer.entity.WalletCard;
+import com.sunrun.washer.enums.WalletCardStatusEnum;
 import com.sunrun.washer.model.WalletCardModel;
 /**
  * 文 件 名 : WalletCardDaoImpl.java
@@ -69,7 +70,7 @@ public class WalletCardDaoImpl extends HibernateBaseDao<WalletCard, Integer> imp
 	private Finder queryWalletCardBaseFinder(String baseHQL) {
 		Finder finder = Finder.create(baseHQL);
 		finder.append(" and bean.status <> :deleteStatus");
-		finder.setParam("deleteStatus", WalletCard.WalletCardStatusEnum.DELETE.getValue());
+		finder.setParam("deleteStatus", WalletCardStatusEnum.DELETE.getValue());
 		return finder;
 	}
 	

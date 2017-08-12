@@ -27,7 +27,7 @@ import com.sunrun.rest.dto.WalletCardSaveDTO;
 import com.sunrun.rest.dto.WalletCardSaveDTO.WalletCardSaveDTOEnum;
 import com.sunrun.rest.dto.WalletCardWeiXinDTO;
 import com.sunrun.washer.entity.WalletCard;
-import com.sunrun.washer.entity.WalletCard.WalletCardTypeEnum;
+import com.sunrun.washer.enums.WalletCardTypeEnum;
 import com.sunrun.washer.manager.WalletCardMng;
 import com.sunrun.washer.model.WalletCardModel;
 import com.sunrun.washer.model.WalletCardModelSave;
@@ -66,7 +66,7 @@ public class WalletCardController extends BaseController {
 		if (validateQueryWalletCardByModel(walletCardQueryListDTO, getUserId(), walletCardModel)) {
 			walletCardModel.setUserId(getUserId());
 			// 代码：默认搜索所有类型银行卡
-			walletCardModel.setType(WalletCard.WalletCardTypeEnum.ALL.getValue());
+			walletCardModel.setType(WalletCardTypeEnum.ALL.getValue());
 			List<WalletCard> walletCards = (List<WalletCard>) walletCardMng.queryWalletCardListByModel(walletCardModel);
 
 			// 赋值支付宝
@@ -77,17 +77,17 @@ public class WalletCardController extends BaseController {
 			List<WalletCardBankDTO> walletCardBankDTOs = new ArrayList<WalletCardBankDTO>();
 			for (WalletCard walletCard : walletCards) {
 				// 支付宝
-				if (WalletCard.WalletCardTypeEnum.ALIPAY_CARD.getValue().equals(walletCard.getType())) {
+				if (WalletCardTypeEnum.ALIPAY_CARD.getValue().equals(walletCard.getType())) {
 					WalletCardAlipayDTO walletCardAlipayDTO = new WalletCardAlipayDTO(walletCard);
 					walletCardAlipayDTOs.add(walletCardAlipayDTO);
 				} 
 				// 微信
-				else if (WalletCard.WalletCardTypeEnum.WEIXIN.getValue().equals(walletCard.getType())) {
+				else if (WalletCardTypeEnum.WEIXIN.getValue().equals(walletCard.getType())) {
 					WalletCardWeiXinDTO walletCardWeiXinDTO = new WalletCardWeiXinDTO(walletCard);
 					walletCardWeiXinDTOs.add(walletCardWeiXinDTO);
 				}
 				// 银行
-				else if (WalletCard.WalletCardTypeEnum.BANK_CARD.getValue().equals(walletCard.getType())) {
+				else if (WalletCardTypeEnum.BANK_CARD.getValue().equals(walletCard.getType())) {
 					WalletCardBankDTO walletCardBankDTO = new WalletCardBankDTO(walletCard);
 					walletCardBankDTOs.add(walletCardBankDTO);
 				}

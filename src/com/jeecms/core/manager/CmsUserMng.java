@@ -14,8 +14,6 @@ import com.jeecms.common.page.Pagination;
 import com.jeecms.core.entity.CmsSite;
 import com.jeecms.core.entity.CmsUser;
 import com.jeecms.core.entity.CmsUserExt;
-import com.sunrun.washer.entity.WalletLog.WalletLogPayPlatformEnum;
-import com.sunrun.washer.entity.WalletLog.WalletLogTypeEnum;
 
 public interface CmsUserMng {
 	public Pagination getPage(Integer realnameStatus,Integer provinceId,Integer cityId,String username, String email, Integer siteId,

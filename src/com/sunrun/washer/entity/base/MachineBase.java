@@ -3,9 +3,8 @@ package com.sunrun.washer.entity.base;
 
 import java.util.Date;
 
-import com.jeecms.core.entity.*;
 import com.sunrun.washer.entity.FloorLayer;
-import com.sunrun.washer.enums.MachineStatus.MachineStatusEnum;
+import com.sunrun.washer.enums.MachineStatusEnum;
 
 public class MachineBase implements java.io.Serializable {
 	
