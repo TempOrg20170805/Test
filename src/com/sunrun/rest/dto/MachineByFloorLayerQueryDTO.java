@@ -36,8 +36,6 @@ public class MachineByFloorLayerQueryDTO extends BaseDTO {
 		}
 		
 	}
-	private Integer pageNo; // 当前页
-	private Integer pageSize; // 每页数据量
 	private Integer totalCount; // 所有数据量
 	private Integer floorLayerId; // 楼层ID
 	private String name; // 楼层名
@@ -47,18 +45,6 @@ public class MachineByFloorLayerQueryDTO extends BaseDTO {
 
 	private List<MachineByFloorLayerDTO> machineDTOs;
 	
-	public Integer getPageNo() {
-		return pageNo;
-	}
-	public void setPageNo(Integer pageNo) {
-		this.pageNo = pageNo;
-	}
-	public Integer getPageSize() {
-		return pageSize;
-	}
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
-	}
 	public Integer getTotalCount() {
 		return totalCount;
 	}
