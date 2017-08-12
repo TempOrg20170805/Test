@@ -85,7 +85,7 @@ public class UserMachineDaoImpl extends HibernateBaseDao<UserMachine, Integer> i
 	}
 	
 	@Override
-	public List<UserMachine> findMachineListByUsers(Integer machineId,
+	public List<UserMachine> findUserMachineListByMachine(Integer machineId,
 			Integer useType) {
 		Finder f = queryUserMachineBaseFinder("select bean from UserMachine bean where 1=1 ");
 

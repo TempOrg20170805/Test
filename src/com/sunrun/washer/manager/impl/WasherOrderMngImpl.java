@@ -59,7 +59,7 @@ public class WasherOrderMngImpl implements WasherOrderMng{
 		WasherOrder bean = new WasherOrder();
 		// 获取买家
 		CmsUser buyer = cmsUserMng.findById(washerOrderModelSave.getUserId());
-		List<UserMachine> usermachines = userMachineMng.findMachineListByUsers(washerOrderModelSave.getMechineId());
+		List<UserMachine> usermachines = userMachineMng.findUserMachineListByMachine(washerOrderModelSave.getMechineId());
 		UserMachine userMachine = usermachines.get(0);
 		// 获取卖家
 		CmsUser seller = userMachine.getCmsUser();

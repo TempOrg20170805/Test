@@ -1,4 +1,6 @@
 package com.sunrun.washer.controller;
+import java.util.List;
+
 import com.sunrun.washer.manager.*;import com.sunrun.washer.model.*;import com.sunrun.washer.entity.*;
 
 
@@ -25,6 +27,8 @@ public class MachineAct {
 
 	@Autowired
 	private MachineMng machineMng;
+	@Autowired
+	private UserMachineMng userMachineMng;
 	
 	/**
 	 * 查询洗衣机管理列表
@@ -75,6 +79,11 @@ public class MachineAct {
 	@RequestMapping(value = "/machine/editMachine.do")
 	public String editMachine(Integer machineId, ModelMap model, HttpServletRequest request) {
 		Machine machine = machineMng.findById(machineId);
+		// 获取原渠道商
+		List<UserMachine>  userMachines = userMachineMng.findUserMachineListByMachine(machineId);
+		if (userMachines != null && userMachines.size() > 0) {
+			model.put("userName", userMachines.get(0).getCmsUser().getUsername());
+		}
 		model.put("bean", machine);
 		return "machine/edit";
 	}

@@ -53,6 +53,6 @@ public interface UserMachineDao {
 	 * @param machineId
 	 * @return
 	 */
-	public List<UserMachine> findMachineListByUsers(Integer machineId, Integer useType);
+	public List<UserMachine> findUserMachineListByMachine(Integer machineId, Integer useType);
 }
 

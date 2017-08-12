@@ -32,6 +32,8 @@ public class MachineController extends BaseController{
 	private CmsUserMng cmsUserMng;
 	@Autowired
 	private FloorLayerMng floorLayerMng;
+	@Autowired
+	private UserMachineMng userMachineMng;
 	/**
 	 * 查询洗衣机管理列表
 	 * @param userId 用户Id

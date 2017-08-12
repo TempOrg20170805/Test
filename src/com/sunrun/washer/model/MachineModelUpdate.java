@@ -14,6 +14,7 @@ public class MachineModelUpdate {
 	private String type; // 洗衣机型号
 	private String machineNo; // 序列号
 	private Integer status; // 状态 0.删除 1.空闲 2.使用中 3.停用
+	private String userName; // 渠道商用户名
 	
 	
 	public Integer getMachineId() {
@@ -46,6 +47,13 @@ public class MachineModelUpdate {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
 	
 
 }

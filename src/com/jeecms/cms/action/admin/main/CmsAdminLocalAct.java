@@ -67,6 +67,30 @@ public class CmsAdminLocalAct extends CmsAdminAbstract {
 
 		return "admin/local/list";
 	}
+	
+	@RequestMapping("/machine/admin_local/v_list.do")
+	public String machineUserList(String queryUsername,Integer pageNo,
+			HttpServletRequest request, ModelMap model) {
+		/*获取省列表*/
+		List<Area> proList = areaMng.findByPareantId(45062);
+		CmsSite site = CmsUtils.getSite(request);
+		CmsUser currUser = CmsUtils.getUser(request);
+		Pagination pagination = manager.getPage(null,null,null,queryUsername, null, site
+				.getId(), null, null, true,
+				currUser.getRank(), null,null,
+				null,cpn(pageNo), CookieUtils
+						.getPageSize(request));
+		List<CmsRole> roleList = cmsRoleMng.getList(currUser.getTopRoleLevel());
+		model.addAttribute("roleList", roleList);
+		model.addAttribute("pagination", pagination);
+		appendQueryParam(model, null,null,queryUsername, null, null, 
+				null, null, null,
+				null);
+		model.addAttribute("groupList", cmsGroupMng.getList());
+		model.addAttribute("proList", proList);
+
+		return "machine/userSelectlist";
+	}
 
 	@RequiresPermissions("admin_local:v_add")
 	@RequestMapping("/admin_local/v_add.do")

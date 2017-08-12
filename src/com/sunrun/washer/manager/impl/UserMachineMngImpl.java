@@ -95,8 +95,9 @@ public class UserMachineMngImpl implements UserMachineMng{
 	}
 
 	@Override
-	public List<UserMachine> findMachineListByUsers(Integer machineId) {
-		return userMachineDao.findMachineListByUsers(machineId, UserMachineUseTypeEnum.USE.getCode());
+	public List<UserMachine> findUserMachineListByMachine(Integer machineId) {
+		
+		return userMachineDao.findUserMachineListByMachine(machineId, UserMachineUseTypeEnum.USE.getCode());
 	}
 }
 

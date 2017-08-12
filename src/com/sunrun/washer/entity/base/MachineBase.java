@@ -12,7 +12,7 @@ public class MachineBase implements java.io.Serializable {
 	private String name; // 洗衣机名称
 	private String type; // 洗衣机型号
 	private String machineNo; // 序列号
-	private Integer online; // 0-离线 1-在线
+	private Integer online = 0; // 0-离线 1-在线
 	private Integer status = 1; // 状态 0.删除 1.空闲 2.使用中 3.停用
 	private FloorLayer floorLayer; // 楼层
 	private Integer floorLayerX; // 楼层位置x
