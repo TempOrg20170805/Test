@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+
+</script>
+</head>
+<body>
+<div class="page-positon ove">
+	<div class="position-div"><@s.m "global.position"/>: <@s.m "function.washerOrder"/> - <@s.m "global.list"/></div>
+</div>
+<div class="body-box">
+<form id="queryForm" action="queryWasherOrderByModel.do" method="post">
+订单编号：<input name="outSn" type="text" value="${washerOrderModel.outSn!}"/>
+洗衣机序列号：<input name="machineNo" type="text" value="${washerOrderModel.machineNo!}"/>
+买家用户名：<input name="buyerName" type="text" value="${washerOrderModel.buyerName!}"/>
+订单状态 :<@p.select style="margin-left:10px" name="orderState" value="${washerOrderModel.orderState!}"  list={"0":"所有订单","10":"未付款","40":"已完成"} />
+<input class="query" type="submit" value="<@s.m "global.query"/>" />
+</form>
+<br/><br/>
+<form id="tableForm" method="post">
+<input type="hidden" name="outSn" value="${washerOrderModel.outSn!}"/>
+<input type="hidden" name="machineNo" value="${washerOrderModel.machineNo!}"/>
+<input type="hidden" name="buyerName" value="${washerOrderModel.buyerName!}"/>
+<input type="hidden" name="orderState" value="${washerOrderModel.orderState!}"/>
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table listAction="queryWasherOrderByModel.do" value=pagination;bean,i,has_next><#rt/>
+	<@p.column title="ID" align="center">${bean.orderId}</@p.column><#t/>
+	<@p.column title="订单状态" align="center">${bean.orderStateStr!}</@p.column><#t/> 
+	<@p.column title="买家姓名" align="center">${bean.buyer.username!}</@p.column><#t/>
+	<@p.column title="序列号" align="center">${bean.machineNo!}</@p.column><#t/>
+	<@p.column title="订单编号" align="center">${bean.outSn!}</@p.column><#t/>  
+	<@p.column title="订单总价格" align="center">${bean.orderAmount!}</@p.column><#t/> 
+	<@p.column title="订单生成时间" align="center">${bean.addTime?string("yyyy-MM-dd HH:mm:ss")}</@p.column><#t/> 
+	<@p.column title="订单完成时间" align="center">${(bean.finnshedTime?string("yyyy-MM-dd HH:mm:ss"))!}</@p.column><#t/> 
+	<@p.column code="global.operate" align="center">
+		<a href="../washerOrder/viewWasherOrder.do?washerOrderId=${bean.orderId}" class="pn-opt"><@s.m "global.view"/></a>
+	</@p.column><#t/>
+</@p.table>
+<div style="background:url(${base}/res/common/img/theme/boxTitleBG.jpg) repeat-x; height:20px; overflow:hidden;">
+</div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>
+
