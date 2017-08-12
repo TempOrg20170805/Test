@@ -1,4 +1,6 @@
 package com.sunrun.washer.dao.impl;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
@@ -81,6 +83,24 @@ public class UserMachineDaoImpl extends HibernateBaseDao<UserMachine, Integer> i
 		// finder.append(" and bean.status <> 0");
 		return finder;
 	}
+	
+	@Override
+	public List<UserMachine> findMachineListByUsers(Integer machineId,
+			Integer useType) {
+		Finder f = queryUserMachineBaseFinder("select bean from UserMachine bean where 1=1 ");
 
+		if (machineId != null) {
+			f.append(" and bean.machine.machineId =:machineId");
+			f.setParam("machineId", machineId);
+		}
+		
+		if (useType != null) {
+			f.append(" and bean.useType = :useType");
+			f.setParam("useType", useType);
+		}
+
+		f.append(" order by bean.machine.createTime desc");
+		return find(f);
+	}
 }
 

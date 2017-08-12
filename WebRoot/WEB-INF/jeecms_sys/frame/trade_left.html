@@ -68,9 +68,13 @@ h3{ padding:0; margin:0; font-weight:normal; font-size:12px;}
 	</div>
 	<div class="w229">
 	<ol>
+	<@cms_perm url="../washerOrder/queryWasherOrderByModel.do">
+		<li class="leftCurr"><a href="../washerOrder/queryWasherOrderByModel.do" target="rightFrame"><@s.m 'function.washerOrder'/></a></li>
+	</@cms_perm>
 	<@cms_perm url="../machine/queryMachineByModel.do">
 		<li class="leftCurr"><a href="../walletCashOut/queryWalletCashOutByModel.do" target="rightFrame"><@s.m 'cms.function.walletCashOut'/></a></li>
 	</@cms_perm>
+
 	</ol>
 	</div>
 </div>

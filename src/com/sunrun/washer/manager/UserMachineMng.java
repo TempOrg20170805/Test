@@ -66,5 +66,11 @@ public interface UserMachineMng {
 	public UserMachine findById(Integer id);
 
 
+	/**
+	 * 获取拥有该洗衣机的用户列表
+	 * @param machineId
+	 * @return
+	 */
+	public List<UserMachine> findMachineListByUsers(Integer machineId);
 }
 

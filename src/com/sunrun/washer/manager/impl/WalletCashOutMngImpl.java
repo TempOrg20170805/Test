@@ -14,6 +14,7 @@ import com.sunrun.washer.entity.WalletCard;
 import com.sunrun.washer.entity.WalletCard.WalletCardTypeEnum;
 import com.sunrun.washer.entity.WalletCashOut;
 import com.sunrun.washer.entity.WalletCashOut.WalletCashOutStateEnum;
+import com.sunrun.washer.entity.WalletLog.WalletLogPayPlatformEnum;
 import com.sunrun.washer.entity.WalletLog.WalletLogTypeEnum;
 import com.sunrun.washer.manager.WalletCardMng;
 import com.sunrun.washer.manager.WalletCashOutMng;
@@ -76,7 +77,7 @@ public class WalletCashOutMngImpl implements WalletCashOutMng{
 	public WalletCashOut updateWalletCashOut(WalletCashOutModelUpdate walletCashOutModelUpdate) {
 		WalletCashOut walletCashOut = findById(walletCashOutModelUpdate.getWalletCashOutId());
 		if (WalletCashOutStateEnum.SUCCESS.getValue().equals(walletCashOutModelUpdate.getState())) {
-			cmsUserMng.updateMoney(walletCashOut.getJcUser().getId(), walletCashOut.getMoney().negate(), WalletLogTypeEnum.CASHOUT.getCode(),  WalletLogTypeEnum.CASHOUT.getDescribe());
+			cmsUserMng.updateMoney(walletCashOut.getJcUser().getId(), walletCashOut.getMoney().negate(), WalletLogTypeEnum.CASHOUT.getCode(), WalletLogPayPlatformEnum.WALLET.getCode(),WalletLogTypeEnum.CASHOUT.getDescribe());
 		}
 		walletCashOut.setState(walletCashOutModelUpdate.getState());
 		walletCashOut.setHandleTime(new Date());

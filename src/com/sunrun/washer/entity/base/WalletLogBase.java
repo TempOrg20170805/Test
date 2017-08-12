@@ -17,7 +17,7 @@ public abstract class WalletLogBase  implements java.io.Serializable {
     // Fields    
 	private java.lang.Integer id;
 	private com.jeecms.core.entity.CmsUser jcUser; // 用户ID
-	private java.lang.Integer type; // 交易类型 1.运费付款
+	private java.lang.Integer type; // 交易类型  1.提现 2.收入
 	private Integer payPlatform; // 交易平台 1.钱包平台 2.支付宝平台 3.微信平台 4.银行卡平台
 	private BigDecimal money; // 交易金额
 	private java.util.Date time = new Date(); // 交易时间

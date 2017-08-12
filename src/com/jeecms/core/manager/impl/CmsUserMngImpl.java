@@ -517,10 +517,8 @@ public class CmsUserMngImpl implements CmsUserMng {
 	}
 
 	@Override
-	public CmsUser updateMoney(Integer id, BigDecimal changeMoney, Integer type,
+	public CmsUser updateMoney(Integer id, BigDecimal changeMoney, Integer type, Integer platform,
 			String logMsg) {
-		
-		
 		CmsUser jcUser = findById(id);
 		
 		// 赋值金额前后
@@ -532,7 +530,7 @@ public class CmsUserMngImpl implements CmsUserMng {
 		updateAdmin(jcUser);
 		moneyAfter = jcUser.getMoney();
 		// 日志添加
-		walletLogMng.saveWalletLog(new WalletLogModelSave(jcUser.getId(),type, WalletLogPayPlatformEnum.WALLET.getValue(), changeMoney, logMsg, moneyBefore, moneyAfter));
+		walletLogMng.saveWalletLog(new WalletLogModelSave(jcUser.getId(),type, platform, changeMoney, logMsg, moneyBefore, moneyAfter));
 		return jcUser;
 	}
 	

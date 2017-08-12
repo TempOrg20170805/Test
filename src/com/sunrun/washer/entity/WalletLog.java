@@ -27,7 +27,11 @@ public class WalletLog extends WalletLogBase implements java.io.Serializable {
 		/**
 		 * 1.提现
 		 */
-		CASHOUT(1, "提现")
+		CASHOUT(1, "提现"),
+		/**
+		 * 2.收入
+		 */
+		INCOME(2, "收入")
 		;
 		private Integer code;
 	    private String describe;
@@ -53,7 +57,7 @@ public class WalletLog extends WalletLogBase implements java.io.Serializable {
 	        return stateList;
 	    }
 		
-		public static WalletLogTypeEnum getContains(Integer code) {
+		public static WalletLogTypeEnum getEnumByCode(Integer code) {
 	        for (WalletLogTypeEnum item : WalletLogTypeEnum.values()) {
 	        	if(code.equals(item.getCode())){
 	        		return item;
@@ -105,26 +109,53 @@ public class WalletLog extends WalletLogBase implements java.io.Serializable {
 		 */
 		BANK_CARD(4, "银行卡")
 		;
-		private Integer value;
-		private String name;
+		private Integer code;
+	    private String describe;
+
+	    private WalletLogPayPlatformEnum(Integer code, String describe) {
+	        this.code = code;
+	        this.describe = describe;
+	    }
+	    
+	    public static Map<Integer, String> getMap() {
+	        Map<Integer,String> map = new HashMap<Integer,String>();
+	        for (WalletLogPayPlatformEnum item : WalletLogPayPlatformEnum.values()) {
+	            map.put(item.getCode(), item.getDescribe());
+	        }
+	        return map;
+	    }
+
+		public static List<WalletLogPayPlatformEnum> getList() {
+	        List<WalletLogPayPlatformEnum> stateList = new ArrayList<WalletLogPayPlatformEnum>();
+	        for (WalletLogPayPlatformEnum item : WalletLogPayPlatformEnum.values()) {
+	            stateList.add(item);
+	        }
+	        return stateList;
+	    }
 		
-		public Integer getValue() {
-			return value;
+		public static WalletLogPayPlatformEnum getEnumByCode(Integer code) {
+	        for (WalletLogPayPlatformEnum item : WalletLogPayPlatformEnum.values()) {
+	        	if(code.equals(item.getCode())){
+	        		return item;
+	        	}
+	        }
+	        return null;
+	    }
+
+		public Integer getCode() {
+			return code;
 		}
-		public String getName() {
-			return name;
+
+		public void setCode(Integer code) {
+			this.code = code;
 		}
-		private WalletLogPayPlatformEnum(Integer value, String name) {
-			this.value = value;
-			this.name = name;
+
+		public String getDescribe() {
+			return describe;
 		}
-		public static String getNameByValue(Integer value) {
-			for (WalletLogPayPlatformEnum orderStatusEnum : WalletLogPayPlatformEnum.values()) {
-				if (orderStatusEnum.getValue().equals(value)) {
-					return orderStatusEnum.getName();
-				}
-			}
-			return "";
+
+		public void setDescribe(String describe) {
+			this.describe = describe;
 		}
 	}
 	

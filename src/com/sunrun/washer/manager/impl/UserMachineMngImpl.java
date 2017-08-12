@@ -1,4 +1,6 @@
 package com.sunrun.washer.manager.impl;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +12,7 @@ import com.jeecms.core.manager.CmsUserMng;
 import com.sunrun.washer.dao.UserMachineDao;
 import com.sunrun.washer.entity.Machine;
 import com.sunrun.washer.entity.UserMachine;
+import com.sunrun.washer.enums.UserMachineUseTypeEnum;
 import com.sunrun.washer.manager.MachineMng;
 import com.sunrun.washer.manager.UserMachineMng;
 import com.sunrun.washer.model.UserMachineModel;
@@ -91,6 +94,9 @@ public class UserMachineMngImpl implements UserMachineMng{
 		return machineMng.updateUserMachineFloorLayerDelete(machineId);
 	}
 
-
+	@Override
+	public List<UserMachine> findMachineListByUsers(Integer machineId) {
+		return userMachineDao.findMachineListByUsers(machineId, UserMachineUseTypeEnum.USE.getCode());
+	}
 }
 
