@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.sunrun.washer.entity">
+    <class name="Trouble" table="washer_trouble">
+         <id name="troubleId" type="java.lang.Integer">
+            <column name="trouble_id" />
+            <generator class="identity" />
+         </id>
+         <property name="troubleReason" column="trouble_reason" type="java.lang.String" not-null="true" length="255"/>
+         <property name="status" column="status" type="java.lang.Integer" not-null="true" length="3"/>
+		<many-to-one name="cmsUser" class="com.jeecms.core.entity.CmsUser" fetch="select" lazy="false">
+		    <column name="user_id"></column>
+		</many-to-one>
+		<many-to-one name="machine" class="com.sunrun.washer.entity.Machine" fetch="select" lazy="false">
+		    <column name="machine_id"></column>
+		</many-to-one>
+		<property name="createTime" column="create_time" type="java.sql.Timestamp" length="19"/>
+		<property name="startTime" column="start_time" type="java.sql.Timestamp" length="19"/>
+		<property name="successTime" column="success_time" type="java.sql.Timestamp" length="19"/>
+    </class>
+</hibernate-mapping>
+

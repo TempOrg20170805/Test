@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#advBgcolor").colorPicker();
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="page-positon ove">
+	<div class="position-div"><@s.m "global.position"/>: <@s.m "function.trouble"/> - <@s.m "global.edit"/></div>
+</div>
+<div class="box-positon ck">
+	<form class="ropt">
+		<input  value="  <@s.m "global.backToList"/>" onclick="javascript:history.go(-1)" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="updateTrouble.do" labelWidth="12">
+	<@p.td colspan="1" width="50" label="故障ID" >${bean.troubleId!}</@p.td> 
+	<@p.td colspan="1" width="50" label="故障原因" >${bean.troubleReason!}</@p.td> <@p.tr/>
+	<@p.td colspan="1" width="50" label="状态" >${bean.statusStr!}</@p.td> 
+	<@p.td colspan="1" width="50" label="用户名" >${bean.cmsUser.username!}</@p.td> <@p.tr/>
+	<@p.td colspan="1" width="50" label="洗衣机序列号" >${bean.machine.machineNo!}</@p.td> 
+	<@p.td colspan="1" width="50" label="创建时间" >${bean.createTime?string('yyyy-MM-dd HH:mm:ss')}</@p.td> <@p.tr/>
+	<@p.td colspan="1" width="50" label="开始维修时间" >${(bean.startTime?string('yyyy-MM-dd HH:mm:ss'))!}</@p.td> 
+	<@p.td colspan="1" width="50" label="维修成功时间" >${(bean.successTime?string('yyyy-MM-dd HH:mm:ss'))!}</@p.td> <@p.tr/>
+<@p.radio width="50" colspan="2" label="维修" name="status" value=1 list={"2":"开始维修", "3":"维修完毕"}/><@p.tr/>
+<@p.td colspan="2"><@p.hidden name="troubleId" value=bean.troubleId/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>
+
