@@ -122,16 +122,32 @@ public class WasherOrderMngImpl implements WasherOrderMng{
 	}
 
 	@Override
-	public WasherOrder paySuccess(Integer washerOrderId) {
-		WasherOrder washerOrder = findById(washerOrderId);
-		washerOrder.setOrderState(WasherOrderStatusEnum.PAY.getCode());
+	public WasherOrder findByOutSn(String outSn) {
+		return washerOrderDao.findByOutSn(outSn);
+	}
+	
+	@Override
+	public WasherOrder paySuccess(String outSn) {
+		WasherOrder washerOrder = washerOrderDao.findByOutSn(outSn);
+		washerOrder.setOrderState(WasherOrderStatusEnum.FINISH.getCode());
 		washerOrder.setPaymentTime(new Date());
 		washerOrder.setFinnshedTime(new Date());
 		updateWasherOrder(washerOrder);
+		// 渠道商增加收入
 		cmsUserMng.updateMoney(washerOrder.getSeller().getId(), washerOrder.getOrderAmount(), WalletLogTypeEnum.INCOME.getCode(), washerOrder.getPayPlatform(), washerOrder.getMachineNo()+"洗衣机收入");
 		// 调用洗衣机开始清洗
-		return null;
+		return washerOrder;
 	}
+
+	@Override
+	public WasherOrder updatePayMsg(Integer wahserOrderId, Integer payPlatform,
+			String payMessage) {
+		WasherOrder washerOrder = findById(wahserOrderId);
+		washerOrder.setPayPlatform(payPlatform);
+		washerOrder.setPayMessage(payMessage);
+		return updateWasherOrder(washerOrder);
+	}
+
 
 
 }

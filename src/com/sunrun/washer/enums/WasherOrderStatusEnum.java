@@ -16,6 +16,7 @@ public enum WasherOrderStatusEnum{
 	NOT_PAY(10, "未付款"),
 	PAY(20,"已付款"),
 	USE(30,"运行中"),
+	FINISH(40,"已完成"),
 	DELETE(90,"删除"),
 	;
 	

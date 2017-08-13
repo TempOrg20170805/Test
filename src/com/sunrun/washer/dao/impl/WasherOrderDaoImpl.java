@@ -94,5 +94,10 @@ public class WasherOrderDaoImpl extends HibernateBaseDao<WasherOrder, Integer> i
 		return finder;
 	}
 
+	@Override
+	public WasherOrder findByOutSn(String outSn) {
+		return findUniqueByProperty("outSn", outSn);
+	}
+
 }
 

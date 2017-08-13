@@ -48,6 +48,12 @@ public interface WasherOrderDao {
      */
 	public WasherOrder findById(Integer washerOrderId);
 
+	/**
+	 * 根据订单号查询
+	 * @param outSn
+	 * @return
+	 */
+	public WasherOrder findByOutSn(String outSn);
 
 }
 

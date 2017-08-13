@@ -51,13 +51,28 @@ public interface WasherOrderMng {
 	 * @return
 	 */
 	public WasherOrder findById(Integer id);
-
+	
+	/**
+	 * 更新支付信息
+	 * @param wahserOrderId 订单ID
+	 * @param payPlatform 支付平台
+	 * @param payMessage 信息
+	 * @return
+	 */
+	public WasherOrder updatePayMsg(Integer wahserOrderId, Integer payPlatform, String payMessage);
+	
+	/**
+	 * 根据订单号查询
+	 * @param outSn
+	 * @return
+	 */
+	public WasherOrder findByOutSn(String outSn);
 
 	/**
 	 * 支付成功
-	 * @param washerOrderId 订单ID
+	 * @param outSn 订单编号
 	 * @return
 	 */
-	public WasherOrder paySuccess(Integer washerOrderId);
+	public WasherOrder paySuccess(String outSn);
 }
 
