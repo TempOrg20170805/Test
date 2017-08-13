@@ -47,7 +47,7 @@ public class WasherOrderController extends BaseController{
 	private MachineMng machineMng;
 
 	/**
-	 * 查询订单管理列表
+	 * 查询订单列表
 	 * @param userId 用户Id
 	 * @param washerOrderModel 订单管理查询条件
 	 * @param pageNo 当前页
@@ -157,7 +157,7 @@ public class WasherOrderController extends BaseController{
 	}
 
 	/**
-	 * 订单管理详情
+	 * 订单详情
 	 * @param userId 
 	 * @param washerOrderId 订单管理Id
 	 * @param request

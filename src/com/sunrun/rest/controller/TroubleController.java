@@ -37,7 +37,7 @@ public class TroubleController extends BaseController{
 	
 
 	/**
-	 * 查询故障管理列表
+	 * 查询故障列表
 	 * @param userId 用户Id
 	 * @param troubleModel 故障管理查询条件
 	 * @param pageNo 当前页
@@ -73,7 +73,7 @@ public class TroubleController extends BaseController{
 	}
 
 	/**
-	 * 添加故障管理
+	 * 添加故障
 	 * @param machineId 洗衣机ID
 	 * @param troubleReason 故障原因
 	 * @param request

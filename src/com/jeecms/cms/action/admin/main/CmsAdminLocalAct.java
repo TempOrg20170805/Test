@@ -24,6 +24,7 @@ import com.jeecms.common.page.Pagination;
 import com.jeecms.common.web.CookieUtils;
 import com.jeecms.common.web.RequestUtils;
 import com.jeecms.core.entity.CmsGroup;
+import com.jeecms.core.entity.CmsGroup.CmsGroupEnum;
 import com.jeecms.core.entity.CmsRole;
 import com.jeecms.core.entity.CmsSite;
 import com.jeecms.core.entity.CmsUser;
@@ -76,7 +77,7 @@ public class CmsAdminLocalAct extends CmsAdminAbstract {
 		CmsSite site = CmsUtils.getSite(request);
 		CmsUser currUser = CmsUtils.getUser(request);
 		Pagination pagination = manager.getPage(null,null,null,queryUsername, null, site
-				.getId(), null, null, true,
+				.getId(), CmsGroupEnum.CANAL.getValue(), null, true,
 				currUser.getRank(), null,null,
 				null,cpn(pageNo), CookieUtils
 						.getPageSize(request));
