@@ -248,6 +248,18 @@ public class MachineMngImpl implements MachineMng{
 		}
 	}
 
+	@Override
+	public Machine updateTroubleStatus(Integer machineId, Integer isTrouble) {
+		Machine machine = findById(machineId);
+		if (isTrouble.equals(1)) {
+			machine.setStatus(MachineStatusEnum.STOP.getCode());
+		}
+		// 注意：此处若故障解除，不需要更新洗衣机的状态，只要设备在线，状态会自动更新。
+		
+		machine.setIsTrouble(isTrouble);
+		return updateMachine(machine);
+	}
+
 
 }
 

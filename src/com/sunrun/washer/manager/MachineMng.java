@@ -103,6 +103,13 @@ public interface MachineMng {
 	* @throws
 	 */
 	public Integer updateStatus(String sn,Integer status);
+	
+	/**
+	 * 更新洗衣机是否故障的状态
+	 * @param machineId 洗衣机ID
+	 * @param isTrouble 是否故障 1.故障 0.正常
+	 */
+	public Machine updateTroubleStatus(Integer machineId, Integer isTrouble);
 
 
 }

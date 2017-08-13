@@ -1,5 +1,6 @@
 package com.sunrun.rest.controller;
-import com.sunrun.rest.dto.*;import com.sunrun.washer.manager.*;import com.sunrun.washer.entity.*;import com.sunrun.washer.model.*;
+import com.sunrun.rest.dto.*;import com.sunrun.washer.manager.*;import com.sunrun.washer.entity.*;import com.sunrun.washer.enums.MachineStatusEnum;
+import com.sunrun.washer.model.*;
 import com.jeecms.core.manager.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -253,6 +254,24 @@ public class MachineController extends BaseController{
 		return true;
 	}
 
+	/**
+	 * 所有洗衣机上线 测试用接口
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/machine/online.json")
+	@ResponseBody	
+	public BaseDTO online(HttpServletRequest request){
+		BaseDTO baseDTO = new BaseDTO();
+		Pagination pagination = machineMng.queryMachineByModel(new MachineModel(), 1, Integer.MAX_VALUE);
+		List<Machine> machines = (List<Machine>) pagination.getList();
+		for (Machine machine : machines) {
+			machineMng.updateStatus(machine.getMachineNo(), MachineStatusEnum.NOT_USE.getCode());
+		}
+		baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+		
+		return baseDTO;
+	}
 
 }
 
