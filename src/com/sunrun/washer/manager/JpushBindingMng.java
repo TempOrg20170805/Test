@@ -9,13 +9,12 @@ import com.sunrun.washer.entity.JpushBinding;
 
 
 /**
- * 
- * @author wangcy
- * @ClassName JpushBindingMng.java
- * @CreateDate  2017-6-26
- * @descrintion  推送绑定业务表
- * @editor 
- * @editDate
+ * 文 件 名 : JpushBindingMng
+ * 创 建 人： 金明明
+ * 日 期：2017-8-13
+ * 修 改 人： 
+ * 日 期： 
+ * 描 述：极光推送绑定
  */
 public interface JpushBindingMng {
 	
@@ -84,7 +83,6 @@ public interface JpushBindingMng {
 	/**
 	 * 消息推送方法
 	 * @CreateDate  2017-5-5
-	 * @author wangcy
 	 * @param type
 	 * @param mark
 	 * @param alarmMsg

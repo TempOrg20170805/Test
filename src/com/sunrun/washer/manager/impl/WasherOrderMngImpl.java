@@ -18,6 +18,7 @@ import com.sunrun.washer.entity.Machine;
 import com.sunrun.washer.entity.Mode;
 import com.sunrun.washer.entity.UserMachine;
 import com.sunrun.washer.entity.WasherOrder;
+import com.sunrun.washer.enums.ModeNoEnum;
 import com.sunrun.washer.enums.WalletLogTypeEnum;
 import com.sunrun.washer.enums.WasherOrderStatusEnum;
 import com.sunrun.washer.manager.ModeMng;
@@ -85,12 +86,18 @@ public class WasherOrderMngImpl implements WasherOrderMng{
 		// 赋值洗衣机信息
 		bean.setMachine(machine);
 		bean.setMachineNo(machine.getMachineNo());
+		bean.setFloorLayerX(machine.getFloorLayerX());
+		bean.setFloorLayerY(machine.getFloorLayerY());
 		// 赋值楼信息
 		bean.setAddressDetail(floor.getAddressDetail());
 		// 赋值楼层信息
 		String floorLayerLocate = floorLayer.getLayer() + "层" + ((machine.getFloorLayerY() - 1) * floorLayer.getLayerX() + machine.getFloorLayerX()) + "机位";
 		bean.setFloorLayerLocate(floorLayerLocate);
+		bean.setLayer(floorLayer.getLayer());
+		bean.setLayerX(floorLayer.getLayerX());
+		bean.setLayerY(floorLayer.getLayerY());
 		// 赋值洗衣机模式信息
+		bean.setModeNo(ModeNoEnum.getContains(mode.getModeId()).getModeNo());
 		bean.setModeName(mode.getName());
 		bean.setModeTime(mode.getModeTime());
 		return washerOrderDao.save(bean);
@@ -136,6 +143,8 @@ public class WasherOrderMngImpl implements WasherOrderMng{
 		// 渠道商增加收入
 		cmsUserMng.updateMoney(washerOrder.getSeller().getId(), washerOrder.getOrderAmount(), WalletLogTypeEnum.INCOME.getCode(), washerOrder.getPayPlatform(), washerOrder.getMachineNo()+"洗衣机收入");
 		// 调用洗衣机开始清洗
+		// 洗衣机洗涤模式编号 washerOrder.getModeNo();
+		// 洗衣机序列号 washerOrder.getMachineNo();
 		return washerOrder;
 	}
 

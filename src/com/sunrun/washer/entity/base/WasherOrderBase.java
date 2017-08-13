@@ -27,8 +27,14 @@ public class WasherOrderBase implements java.io.Serializable {
 	private BigDecimal orderAmount; // 订单总价格
 	private Machine machine; // 洗衣机id
 	private String machineNo; // 序列号
+	private Integer floorLayerX; // 洗衣机位置x
+	private Integer floorLayerY; // 洗衣机位置y
 	private String addressDetail; // 地址
+	private Integer layer; // 第几层
+	private Integer layerX; // 楼层规格x
+	private Integer layerY; // 楼层规格y
 	private String floorLayerLocate; // 楼层位置(机位），格式：**层**机位
+	private Integer modeNo; // 模式编号
 	private String modeName; // 模式名称
 	private Integer modeTime; // 该模式需要的时间（单位秒）
 
@@ -207,9 +213,54 @@ public class WasherOrderBase implements java.io.Serializable {
 			return "";
 		}
 	}
-	
-	
-	
+
+	public Integer getModeNo() {
+		return modeNo;
+	}
+
+	public void setModeNo(Integer modeNo) {
+		this.modeNo = modeNo;
+	}
+
+	public Integer getFloorLayerX() {
+		return floorLayerX;
+	}
+
+	public void setFloorLayerX(Integer floorLayerX) {
+		this.floorLayerX = floorLayerX;
+	}
+
+	public Integer getFloorLayerY() {
+		return floorLayerY;
+	}
+
+	public void setFloorLayerY(Integer floorLayerY) {
+		this.floorLayerY = floorLayerY;
+	}
+
+	public Integer getLayer() {
+		return layer;
+	}
+
+	public void setLayer(Integer layer) {
+		this.layer = layer;
+	}
+
+	public Integer getLayerX() {
+		return layerX;
+	}
+
+	public void setLayerX(Integer layerX) {
+		this.layerX = layerX;
+	}
+
+	public Integer getLayerY() {
+		return layerY;
+	}
+
+	public void setLayerY(Integer layerY) {
+		this.layerY = layerY;
+	}
 	
 }
 

@@ -19,16 +19,13 @@ import com.sunrun.washer.dao.JpushBindingDao;
 import com.sunrun.washer.entity.JpushBinding;
 import com.sunrun.washer.manager.JpushBindingMng;
 
-
-
 /**
- * 
- * @author wangcy
- * @ClassName JpushBindingMngImpl.java
- * @CreateDate  2016-7-6
- * @descrintion  推送绑定业务实现层
- * @editor 
- * @editDate
+ * 文 件 名 : JpushBindingMngImpl
+ * 创 建 人： 金明明
+ * 日 期：2017-8-13
+ * 修 改 人： 
+ * 日 期： 
+ * 描 述：极光推送绑定
  */
 @Service
 @Transactional
@@ -112,49 +109,6 @@ public class JpushBindingMngImpl implements JpushBindingMng {
      */
 	@Override
 	public void JpushMsgSend(byte sendType, String mark) {
-		// TODO Auto-generated method stub
-//		Map<String, String> extras = new HashMap<String, String>();
-//
-//		List<DeviceUser> list = deviceUserMng.queryByMarkAOneMoreTypeList(null,mark);
-//		if(list.size()>0){
-//			for(int i=0;i<list.size();i++){
-//				JpushBinding Jbean=dao.getDeviceJpush(list.get(i).getJcUser().getUsername());
-//				Boolean apns_production;
-//				if(Jbean.getKeyType()!=null&&Jbean.getKeyType()==1){
-//					apns_production=false;
-//				}else {
-//					apns_production=true;
-//				}
-//				if(sendType==0){
-//				       extras.put("msgType", "1");
-//					   extras.put("deviceMark", mark);
-//				   extras.put("deviceName", list.get(i).getDeviceName());
-//					if(Jbean.getPlatform().equals("android")){
-//						 JpushUtils.SendPush(list.get(i).getDeviceName()+"车辆电量过低，请及时查看", "低电量提示",Jbean.getRegistrationId(), extras);	
-//					}else{
-//						 JpushUtils.SendPushIOS(list.get(i).getDeviceName()+"车辆电量过低，请及时查看", "低电量提示",Jbean.getRegistrationId(), extras,apns_production);	 	 
-//					}
-//				}else if(sendType==1){
-//					if(Jbean.getPlatform().equals("android")){
-//						 JpushUtils.SendPush(list.get(i).getDeviceName()+"车辆已断电，请及时查看。", "断电提示",Jbean.getRegistrationId(), null);	
-//					}else{
-//						 JpushUtils.SendPushIOS(list.get(i).getDeviceName()+"车辆已断电，请及时查看。", "断电提示",Jbean.getRegistrationId(), null,apns_production);	 	 
-//					}
-//				}else if(sendType==2){
-//					if(Jbean.getPlatform().equals("android")){
-//						 JpushUtils.SendPush(list.get(i).getDeviceName()+"车辆发生可疑推动，请及时查看", "推动提示",Jbean.getRegistrationId(), extras);	
-//					}else{
-//						 JpushUtils.SendPushIOS(list.get(i).getDeviceName()+"车辆发生可疑推动，请及时查看", "推动提示",Jbean.getRegistrationId(), extras,apns_production);	 	 
-//						 }				
-//			  }else {
-//				  if(Jbean.getPlatform().equals("android")){
-//						 JpushUtils.SendPush(list.get(i).getDeviceName()+"车辆发生未知震动，请及时查看", "震动动提示",Jbean.getRegistrationId(), extras);	
-//					}else{
-//						 JpushUtils.SendPushIOS(list.get(i).getDeviceName()+"车辆发生未知震动，请及时查看", "震动动提示",Jbean.getRegistrationId(), extras,apns_production);	 	 
-//						 }	
-//			}
-//		}
-//		 
-//	}
+
 	}
 }

@@ -19,6 +19,7 @@ import com.sunrun.rest.dto.WasherOrderQueryDTO;
 import com.sunrun.rest.dto.WasherOrderSaveDTO;
 import com.sunrun.rest.dto.WasherOrderUpdateDTO;
 import com.sunrun.washer.entity.WasherOrder;
+import com.sunrun.washer.enums.ModeNoEnum;
 import com.sunrun.washer.manager.MachineMng;
 import com.sunrun.washer.manager.ModeMng;
 import com.sunrun.washer.manager.WasherOrderMng;
@@ -116,7 +117,7 @@ public class WasherOrderController extends BaseController{
 			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
-		if (modeMng.findById(modeId) == null || machineMng.findById(mechineId) == null) {
+		if (modeMng.findById(modeId) == null || machineMng.findById(mechineId) == null || ModeNoEnum.getContains(modeId) == null) {
 			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_VALIDATECODE_NOTEXIST);
 			return false;
 		}

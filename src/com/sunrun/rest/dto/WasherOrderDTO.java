@@ -25,7 +25,6 @@ public class WasherOrderDTO {
 	private BigDecimal orderAmount; // 订单总价格
 	private String machineNo; // 序列号
 	private String addressDetail; // 地址
-	private String floorLayerLocate; // 楼层位置(机位），格式：**层**机位
 	private String modeName; // 模式名称
 	private Integer modeTime; // 该模式需要的时间（单位秒）
 
@@ -47,7 +46,6 @@ public class WasherOrderDTO {
 		this.orderAmount = washerOrder.getOrderAmount();
 		this.machineNo = washerOrder.getMachineNo();
 		this.addressDetail = washerOrder.getAddressDetail();
-		this.floorLayerLocate = washerOrder.getFloorLayerLocate();
 		this.modeName = washerOrder.getModeName();
 		this.modeTime = washerOrder.getModeTime();
 	}
@@ -138,14 +136,6 @@ public class WasherOrderDTO {
 
 	public void setAddressDetail(String addressDetail) {
 		this.addressDetail = addressDetail;
-	}
-
-	public String getFloorLayerLocate() {
-		return floorLayerLocate;
-	}
-
-	public void setFloorLayerLocate(String floorLayerLocate) {
-		this.floorLayerLocate = floorLayerLocate;
 	}
 
 	public String getModeName() {

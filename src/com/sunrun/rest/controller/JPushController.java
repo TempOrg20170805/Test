@@ -46,10 +46,10 @@ public class JPushController extends BaseController{
 		WalletDetailDTO dto = new WalletDetailDTO();
 		if(validatePushTest(dto, super.getUserId())){
 			CmsUser jcUser = cmsUserMng.findById(super.getUserId());
-			/*Map<String, String> extras = new HashMap<String, String>();
+			Map<String, String> extras = new HashMap<String, String>();
 		    extras.put("extrasMsg", extrasMsg);
 		    String registrationId  ="1104a897929ec6b0bb1";
-			JpushUtils.SendPush(jsonStr, "标题", registrationId, extras);*/
+			JpushUtils.SendPush(jsonStr, "标题", registrationId, extras);
 			
 			dto.setState(BaseDTOEnum.API_STATUS_SUCCESS);
 		}
