@@ -20,7 +20,7 @@ public class MachineBase implements java.io.Serializable {
 	private Date createTime = new Date(); // 创建时间
 	private Date useTime = new Date(); // 投放时间
 	private Date baseUpdateTime = new Date(); // 基本数据更新时间 
-
+	private Integer isTrouble = 0;// 是否故障 1故障 0正常 默认0
 	
 	public MachineBase() {
 	}
@@ -119,6 +119,14 @@ public class MachineBase implements java.io.Serializable {
 
 	public void setOnline(Integer online) {
 		this.online = online;
+	}
+
+	public Integer getIsTrouble() {
+		return isTrouble;
+	}
+
+	public void setIsTrouble(Integer isTrouble) {
+		this.isTrouble = isTrouble;
 	}
 
 }

@@ -114,7 +114,8 @@ public class MachineDaoImpl extends HibernateBaseDao<Machine, Integer> implement
 		try {
 			if(!StringUtils.isBlank(sn))
 			{
-				String hql="update Machine set online=:online where machineNo=:sn";
+				// 注意：故障洗衣机不更新状态
+				String hql="update Machine set online=:online where machineNo=:sn and isTrouble <> 1";
 				Query query= getSession().createQuery(hql);
 				query.setParameter("online", online);
 				query.setParameter("sn", sn);
@@ -134,7 +135,8 @@ public class MachineDaoImpl extends HibernateBaseDao<Machine, Integer> implement
 		try {
 			if(!StringUtils.isBlank(sn))
 			{
-				String hql="update Machine set status=:status where machineNo=:sn";
+				// 注意：故障洗衣机不更新状态
+				String hql="update Machine set status=:status where machineNo=:sn and isTrouble <> 1";
 				Query query= getSession().createQuery(hql);
 				query.setParameter("status", status);
 				query.setParameter("sn", sn);
