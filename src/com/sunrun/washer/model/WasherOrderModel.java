@@ -15,6 +15,7 @@ public class WasherOrderModel {
 	private String machineNo; // 洗衣机序列号
 	private String buyerName; //买家用户名
 	private Integer buyerId; // 买家ID
+	private Integer orderByType = 1; // 排序类型 1.创建时间 2.完成时间 默认1
 	public Integer getOrderState() {
 		return orderState;
 	}
@@ -44,6 +45,12 @@ public class WasherOrderModel {
 	}
 	public void setMachineNo(String machineNo) {
 		this.machineNo = machineNo;
+	}
+	public Integer getOrderByType() {
+		return orderByType;
+	}
+	public void setOrderByType(Integer orderByType) {
+		this.orderByType = orderByType;
 	}
 	
 	

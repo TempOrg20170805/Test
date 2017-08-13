@@ -45,12 +45,18 @@ public class WasherOrderDaoImpl extends HibernateBaseDao<WasherOrder, Integer> i
 			f.setParam("orderState", washerOrderModel.getOrderState());
 		}
 		
+	
 		if (washerOrderModel.getBuyerId() !=null) {
 			f.append(" and bean.buyer.id = :buyerId");
 			f.setParam("buyerId", washerOrderModel.getBuyerId());
 		}
 
-		f.append(" order by bean.addTime desc");
+		if (washerOrderModel.getOrderByType().equals(1)) {
+			f.append(" order by bean.addTime desc");
+		} else if (washerOrderModel.getOrderByType().equals(2)) {
+			f.append(" order by bean.finnshedTime desc");
+		}
+		
 		return find(f, pageNo, pageSize);
 	}
 

@@ -21,6 +21,7 @@ import com.sunrun.tcp.mina.entity.WashAnswer;
 import com.sunrun.tcp.mina.entity.WashOrder;
 import com.sunrun.tcp.redis.entity.RedisWasherLog;
 import com.sunrun.tcp.redis.manager.RedisMng;
+import com.sunrun.washer.manager.JpushBindingMng;
 import com.sunrun.washer.manager.MachineMng;
 
 /** 
@@ -46,6 +47,11 @@ public class ServerHandler extends IoHandlerAdapter {
 	 */
 	@Autowired
 	private MachineMng machineMng;
+	/**
+	 * 推送实体类业务层
+	 */
+	@Autowired
+	private JpushBindingMng jpushBindingMng;
 	/**
 	 * 设备ID和通道对应关系
 	 */
@@ -124,7 +130,14 @@ public class ServerHandler extends IoHandlerAdapter {
 			//washAnswer.getMsgType()值为设备响应类型
 			//washAnswer.getMsgType()==ProtocolConsts.MSGTYPE_WASH_START 开始洗涤
 			//washAnswer.getMsgType()==ProtocolConsts.MSGTYPE_WASH_OVER 洗涤完成
-			
+			// 开始洗涤推送
+			if (washAnswer.getMsgType()==ProtocolConsts.MSGTYPE_WASH_START) {
+				jpushBindingMng.JpushMsgSendStart(sn);
+			}
+			// 洗涤完成推送
+			if (washAnswer.getMsgType()==ProtocolConsts.MSGTYPE_WASH_OVER) {
+				jpushBindingMng.JpushMsgSendEnd(sn);
+			}
 			
 		}
 	}

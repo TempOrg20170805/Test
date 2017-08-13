@@ -24,14 +24,7 @@ public interface JpushBindingMng {
 	 * @return
 	 */
 	public JpushBinding findById(Integer id);
-	
-	/**
-	 * 根据group和cityId查询绑定的警员列表
-	 * @param id
-	 * @return
-	 */
-	public List<JpushBinding> findPoliceUserList(Integer groupId,Integer cityId);
-	
+		
 	/**
 	 * 设备绑定添加
 	 * @param bean
@@ -72,20 +65,18 @@ public interface JpushBindingMng {
 	 * @return
 	 */
 	public Boolean isDeviceJpush( String username);
+
+	/**
+	 * 发送推送，开始洗涤
+	 * 注意：这里查询该洗衣机最近的已完成订单当做用户进行推送。
+	 * @param machineNo 洗衣机序列号
+	 */
+	public void JpushMsgSendStart(String machineNo);
 	
 	/**
-	 * 根据 手机Mac、设备Mac查询对象
-	 * @param deviceMac
-	 * @param mobileMac
-	 * @return
+	 * 发送推送，洗涤完成
+	 * 注意：这里查询该洗衣机最近的已完成订单当做用户进行推送。
+	 * @param machineNo 洗衣机序列号
 	 */
-	public JpushBinding getDeviceJpush(String username);
-	/**
-	 * 消息推送方法
-	 * @CreateDate  2017-5-5
-	 * @param type
-	 * @param mark
-	 * @param alarmMsg
-	 */
-	public void JpushMsgSend(byte type,String mark);
+	public void JpushMsgSendEnd(String machineNo);
 }

@@ -1,10 +1,9 @@
 package com.sunrun.washer.manager;
-import com.sunrun.washer.model.*;import com.sunrun.washer.entity.*;
-
-
-import java.util.List;
-
 import com.jeecms.common.page.Pagination;
+import com.sunrun.washer.entity.WasherOrder;
+import com.sunrun.washer.model.WasherOrderModel;
+import com.sunrun.washer.model.WasherOrderModelSave;
+import com.sunrun.washer.model.WasherOrderModelUpdate;
 /**
  * 文 件 名 : WasherOrderMng.java
  * 创 建 人： 金明明
@@ -74,5 +73,12 @@ public interface WasherOrderMng {
 	 * @return
 	 */
 	public WasherOrder paySuccess(String outSn);
+	
+	/**
+	 * 根据洗衣机序列号查询该洗衣机最近已完成的订单
+	 * @param machineNo
+	 * @return
+	 */
+	public WasherOrder queryWasherOrderByMachineNo(String machineNo);
 }
 

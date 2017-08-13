@@ -157,6 +157,20 @@ public class WasherOrderMngImpl implements WasherOrderMng{
 		return updateWasherOrder(washerOrder);
 	}
 
+	@Override
+	public WasherOrder queryWasherOrderByMachineNo(String machineNo) {
+		WasherOrderModel washerOrderModel = new WasherOrderModel();
+		washerOrderModel.setMachineNo(machineNo);
+		washerOrderModel.setOrderState(WasherOrderStatusEnum.FINISH.getCode());
+		washerOrderModel.setOrderByType(2);
+		Pagination pagination = queryWasherOrderByModel(washerOrderModel, 1, 1);
+		if (pagination != null && pagination.getTotalCount() > 0) {
+			return (WasherOrder) pagination.getList().get(0);
+		} else {
+			return null;
+		}
+	}
+
 
 
 }
