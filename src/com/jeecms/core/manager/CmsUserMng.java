@@ -93,10 +93,11 @@ public interface CmsUserMng {
 	 * 钱包变更金额
 	 * @param id 用户Id
 	 * @param changeMoney 金额变更 有正负
-	 * @param payWay 支付方式 (输入类型：WalletLog.WalletLogPayWayEnum)
+	 * @param payWay 支付方式 (输入类型：WalletLog.WalletLogTypeEnum)
+	 * @param payPlatform 交易平台（输入类型：WalletLog.WalletLogPayPlatformEnum）
 	 * @param logMsg 消费日志
 	 * @return
 	 */
-	public CmsUser updateMoney(Integer id, BigDecimal changeMoney, Integer payWay, String logMsg);
+	public CmsUser updateMoney(Integer id, BigDecimal changeMoney, Integer payWay, Integer payPlatform, String logMsg);
 
 }

@@ -5,8 +5,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.jeecms.core.entity.CmsUser;
-import com.sunrun.washer.entity.WalletCard;
-import com.sunrun.washer.entity.WalletCashOut;
+import com.sunrun.washer.enums.WalletCardTypeEnum;
+import com.sunrun.washer.enums.WalletCashOutStateEnum;
 
 /**
  * 文 件 名 : WalletCashOutBase.java
@@ -82,7 +82,7 @@ public abstract class WalletCashOutBase  implements java.io.Serializable {
 	}
 
 	public String getStateStr() {
-		return WalletCashOut.WalletCashOutStateEnum.getNameByValue(state);
+		return WalletCashOutStateEnum.getNameByValue(state);
 	}
 
 	public Integer getCashOutType() {
@@ -95,7 +95,7 @@ public abstract class WalletCashOutBase  implements java.io.Serializable {
 	}
 	
 	public String getCashOutTypeStr() {
-		return WalletCard.WalletCardTypeEnum.getNameByValue(cashOutType);
+		return WalletCardTypeEnum.getNameByValue(cashOutType);
 	}
 
 

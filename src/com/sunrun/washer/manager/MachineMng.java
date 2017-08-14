@@ -84,7 +84,7 @@ public interface MachineMng {
 	* @author: HL
 	* @date: 2017年8月9日 下午2:23:48
 	* @function: updateOnline  
-	* @Description: 更新洗衣机在线离线状态
+	* @Description: 更新洗衣机在线离线状态 注意：故障洗衣机不更新状态
 	* @param: @param onlineMap
 	* @param: @return
 	* @return: Integer
@@ -96,13 +96,20 @@ public interface MachineMng {
 	* @author: HL
 	* @date: 2017年8月9日 下午3:05:23
 	* @function: updateStatus  
-	* @Description: 更新洗衣机工作状态  
+	* @Description: 更新洗衣机工作状态  注意：故障洗衣机不更新状态
 	* @param: @param status
 	* @param: @return
 	* @return: Integer
 	* @throws
 	 */
 	public Integer updateStatus(String sn,Integer status);
+	
+	/**
+	 * 更新洗衣机是否故障的状态
+	 * @param machineId 洗衣机ID
+	 * @param isTrouble 是否故障 1.故障 0.正常
+	 */
+	public Machine updateTroubleStatus(Integer machineId, Integer isTrouble);
 
 
 }

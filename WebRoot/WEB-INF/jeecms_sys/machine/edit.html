@@ -27,10 +27,33 @@ $(function() {
 <@p.text label="洗衣机名称"  name="name" value="${bean.name!}" required="true" class="required" maxlength="255"/>
 <@p.text label="洗衣机型号"  name="type" value="${bean.type!}" required="true" class="required" maxlength="255"/><@p.tr/>
 <@p.text label="序列号"  name="machineNo" value="${bean.machineNo!}" required="true" class="required" maxlength="100"/>
+<@p.text label="渠道商用户名" id="userName" name="userName" value="${userName!}" maxlength="100" onclick="openWin()"/><@p.tr/>
 <@p.tr/>
 <@p.td colspan="2"><@p.hidden name="machineId" value=bean.machineId/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
 </@p.form>
 </div>
+<!-- 渠道商选择列表  -->
+<div id="userDialog" title="选择渠道商" style="display:none;">
+<iframe id='username' name="username" src="../machine/admin_local/v_list.do" width="100%" height="100%" frameborder="0" ></iframe>
+</div>
 </body>
 </html>
 
+<script type="text/javascript">
+function openWin() {
+	$("#userDialog").dialog({
+		autoOpen: true,
+		modal: true,
+		width: 700,
+		height: 500,
+		position: ["center",20]
+	});
+	$('#userDialog').dialog('open');
+}
+function setValue(username) {
+	$('#userName').val(username);
+}
+function closeWin() {
+	$('#userDialog').dialog('close');
+}
+</script>

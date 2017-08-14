@@ -1,7 +1,6 @@
 package com.sunrun.rest.dto;
 
 import com.sunrun.washer.entity.WalletCard;
-import com.sunrun.washer.entity.WalletCard.WalletCardTypeEnum;
 
 
 /**

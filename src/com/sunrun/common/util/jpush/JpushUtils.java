@@ -33,8 +33,8 @@ public class JpushUtils {
 	protected static final Logger LOG = LoggerFactory
 			.getLogger(JpushUtils.class);
 	//安卓和iOS
-	private static final String appKey = "9bbe8b2110d9e76d9984ef3a";
-	private static final String masterSecret = "d2bb9c4cb215b2e924d66cff";
+	private static final String appKey = "60907d3e4e58b6d3e0074d1e";
+	private static final String masterSecret = "1313692909bc83ea02a5e0b6";
 	
 	public static void main(String[] args) {
 		 	Map<String, String> extras = new HashMap<String, String>();
@@ -43,9 +43,9 @@ public class JpushUtils {
 		    Long t = new Date().getTime();
 		    System.out.println("毫秒"+t);
 		    //extras.put("时间", t.toString());//t.toString()
-		    String ALERT = "您的车发生震动报警";
-	        String TITLE ="易行保";
-	        String registrationId  ="1104a897929ec6b0bb1"; 
+		    String ALERT = "您的洗衣机已经完成洗涤任务";
+	        String TITLE ="智能洗衣机";
+	        String registrationId  ="140fe1da9e9e20ad155"; 
 	        //SendPushIOS(ALERT,TITLE,registrationId ,extras,false);
 
 

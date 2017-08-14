@@ -48,6 +48,11 @@ public interface UserMachineDao {
      */
 	public UserMachine findById(Integer userMachineId);
 
-
+	/**
+	 * 获取使用类型的用户列表
+	 * @param machineId
+	 * @return
+	 */
+	public List<UserMachine> findUserMachineListByMachine(Integer machineId, Integer useType);
 }
 

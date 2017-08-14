@@ -1,6 +1,8 @@
 package com.sunrun.rest.dto;
 
 
+import java.util.List;
+
 import com.sunrun.washer.entity.Floor;
 
 /**
@@ -37,6 +39,9 @@ public class FloorByAddressDetailQueryDTO extends BaseDTO {
 	
 	private Integer floorId; // 楼ID
 	private String addressDetail; // 地址详情
+	
+	private List<FloorLayerDTO> floorLayerDTOs; // 楼层列表
+	
 	public FloorByAddressDetailQueryDTO() {}
 	public void initFloorByAddressDetailQueryDTO(Floor floor) {
 		this.floorId = floor.getFloorId();
@@ -55,5 +60,12 @@ public class FloorByAddressDetailQueryDTO extends BaseDTO {
 	public void setAddressDetail(String addressDetail) {
 		this.addressDetail = addressDetail;
 	}
+	public List<FloorLayerDTO> getFloorLayerDTOs() {
+		return floorLayerDTOs;
+	}
+	public void setFloorLayerDTOs(List<FloorLayerDTO> floorLayerDTOs) {
+		this.floorLayerDTOs = floorLayerDTOs;
+	}
+	
 }
 

@@ -12,7 +12,7 @@ import com.sunrun.washer.entity.WalletLog;
  */
 public class WalletLogDTO {
 	private java.lang.Integer id;
-	private java.lang.Integer type; // 交易类型 1.运费付款 2.司机服务费付款
+	private java.lang.Integer type; // 交易类型  1.提现 2.收入
 	private Integer payPlatform; // 交易平台 1.钱包平台 2.支付宝平台 3.微信平台 4.银行卡平台
 	private java.math.BigDecimal money; // 交易金额
 	private java.util.Date time; // 交易时间

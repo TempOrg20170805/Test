@@ -11,7 +11,7 @@ import com.jeecms.common.hibernate4.Updater;
 import com.jeecms.common.page.Pagination;
 import com.sunrun.washer.dao.FloorDao;
 import com.sunrun.washer.entity.Floor;
-import com.sunrun.washer.enums.FloorStatus.FloorStatusEnum;
+import com.sunrun.washer.enums.FloorStatusEnum;
 import com.sunrun.washer.manager.FloorMng;
 import com.sunrun.washer.model.FloorModel;
 import com.sunrun.washer.model.FloorModelSave;

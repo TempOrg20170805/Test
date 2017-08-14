@@ -9,6 +9,7 @@ import com.jeecms.common.hibernate4.Updater;
 import com.jeecms.core.manager.CmsUserMng;
 import com.sunrun.washer.dao.WalletCardDao;
 import com.sunrun.washer.entity.WalletCard;
+import com.sunrun.washer.enums.WalletCardStatusEnum;
 import com.sunrun.washer.manager.WalletCardMng;
 import com.sunrun.washer.model.WalletCardModel;
 import com.sunrun.washer.model.WalletCardModelSave;
@@ -53,7 +54,7 @@ public class WalletCardMngImpl implements WalletCardMng{
 	@Override
 	public WalletCard deleteById(Integer id) {
 		WalletCard bean = findById(id);
-		bean.setStatus(WalletCard.WalletCardStatusEnum.DELETE.getValue());
+		bean.setStatus(WalletCardStatusEnum.DELETE.getValue());
 		updateWalletCard(bean);
 		return bean;
 	}

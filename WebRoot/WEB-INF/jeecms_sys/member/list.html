@@ -106,20 +106,12 @@ function areaUpdate() {
 	<@p.column code="cmsUser.mobile" align="center">${cmsUser.mobile!}</@p.column><#t/>
 	<@p.column code="cmsUser.group" align="center">${cmsUser.group.name}<#if cmsUser.admin><span style="color:red"> [<@s.m "cmsUser.admin"/>]</span></#if></@p.column><#t/>
 	<@p.column code="cmsUser.lastLogin" align="center">${cmsUser.lastLoginTime?string('yyyy-MM-dd HH:mm:ss')}<br/>${cmsUser.lastLoginIp}</@p.column><#t/>
-	<@p.column code="实名状态" align="center">${cmsUser.realStateName!}</@p.column><#t/>
 	<@p.column code="cmsUser.disabled" align="center"><#if cmsUser.disabled><span style="color:red"><@s.m "global.true"/></span><#else><@s.m "global.false"/></#if></@p.column><#t/>
-	<#if cmsUser.group.id==1>
+
 	<@p.column code="global.operate" align="center">
-		<a href="v_edit.do?id=${cmsUser.id}&pageNo=${pageNo!}" class="pn-opt"><@s.m "global.edit"/></a> | <#rt/>
-		<!-- <a href="o_delete.do?ids=${cmsUser.id}&pageNo=${pageNo!}" onclick="if(!$.confirmToUrl(this.href)) {return false;}" class="pn-opt"><@s.m "global.delete"/></a>|<#t/> -->
-		<a href="v_check.do?id=${cmsUser.id}&pageNo=${pageNo!}" class="pn-opt">实名审核</a><#t/>
+		<a href="v_edit.do?id=${cmsUser.id}&pageNo=${pageNo!}" class="pn-opt"><@s.m "global.edit"/></a>
 	</@p.column><#t/>
-	<#else>
-		<@p.column code="global.operate" align="center">
-		<a href="v_edit.do?id=${cmsUser.id}&pageNo=${pageNo!}" class="pn-opt"><@s.m "global.edit"/></a> | <#rt/>
-		<!-- <a href="o_delete.do?ids=${cmsUser.id}&pageNo=${pageNo!}" onclick="if(!$.confirmToUrl(this.href)) {return false;}" class="pn-opt"><@s.m "global.delete"/></a>|<#t/> -->
-	</@p.column><#t/>
-	</#if>
+
 </@p.table>
 <div>
 <!-- <input class="del-button" type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/ style="float:left; margin-right:6px;"> -->

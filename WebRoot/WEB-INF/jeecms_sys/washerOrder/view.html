@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="page-positon ove">
+  <div class="position-div"><@s.m "global.position"/>: <@s.m "function.washerOrder"/> - <@s.m "global.view"/></div>
+</div>
+<div class="box-positon ck">
+	<form class="ropt">
+		<input  value="  <@s.m "global.backToList"/>" onclick="javascript:history.go(-1)" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" labelWidth="12">
+	<@p.td colspan="1" width="50" label="订单ID" >${bean.orderId!}</@p.td> 
+	<@p.td colspan="1" width="50" label="订单状态" >${bean.orderStateStr!}</@p.td> <@p.tr/> 
+	<@p.td colspan="1" width="50" label="卖家姓名" >${bean.sellerName!}</@p.td> 
+	<@p.td colspan="1" width="50" label="买家姓名" >${bean.buyerName!}</@p.td> <@p.tr/> 
+	
+	<@p.td colspan="1" width="50" label="订单编号" >${bean.outSn!}</@p.td> 
+	<@p.td colspan="1" width="50" label="订单总价格" >${bean.orderAmount!}</@p.td><@p.tr/> 
+	
+	<@p.td colspan="1" width="50" label="支付(付款)时间" >${bean.paymentTime!}</@p.td> 
+	<@p.td colspan="1" width="50" label="交易平台" >${bean.payPlatformStr!}</@p.td><@p.tr/> 
+	<@p.td colspan="2" width="50" label="支付信息" >${bean.payMessage!}</@p.td>  <@p.tr/> 
+	
+	<@p.td colspan="2" width="50" label="地址" >${bean.addressDetail!}</@p.td> <@p.tr/> 
+	<@p.td colspan="1" width="50" label="序列号" >${bean.machineNo!}</@p.td> 
+	<@p.td colspan="1" width="50" label="楼层" >第${bean.layer!}层</@p.td> <@p.tr/>
+	<@p.td colspan="1" width="50" label="模式名称" >${bean.modeName!}</@p.td>  
+	<@p.td colspan="1" width="50" label="该模式的时间" >${bean.modeTimeStr!}</@p.td> <@p.tr/>
+
+	<@p.td colspan="1" width="50" label="订单生成时间" >${bean.addTime!}</@p.td> 
+	<@p.td colspan="1" width="50" label="订单完成时间" >${bean.finnshedTime!}</@p.td> <@p.tr/>
+
+</@p.form>
+</div>
+</body>
+</html>
+

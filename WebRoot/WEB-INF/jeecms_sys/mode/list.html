@@ -15,14 +15,14 @@ function getTableForm() {
 <div class="page-positon ove">
 	<div class="position-div"><@s.m "global.position"/>: <@s.m "function.mode"/> - <@s.m "global.list"/></div>
 </div>
-<div class="box-positon">
+<!-- <div class="box-positon">
 	<form class="ropt">
 		<@cms_perm url="/mode/addMode.do">
 		<input class="add" type="submit" value="<@s.m "global.add"/>" onclick="this.form.action='addMode.do';"/>
 		</@cms_perm>
 	</form>
 	<div class="clear"></div>
-</div>
+</div> -->
 <div class="body-box">
 
 <form id="tableForm" method="post">
@@ -34,8 +34,8 @@ function getTableForm() {
 	<@p.column title="该模式需要的时间（单位秒）" align="center">${bean.modeTimeStr!}</@p.column><#t/>
 	<@p.column code="global.operate" align="center">
 		<a href="../mode/viewMode.do?modeId=${bean.modeId}" class="pn-opt"><@s.m "global.view"/></a> | 
-		<a href="../mode/editMode.do?modeId=${bean.modeId}" class="pn-opt"><@s.m "global.edit"/></a> | 
-		<a href="../mode/deleteMode.do?modeId=${bean.modeId}" onclick="if(!$.confirmToUrl(this.href)) {return false;}"  class="pn-opt"><@s.m "global.delete"/></a><#t/>
+		<a href="../mode/editMode.do?modeId=${bean.modeId}" class="pn-opt"><@s.m "global.edit"/></a>
+		<!-- | <a href="../mode/deleteMode.do?modeId=${bean.modeId}" onclick="if(!$.confirmToUrl(this.href)) {return false;}"  class="pn-opt"><@s.m "global.delete"/></a><#t/> -->
 	</@p.column><#t/>
 </@p.table>
 

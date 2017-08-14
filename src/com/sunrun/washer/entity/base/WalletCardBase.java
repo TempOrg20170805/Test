@@ -4,7 +4,7 @@ package com.sunrun.washer.entity.base;
 import java.util.Date;
 
 import com.jeecms.core.entity.CmsUser;
-import com.sunrun.washer.entity.WalletCard.WalletCardStatusEnum;
+import com.sunrun.washer.enums.WalletCardStatusEnum;
 /**
  * 文 件 名 : WalletCardBase.java
  * 创 建 人： 金明明

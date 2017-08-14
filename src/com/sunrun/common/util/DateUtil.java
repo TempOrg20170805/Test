@@ -365,17 +365,22 @@ public class DateUtil {
 		// System.out.println(getMonthEnd("2008/07/19"));
 		
 		System.out.println(formatDate(new Date(),8));
+		Integer ss = null;
+		secToTime(ss);
 	}
 	/**
 	 * 秒转换成时分秒格式
 	 * @param time
 	 * @return
 	 */
-	public static String secToTime(int time) {  
+	public static String secToTime(Integer time) {
+		if (time == null) {
+			return "";
+		}
         String timeStr = null;  
         int hour = 0;  
         int minute = 0;  
-        int second = 0;  
+        int second = 0;
         if (time <= 0)  
             return "00分00秒";  
         else {  

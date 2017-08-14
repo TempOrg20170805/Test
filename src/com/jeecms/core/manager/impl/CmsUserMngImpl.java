@@ -36,7 +36,6 @@ import com.jeecms.core.manager.CmsUserSiteMng;
 import com.jeecms.core.manager.UnifiedUserMng;
 import com.sunrun.common.util.BigDecimalUtil;
 import com.sunrun.washer.entity.Area;
-import com.sunrun.washer.entity.WalletLog.WalletLogPayPlatformEnum;
 import com.sunrun.washer.manager.AreaMng;
 import com.sunrun.washer.manager.WalletLogMng;
 import com.sunrun.washer.model.WalletLogModelSave;
@@ -517,10 +516,8 @@ public class CmsUserMngImpl implements CmsUserMng {
 	}
 
 	@Override
-	public CmsUser updateMoney(Integer id, BigDecimal changeMoney, Integer type,
+	public CmsUser updateMoney(Integer id, BigDecimal changeMoney, Integer type, Integer platform,
 			String logMsg) {
-		
-		
 		CmsUser jcUser = findById(id);
 		
 		// 赋值金额前后
@@ -532,7 +529,7 @@ public class CmsUserMngImpl implements CmsUserMng {
 		updateAdmin(jcUser);
 		moneyAfter = jcUser.getMoney();
 		// 日志添加
-		walletLogMng.saveWalletLog(new WalletLogModelSave(jcUser.getId(),type, WalletLogPayPlatformEnum.WALLET.getValue(), changeMoney, logMsg, moneyBefore, moneyAfter));
+		walletLogMng.saveWalletLog(new WalletLogModelSave(jcUser.getId(),type, platform, changeMoney, logMsg, moneyBefore, moneyAfter));
 		return jcUser;
 	}
 	

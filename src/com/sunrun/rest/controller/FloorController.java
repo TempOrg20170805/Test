@@ -2,6 +2,7 @@ package com.sunrun.rest.controller;
 import com.sunrun.rest.dto.*;import com.sunrun.washer.manager.*;import com.sunrun.washer.entity.*;import com.sunrun.washer.model.*;
 import com.jeecms.core.manager.*;
 
+import javax.mail.Flags;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,6 +32,10 @@ public class FloorController extends BaseController{
 	private FloorMng floorMng;
 	@Autowired
 	private CmsUserMng cmsUserMng;
+	@Autowired
+	private FloorLayerMng floorLayerMng;
+	@Autowired
+	private MachineMng machineMng;
 
 	/**
 	 * 查询楼管理列表
@@ -116,6 +121,28 @@ public class FloorController extends BaseController{
 		if(validateFloorByAddressDetail(floorByAddressDetailQueryDTO,getUserId(),addressDetail)){
 			Floor floor = floorMng.queryFloorByAddressDetail(addressDetail);
 			floorByAddressDetailQueryDTO.initFloorByAddressDetailQueryDTO(floor);
+			
+			// 代码：设置默认相关值
+			FloorLayerModel floorLayerModel = new FloorLayerModel();
+			floorLayerModel.setFloorId(floor.getFloorId());
+			Pagination pagination = floorLayerMng.queryFloorLayerByModel(floorLayerModel, 1, Integer.MAX_VALUE);
+			List<FloorLayer> floorLayers = (List<FloorLayer>) pagination.getList();
+
+			// 赋值楼层管理必要信息信息
+			List<FloorLayerDTO> floorLayerDTOs = new ArrayList<FloorLayerDTO>(); 
+			for (FloorLayer floorLayer : floorLayers) {
+				FloorLayerDTO floorLayerDTO = new FloorLayerDTO(floorLayer);
+				List<Machine> machines = machineMng.queryMachineByFloorLayer(floorLayer.getFloorLayerId());
+				if (machines != null && machines.size() > 0) {
+					floorLayerDTO.setMachineCount(machines.size());
+				}
+				// 赋值商品列表
+				floorLayerDTOs.add(floorLayerDTO);
+			}
+			floorByAddressDetailQueryDTO.setFloorLayerDTOs(floorLayerDTOs);
+
+			
+			
 			floorByAddressDetailQueryDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
 		}
 		return floorByAddressDetailQueryDTO;

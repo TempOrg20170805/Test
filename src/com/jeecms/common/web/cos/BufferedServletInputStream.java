@@ -2,6 +2,8 @@ package com.jeecms.common.web.cos;
 
 import java.io.IOException;
 
+
+import javax.servlet.ReadListener;
 //import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 
@@ -203,6 +205,24 @@ public class BufferedServletInputStream extends ServletInputStream {
 			total += copy;
 		}
 		return total;
+	}
+
+	@Override
+	public boolean isFinished() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isReady() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setReadListener(ReadListener arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/*

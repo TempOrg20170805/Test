@@ -3,9 +3,8 @@ package com.sunrun.washer.entity.base;
 
 import java.util.Date;
 
-import com.jeecms.core.entity.*;
 import com.sunrun.washer.entity.FloorLayer;
-import com.sunrun.washer.enums.MachineStatus.MachineStatusEnum;
+import com.sunrun.washer.enums.MachineStatusEnum;
 
 public class MachineBase implements java.io.Serializable {
 	
@@ -13,15 +12,15 @@ public class MachineBase implements java.io.Serializable {
 	private String name; // 洗衣机名称
 	private String type; // 洗衣机型号
 	private String machineNo; // 序列号
-	private Integer online; // 0-离线 1-在线
-	private Integer status = 1; // 状态 0.删除 1.空闲 2.使用中 3.停用
+	private Integer online = 0; // 0-离线 1-在线
+	private Integer status = 3; // 状态 0.删除 1.空闲 2.使用中 3.停用 默认停用，设备上线时会自动
 	private FloorLayer floorLayer; // 楼层
 	private Integer floorLayerX; // 楼层位置x
 	private Integer floorLayerY; // 楼层位置y
 	private Date createTime = new Date(); // 创建时间
 	private Date useTime = new Date(); // 投放时间
 	private Date baseUpdateTime = new Date(); // 基本数据更新时间 
-
+	private Integer isTrouble = 0;// 是否故障 1故障 0正常 默认0
 	
 	public MachineBase() {
 	}
@@ -120,6 +119,14 @@ public class MachineBase implements java.io.Serializable {
 
 	public void setOnline(Integer online) {
 		this.online = online;
+	}
+
+	public Integer getIsTrouble() {
+		return isTrouble;
+	}
+
+	public void setIsTrouble(Integer isTrouble) {
+		this.isTrouble = isTrouble;
 	}
 
 }

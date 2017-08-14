@@ -16,6 +16,7 @@
          <property name="floorLayerY" column="floor_layer_y" type="java.lang.Integer" length="3"/>
          <property name="createTime" column="create_time" type="java.sql.Timestamp" length="19"/>
          <property name="useTime" column="use_time" type="java.sql.Timestamp" not-null="true" length="19"/>
+         <property name="isTrouble" column="is_trouble" type="java.lang.Integer" not-null="true" length="1"/>
          <property name="baseUpdateTime" column="base_update_time" type="java.sql.Timestamp" not-null="true" length="19"/>
 		<many-to-one name="floorLayer" class="com.sunrun.washer.entity.FloorLayer" fetch="select" lazy="false">
 		    <column name="floor_layer_id"></column>

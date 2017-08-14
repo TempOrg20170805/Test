@@ -180,7 +180,7 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
       			/WEB-INF/config/jeecms/sunrun-rest.xml
-      </param-value>
+      		</param-value>
 		</init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>

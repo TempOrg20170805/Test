@@ -1,5 +1,6 @@
 package com.sunrun.rest.controller;
-import com.sunrun.rest.dto.*;import com.sunrun.washer.manager.*;import com.sunrun.washer.entity.*;import com.sunrun.washer.model.*;
+import com.sunrun.rest.dto.*;import com.sunrun.washer.manager.*;import com.sunrun.washer.entity.*;import com.sunrun.washer.enums.MachineStatusEnum;
+import com.sunrun.washer.model.*;
 import com.jeecms.core.manager.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,8 @@ public class MachineController extends BaseController{
 	private CmsUserMng cmsUserMng;
 	@Autowired
 	private FloorLayerMng floorLayerMng;
+	@Autowired
+	private UserMachineMng userMachineMng;
 	/**
 	 * 查询洗衣机管理列表
 	 * @param userId 用户Id
@@ -81,19 +84,17 @@ public class MachineController extends BaseController{
 	 */
 	@RequestMapping("/machine/queryMachineByFloorId.json")
 	@ResponseBody
-	public MachineByFloorLayerQueryDTO queryMachineByFloorId(Integer floorLayerId, Integer pageNo, Integer pageSize, HttpServletRequest request) {
+	public MachineByFloorLayerQueryDTO queryMachineByFloorId(Integer floorLayerId, HttpServletRequest request) {
 		MachineByFloorLayerQueryDTO machineQueryDTO = new MachineByFloorLayerQueryDTO();
 		if (validateQueryMachineByFloorLayer(machineQueryDTO, getUserId(), floorLayerId)) {
 			// 初始化查询条件
 			MachineModel machineModel = new MachineModel();
 			machineModel.setFloorLayerId(floorLayerId);
 			// 代码：设置默认相关值
-			Pagination pagination = machineMng.queryMachineByModel(machineModel, SimplePage.cpn(pageNo), pageSize);
+			Pagination pagination = machineMng.queryMachineByModel(machineModel, 1, Integer.MAX_VALUE);
 			List<Machine> machines = (List<Machine>) pagination.getList();
 					
-			// 赋值洗衣机管理分页信息
-			machineQueryDTO.setPageNo(pagination.getPageNo());
-			machineQueryDTO.setPageSize(pagination.getPageSize());
+			// 赋值洗衣机管理分页信息;
 			machineQueryDTO.setTotalCount(pagination.getTotalCount());
 			// 查询楼层
 			FloorLayer floorLayer = floorLayerMng.findById(floorLayerId);
@@ -253,6 +254,24 @@ public class MachineController extends BaseController{
 		return true;
 	}
 
+	/**
+	 * 所有洗衣机上线 测试用接口
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/machine/online.json")
+	@ResponseBody	
+	public BaseDTO online(HttpServletRequest request){
+		BaseDTO baseDTO = new BaseDTO();
+		Pagination pagination = machineMng.queryMachineByModel(new MachineModel(), 1, Integer.MAX_VALUE);
+		List<Machine> machines = (List<Machine>) pagination.getList();
+		for (Machine machine : machines) {
+			machineMng.updateStatus(machine.getMachineNo(), MachineStatusEnum.NOT_USE.getCode());
+		}
+		baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+		
+		return baseDTO;
+	}
 
 }
 

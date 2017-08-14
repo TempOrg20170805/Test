@@ -19,8 +19,10 @@ import com.jeecms.core.manager.CmsUserMng;
 import com.sunrun.washer.dao.MachineDao;
 import com.sunrun.washer.entity.FloorLayer;
 import com.sunrun.washer.entity.Machine;
-import com.sunrun.washer.enums.MachineAuthLevels.MachineAuthLevelsEnum;
-import com.sunrun.washer.enums.MachineStatus.MachineStatusEnum;
+import com.sunrun.washer.entity.UserMachine;
+import com.sunrun.washer.enums.MachineAuthLevelsEnum;
+import com.sunrun.washer.enums.MachineStatusEnum;
+import com.sunrun.washer.enums.UserMachineUseTypeEnum;
 import com.sunrun.washer.manager.FloorLayerMng;
 import com.sunrun.washer.manager.MachineMng;
 import com.sunrun.washer.manager.UserMachineMng;
@@ -73,18 +75,8 @@ public class MachineMngImpl implements MachineMng{
 		bean.setMachineNo(machineModelSave.getMachineNo());
 		
 		bean =  machineDao.save(bean);
-		// 发放给渠道商
-		if (StringUtils.isNotBlank(machineModelSave.getUserName())) {
-			CmsUser user = cmsUserMng.findByUsername(machineModelSave.getUserName());
-			if (user != null) {
-				UserMachineModelSave userMachineModelSave = new UserMachineModelSave();
-				userMachineModelSave.setUserName(machineModelSave.getUserName());
-				userMachineModelSave.setAuthLevel(MachineAuthLevelsEnum.ONE.getCode());
-				userMachineModelSave.setMachineId(bean.getMachineId());
-				userMachineModelSave.setUseType(1);
-				userMachineMng.saveUserMachine(userMachineModelSave);
-			}
-		}
+		// 更新洗衣机关联
+		updateMachineConnect(machineModelSave.getUserName(),bean.getMachineId());
 		return bean;
 	}
 
@@ -100,6 +92,10 @@ public class MachineMngImpl implements MachineMng{
 		if (machineModelUpdate.getMachineNo() != null) {
 			bean.setMachineNo(machineModelUpdate.getMachineNo());
 		}
+		
+		// 更新洗衣机关联
+		updateMachineConnect(machineModelUpdate.getUserName(),bean.getMachineId());
+		
 		bean.setBaseUpdateTime(new Date());
 		return updateMachine(bean);
 	}
@@ -116,6 +112,8 @@ public class MachineMngImpl implements MachineMng{
 	@Override
 	public Machine deleteById(Integer id) {
 		Machine bean = findById(id);
+		// 删除所有关联
+		updateMachineConnect(null, id);
 		bean.setStatus(MachineStatusEnum.DELETE.getCode());
 		bean = updateMachine(bean);
 		return bean;
@@ -192,6 +190,74 @@ public class MachineMngImpl implements MachineMng{
 			logger.error("MachineMngImpl-updateStatus", e);
 		}
 		return result;
+	}
+
+	/**
+	 * 更新洗衣机关联
+	 * @param userName 用户名
+	 * @param machineId 洗衣机ID
+	 */
+	private void updateMachineConnect(String userName, Integer machineId) {
+		// 若用户名为空,删除原有渠道商的权限
+		if (StringUtils.isBlank(userName)) {
+			deleteMachineWithConnect(machineId);
+		}
+		// 发放给渠道商
+		else if (StringUtils.isNotBlank(userName)) {
+			List<UserMachine> userMachines = userMachineMng.findUserMachineListByMachine(machineId);
+			if (userMachines != null && userMachines.size() > 0) {
+				if (!userMachines.get(0).getCmsUser().getUsername().equals(userName)) {
+					// 若用户变更则更新删除原关联，并添加新关联
+					deleteMachineWithConnect(machineId);
+					saveMachineWithUser(userName, machineId);
+				}
+				// 若用户没变则不进行操作
+			} else {
+				// 原用户未关联，这里重新关联
+				saveMachineWithUser(userName, machineId);
+			}
+		}
+	}
+	/**
+	 * 删除洗衣机的所有关联，并不删除洗衣机
+	 * @param machineId
+	 */
+	private void deleteMachineWithConnect(Integer machineId) {
+		List<UserMachine>  userMachines = userMachineMng.findUserMachineListByMachine(machineId);
+		if (userMachines != null && userMachines.size() > 0) {
+			Machine machine = userMachines.get(0).getMachine();
+			// 删除投放的洗衣机
+			machineMng.updateUserMachineFloorLayerDelete(machine.getMachineId());
+			userMachineMng.deleteById(userMachines.get(0).getUserMachineId());
+		}
+	}
+	/**
+	 * 洗衣机重新绑定用户
+	 * @param userName 用户名
+	 * @param machineId 洗衣机ID
+	 */
+	private void saveMachineWithUser(String userName, Integer machineId) {
+		CmsUser user = cmsUserMng.findByUsername(userName);
+		if (user != null) {
+			UserMachineModelSave userMachineModelSave = new UserMachineModelSave();
+			userMachineModelSave.setUserName(userName);
+			userMachineModelSave.setAuthLevel(MachineAuthLevelsEnum.ONE.getCode());
+			userMachineModelSave.setMachineId(machineId);
+			userMachineModelSave.setUseType(UserMachineUseTypeEnum.USE.getCode());
+			userMachineMng.saveUserMachine(userMachineModelSave);
+		}
+	}
+
+	@Override
+	public Machine updateTroubleStatus(Integer machineId, Integer isTrouble) {
+		Machine machine = findById(machineId);
+		if (isTrouble.equals(1)) {
+			machine.setStatus(MachineStatusEnum.STOP.getCode());
+		}
+		// 注意：此处若故障解除，不需要更新洗衣机的状态，只要设备在线，状态会自动更新。
+		
+		machine.setIsTrouble(isTrouble);
+		return updateMachine(machine);
 	}
 
 
