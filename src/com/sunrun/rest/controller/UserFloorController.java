@@ -100,7 +100,8 @@ public class UserFloorController extends BaseController{
 			UserFloorModelSave userFloorModelSave = new UserFloorModelSave();
 			userFloorModelSave.setUserId(getUserId());
 			userFloorModelSave.setAddressDetail(addressDetail);
-			userFloorMng.saveUserFloor(userFloorModelSave);
+			UserFloor userFLoor = userFloorMng.saveUserFloor(userFloorModelSave);
+			userFloorSaveDTO.setFloorId(userFLoor.getFloor().getFloorId());
 			userFloorSaveDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
 		}
 		return userFloorSaveDTO;

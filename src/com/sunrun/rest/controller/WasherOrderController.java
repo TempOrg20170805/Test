@@ -86,19 +86,19 @@ public class WasherOrderController extends BaseController{
 	/**
 	 * 下单
 	 * @param modeId 模式ID
-	 * @param mechineId 洗衣机ID
+	 * @param machineId 洗衣机ID
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "/washerOrder/saveWasherOrder.json")
 	@ResponseBody
-	public WasherOrderSaveDTO saveWasherOrder(Integer modeId, Integer mechineId, HttpServletRequest request){
+	public WasherOrderSaveDTO saveWasherOrder(Integer modeId, Integer machineId, HttpServletRequest request){
 		WasherOrderSaveDTO washerOrderSaveDTO = new WasherOrderSaveDTO();
-		if(validateSaveWasherOrder(washerOrderSaveDTO, getUserId(), modeId, mechineId)){
+		if(validateSaveWasherOrder(washerOrderSaveDTO, getUserId(), modeId, machineId)){
 			WasherOrderModelSave washerOrderModelSave = new WasherOrderModelSave();
 			washerOrderModelSave.setUserId(getUserId());
 			washerOrderModelSave.setModeId(modeId);
-			washerOrderModelSave.setMechineId(mechineId);
+			washerOrderModelSave.setMechineId(machineId);
 			WasherOrder washerOrder = washerOrderMng.saveWasherOrder(washerOrderModelSave);
 			washerOrderSaveDTO.init(washerOrder);
 			washerOrderSaveDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
@@ -112,12 +112,12 @@ public class WasherOrderController extends BaseController{
 	 * @param userId 用户id
 	 * @return
 	 */
-	private Boolean validateSaveWasherOrder(BaseDTO baseDTO, Integer userId, Integer modeId, Integer mechineId) {
+	private Boolean validateSaveWasherOrder(BaseDTO baseDTO, Integer userId, Integer modeId, Integer machineId) {
 		if (cmsUserMng.findById(userId)  == null) {
 			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
-		if (modeMng.findById(modeId) == null || machineMng.findById(mechineId) == null || ModeNoEnum.getContains(modeId) == null) {
+		if (modeMng.findById(modeId) == null || machineMng.findById(machineId) == null || ModeNoEnum.getContains(modeId) == null) {
 			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_VALIDATECODE_NOTEXIST);
 			return false;
 		}

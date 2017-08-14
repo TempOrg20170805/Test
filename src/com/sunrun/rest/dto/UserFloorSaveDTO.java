@@ -32,5 +32,16 @@ public class UserFloorSaveDTO extends BaseDTO {
 		}
 		
 	}
+	
+	private Integer floorId; // 楼ID
+
+	public Integer getFloorId() {
+		return floorId;
+	}
+
+	public void setFloorId(Integer floorId) {
+		this.floorId = floorId;
+	}
+	
 }
 

@@ -46,16 +46,14 @@ public class FloorLayerController extends BaseController{
 	 */
 	@RequestMapping("/floorLayer/queryFloorLayerByModel.json")
 	@ResponseBody
-	public FloorLayerQueryDTO queryFloorLayerByModel(FloorLayerModel floorLayerModel, Integer pageNo, Integer pageSize, HttpServletRequest request) {
+	public FloorLayerQueryDTO queryFloorLayerByModel(FloorLayerModel floorLayerModel, HttpServletRequest request) {
 		FloorLayerQueryDTO floorLayerQueryDTO = new FloorLayerQueryDTO();
 		if (validateQueryFloorLayerByModel(floorLayerQueryDTO, getUserId(), floorLayerModel)) {
 			// 代码：设置默认相关值
-			Pagination pagination = floorLayerMng.queryFloorLayerByModel(floorLayerModel, SimplePage.cpn(pageNo), pageSize);
+			Pagination pagination = floorLayerMng.queryFloorLayerByModel(floorLayerModel, 1, Integer.MAX_VALUE);
 			List<FloorLayer> floorLayers = (List<FloorLayer>) pagination.getList();
 					
 			// 赋值楼层管理分页信息
-			floorLayerQueryDTO.setPageNo(pagination.getPageNo());
-			floorLayerQueryDTO.setPageSize(pagination.getPageSize());
 			floorLayerQueryDTO.setTotalCount(pagination.getTotalCount());
 			floorLayerQueryDTO.setFloorId(floorLayerModel.getFloorId());
 			// 赋值楼层管理必要信息信息
@@ -92,7 +90,8 @@ public class FloorLayerController extends BaseController{
 		FloorLayerSaveDTO floorLayerSaveDTO = new FloorLayerSaveDTO();
 		if(validateSaveFloorLayer(floorLayerSaveDTO, getUserId(), name, layer, layerX, layerY, floorId)){
 			FloorLayerModelSave floorLayerModelSave = new FloorLayerModelSave(name, layer, layerX, layerY, floorId);
-			floorLayerMng.saveFloorLayer(floorLayerModelSave);
+			FloorLayer floorLayer = floorLayerMng.saveFloorLayer(floorLayerModelSave);
+			floorLayer.setFloorLayerId(floorLayer.getFloorLayerId());
 			floorLayerSaveDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
 		}
 		return floorLayerSaveDTO;
