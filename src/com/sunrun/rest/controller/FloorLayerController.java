@@ -91,7 +91,7 @@ public class FloorLayerController extends BaseController{
 		if(validateSaveFloorLayer(floorLayerSaveDTO, getUserId(), name, layer, layerX, layerY, floorId)){
 			FloorLayerModelSave floorLayerModelSave = new FloorLayerModelSave(name, layer, layerX, layerY, floorId);
 			FloorLayer floorLayer = floorLayerMng.saveFloorLayer(floorLayerModelSave);
-			floorLayer.setFloorLayerId(floorLayer.getFloorLayerId());
+			floorLayerSaveDTO.setFloorLayerId(floorLayer.getFloorLayerId());
 			floorLayerSaveDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
 		}
 		return floorLayerSaveDTO;
