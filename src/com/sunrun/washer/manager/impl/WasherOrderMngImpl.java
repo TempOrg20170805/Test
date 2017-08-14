@@ -1,7 +1,10 @@
 package com.sunrun.washer.manager.impl;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.mina.core.session.IoSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +14,10 @@ import com.jeecms.common.page.Pagination;
 import com.jeecms.core.entity.CmsUser;
 import com.jeecms.core.manager.CmsUserMng;
 import com.sunrun.common.util.OrderUtils;
+import com.sunrun.tcp.common.DataUtils;
+import com.sunrun.tcp.common.ProtocolConsts;
+import com.sunrun.tcp.mina.entity.WashOrder;
+import com.sunrun.tcp.mina.handler.ServerHandler;
 import com.sunrun.washer.dao.WasherOrderDao;
 import com.sunrun.washer.entity.Floor;
 import com.sunrun.washer.entity.FloorLayer;
@@ -145,6 +152,29 @@ public class WasherOrderMngImpl implements WasherOrderMng{
 		// 调用洗衣机开始清洗
 		// 洗衣机洗涤模式编号 washerOrder.getModeNo();
 		// 洗衣机序列号 washerOrder.getMachineNo();
+		Iterator<Map.Entry<String,IoSession>> ite_deviceiomap = ServerHandler.getDeviceIoMap().entrySet().iterator();
+		String sn= washerOrder.getMachineNo();
+		while (ite_deviceiomap.hasNext()) 
+		{
+			Map.Entry<String,IoSession> mapentry_deviceiomap =ite_deviceiomap.next();
+			String devicemark =  mapentry_deviceiomap.getKey().toString();
+			IoSession session = mapentry_deviceiomap.getValue();
+			if(sn.equals(devicemark))
+			{
+				if(session!=null&&session.isConnected())
+				{
+					byte[] data=new byte[ProtocolConsts.PACKAGE_WASHORDER_LEN-1];
+					System.arraycopy(data, ProtocolConsts.ProtocolField.HEADER.getPos(), ProtocolConsts.PACKET_HEADER, 0,ProtocolConsts.ProtocolField.HEADER.getLen());
+					System.arraycopy(data, ProtocolConsts.ProtocolField.PACKAGE_LEN.getPos(), ProtocolConsts.PACKAGE_WASHORDER_LEN, 0,1);
+					System.arraycopy(data, ProtocolConsts.ProtocolField.DEVICEID.getPos(), DataUtils.getDevMarkByteArray(sn), 0,ProtocolConsts.ProtocolField.DEVICEID.getLen());
+					System.arraycopy(data, ProtocolConsts.ProtocolField.MSGTYPE.getPos(), washerOrder.getModeNo(), 0,1);
+					WashOrder washOrder=new WashOrder(ProtocolConsts.PACKET_HEADER, ProtocolConsts.PACKAGE_WASHORDER_LEN, DataUtils.getDevMarkByteArray(sn), (byte)(int)washerOrder.getModeNo(), DataUtils.XOR(data));
+					session.write(washOrder);
+				}
+				break;
+			}
+		}
+		
 		return washerOrder;
 	}
 

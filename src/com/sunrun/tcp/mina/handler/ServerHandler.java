@@ -134,7 +134,7 @@ public class ServerHandler extends IoHandlerAdapter {
 			System.arraycopy(data, ProtocolConsts.ProtocolField.PACKAGE_LEN.getPos(), ProtocolConsts.PACKAGE_WASHORDER_LEN, 0,1);
 			System.arraycopy(data, ProtocolConsts.ProtocolField.DEVICEID.getPos(), washAnswer.getDeviceId(), 0,washAnswer.getDeviceId().length);
 			System.arraycopy(data, ProtocolConsts.ProtocolField.MSGTYPE.getPos(), msgType, 0,1);
-			WashOrder washOrder=new WashOrder(washAnswer.getHeader(), (byte)ProtocolConsts.PACKAGE_WASHORDER_LEN, washAnswer.getDeviceId(), msgType, DataUtils.XOR(data));
+			WashOrder washOrder=new WashOrder(washAnswer.getHeader(), ProtocolConsts.PACKAGE_WASHORDER_LEN, washAnswer.getDeviceId(), msgType, DataUtils.XOR(data));
 			session.write(washOrder);
 			//add push code
 			//washAnswer.getMsgType()值为设备响应类型
@@ -230,8 +230,8 @@ public class ServerHandler extends IoHandlerAdapter {
 	 */
 	private void checkDeviceOnline(String sn,IoSession session)
 	{
-		synchronized (ServerHandler.deviceIoMap) {
-			
+		synchronized (ServerHandler.deviceIoMap)
+		{
 			IoSession ss=ServerHandler.getDeviceIoMap().get(sn);
 			if(null==ss||!ss.isConnected()||!ss.toString().equals(session.toString()))
 			{  

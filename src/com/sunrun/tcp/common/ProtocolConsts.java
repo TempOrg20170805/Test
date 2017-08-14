@@ -32,19 +32,19 @@ public class ProtocolConsts {
 	/**
 	 * 数据包最小长度
 	 */
-	public final static int PACKAGE_MIN_LEN=0x0B;
+	public final static byte PACKAGE_MIN_LEN=0x0B;
 	/**
 	 * 心跳包长度
 	 */
-	public final static int PACKAGE_HEARTBEAT_LEN=0x0B;
+	public final static byte PACKAGE_HEARTBEAT_LEN=0x0B;
 	/**
 	 *设备端洗涤响应数据包长度
 	 */
-	public final static int PACKAGE_WASHANSWER_LEN=0x0D;
+	public final static byte PACKAGE_WASHANSWER_LEN=0x0D;
 	/**
 	 *服务端指令下发数据包长度
 	 */
-	public final static int PACKAGE_WASHORDER_LEN=0x0B;
+	public final static byte PACKAGE_WASHORDER_LEN=0x0B;
 	
 	 /**
      * 本地东八区北京时间时间戳格式

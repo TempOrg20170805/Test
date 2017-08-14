@@ -117,6 +117,37 @@ public class DataUtils {
 		}
 		return stringBuilder.toString().toUpperCase();
 	 }
+	 
+	 /**
+	 * @author: HL
+	 * @date: 2017年5月4日 下午5:02:38
+	 * @function: getDevMarkByteArray  
+	 * @Description: 16进制的字符串表示转成字节数组 
+	 * @param: @param hexString 16进制格式的字符串            
+	 * @param: @return
+	 * @return: byte[] 转换后的字节数组 低位在前高位在后 6个字节长度  不足字节长度高位用00补足
+	 * @throws
+	  */
+	 public static byte[] getDevMarkByteArray(String hexString) {
+
+	    hexString = hexString.toLowerCase();
+	    final byte[] byteArray = new byte[6];
+	    int k = hexString.length();
+	    for (int i = 0; i < hexString.length() / 2; i++) {//因为是16进制，最多只会占用4位，转换成字节需要两个16进制的字符，高位在先
+	        byte high = (byte) (Character.digit(hexString.charAt(k-2), 16) & 0xff);
+	        byte low = (byte) (Character.digit(hexString.charAt(k - 1), 16) & 0xff);
+	        byteArray[i] = (byte) (high << 4 | low);
+	        k -= 2;
+	    }
+	   for(int m=hexString.length() / 2;m<6;m++)
+	   {
+		   byteArray[m]=0x00;;
+		   byteArray[m]=0x00;;
+	   }
+	    
+	   return byteArray;
+	}
+	 
 	 /**
 	 * @author: HL
 	 * @date: 2016年6月22日 上午11:06:23
