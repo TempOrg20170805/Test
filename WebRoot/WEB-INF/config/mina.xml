@@ -24,7 +24,7 @@
 	<bean id="address" class="java.net.InetSocketAddress">
 		<!--  <constructor-arg index="0" value="122.112.251.48" />
 		<constructor-arg index="1" value="9957" />-->
-		<constructor-arg index="0" value="9957" />
+		<constructor-arg index="0" value="9958" />
 	</bean>
 
 	<!-- 日志filter -->

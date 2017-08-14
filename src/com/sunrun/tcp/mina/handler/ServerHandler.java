@@ -1,6 +1,7 @@
 package com.sunrun.tcp.mina.handler;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -104,21 +105,32 @@ public class ServerHandler extends IoHandlerAdapter {
 			logger.info("洗涤响应数据");
 			WashAnswer washAnswer=(WashAnswer)message;
 			String sn=DataUtils.bytesToHexString(washAnswer.getDeviceId(),1);//设备序列号
-			if(washAnswer.getMsgType()==ProtocolConsts.MSGTYPE_WASH_START)//设备响应洗涤开始
-			{	
-				machineMng.updateStatus(sn, 2);
+			byte msgType=washAnswer.getMsgType();
+			Integer status=0;
+			switch (msgType) {
+			case ProtocolConsts.MSGTYPE_WASH_START://设备响应洗涤开始
+				status=2;
+				break;
+			case ProtocolConsts.MSGTYPE_WASH_OVER://设备响应洗涤完成
+				status=1;
+				break;
+			case ProtocolConsts.MSGTYPE_WASH_STATUS_RESP://设备响应洗涤状态回复
+				if(Arrays.equals(washAnswer.getReserve(), new byte[]{0x01,0x00}) )
+				{
+					status=2;
+				}
+				break;
+			default:
+				break;
 			}
-			else//设备响应洗涤完成
-			{
-				machineMng.updateStatus(sn, 1);
-			}
+			machineMng.updateStatus(sn, status);
 			//响应设备端
 			byte[] data=new byte[ProtocolConsts.PACKAGE_WASHORDER_LEN-1];
 			System.arraycopy(data, ProtocolConsts.ProtocolField.HEADER.getPos(), washAnswer.getHeader(), 0,washAnswer.getHeader().length);
 			System.arraycopy(data, ProtocolConsts.ProtocolField.PACKAGE_LEN.getPos(), ProtocolConsts.PACKAGE_WASHORDER_LEN, 0,1);
 			System.arraycopy(data, ProtocolConsts.ProtocolField.DEVICEID.getPos(), washAnswer.getDeviceId(), 0,washAnswer.getDeviceId().length);
-			System.arraycopy(data, ProtocolConsts.ProtocolField.MSGTYPE.getPos(), washAnswer.getMsgType(), 0,1);
-			WashOrder washOrder=new WashOrder(washAnswer.getHeader(), (byte)ProtocolConsts.PACKAGE_WASHORDER_LEN, washAnswer.getDeviceId(), washAnswer.getMsgType(), DataUtils.XOR(data));
+			System.arraycopy(data, ProtocolConsts.ProtocolField.MSGTYPE.getPos(), msgType, 0,1);
+			WashOrder washOrder=new WashOrder(washAnswer.getHeader(), (byte)ProtocolConsts.PACKAGE_WASHORDER_LEN, washAnswer.getDeviceId(), msgType, DataUtils.XOR(data));
 			session.write(washOrder);
 			//add push code
 			//washAnswer.getMsgType()值为设备响应类型

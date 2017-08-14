@@ -20,6 +20,10 @@ public class ProtocolConsts {
 	 */
 	public final static byte MSGTYPE_WASH_OVER=0x02;
 	/**
+	 * 洗涤状态恢复
+	 */
+	public final static byte MSGTYPE_WASH_STATUS_RESP=0x03;
+	/**
 	 * 心跳包消息类型
 	 */
 	public final static byte MSGTYPE_HEARTBEAT=0x0F;

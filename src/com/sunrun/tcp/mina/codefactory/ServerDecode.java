@@ -142,6 +142,7 @@ public class ServerDecode extends CumulativeProtocolDecoder {
 			{
 				case ProtocolConsts.MSGTYPE_WASH_START://开始洗涤
 				case ProtocolConsts.MSGTYPE_WASH_OVER://洗涤结束
+				case ProtocolConsts.MSGTYPE_WASH_STATUS_RESP://洗涤状态恢复
 					if(ProtocolConsts.PACKAGE_WASHANSWER_LEN==length)//检测数据包是否合法
 					{
 						/*预留数据*/
