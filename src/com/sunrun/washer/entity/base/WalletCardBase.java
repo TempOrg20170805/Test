@@ -4,6 +4,7 @@ package com.sunrun.washer.entity.base;
 import java.util.Date;
 
 import com.jeecms.core.entity.CmsUser;
+import com.sunrun.washer.entity.Bank;
 import com.sunrun.washer.enums.WalletCardStatusEnum;
 /**
  * 文 件 名 : WalletCardBase.java
@@ -29,6 +30,7 @@ public abstract class WalletCardBase  implements java.io.Serializable {
  	private String collectionCode; // 收款码
  	private Integer status = WalletCardStatusEnum.USE.getValue(); // 状态 0.删除 1.有效 默认有效
     private Date createTime = new Date(); // 创建时间
+    private Bank bank; // 银行
 
 
     // Constructors
@@ -127,6 +129,18 @@ public abstract class WalletCardBase  implements java.io.Serializable {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+
+
+	public Bank getBank() {
+		return bank;
+	}
+
+
+
+	public void setBank(Bank bank) {
+		this.bank = bank;
 	}
 
 

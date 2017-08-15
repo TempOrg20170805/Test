@@ -110,7 +110,7 @@ $(function() {
 
 <@p.td width="50" colspan="1" label="cmsUser.register">${cmsAdmin.registerTime?string('yyyy-MM-dd HH:mm:ss')} &nbsp; ${cmsAdmin.registerIp}</@p.td>
 <@p.td width="50" colspan="1" label="cmsUser.lastLogin">${cmsAdmin.lastLoginTime?string('yyyy-MM-dd HH:mm:ss')} &nbsp; ${cmsAdmin.lastLoginIp}</@p.td><@p.tr/>
-<@p.text width="50" colspan="1" label="cmsUser.realname" name="realname" value=cmsAdmin.realname maxlength="100"/>
+<@p.text width="50" colspan="1" label="cmsUser.realname" name="realname" value=cmsAdmin.realname maxlength="100" class="required" required="true"/>
 <@p.td width="50" colspan="1" label="cmsUser.loginCount">${cmsAdmin.loginCount}</@p.td><@p.tr/>
 <@p.radio width="50" colspan="1" label="cmsUser.gender" name="gender" value=cmsAdmin.gender list={"true":"cmsUser.male","false":"cmsUser.female"}/>
 <@p.radio width="50" colspan="2" label="cmsUser.selfAdmin" name="selfAdmin" value=cmsAdmin.selfAdmin list={"true":"global.true","false":"global.false"} required="true" help="cmsUser.selfAdmin.help"/>

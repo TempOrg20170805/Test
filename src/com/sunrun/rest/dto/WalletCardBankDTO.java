@@ -17,6 +17,7 @@ public class WalletCardBankDTO {
 	private String bankNum; // 银行卡号
 	private String bankName; // 银行名称
 	private String bankBranches; // 银行网点
+	private String bankIconUrl; // 银行卡图标
 	
 	public WalletCardBankDTO() {}
 	public WalletCardBankDTO(WalletCard walletCard) {
@@ -31,6 +32,11 @@ public class WalletCardBankDTO {
 
 		this.bankName = walletCard.getBankName();
 		this.bankBranches = walletCard.getBankBranches();
+		if (walletCard.getBank() != null) {
+			this.bankIconUrl = walletCard.getBank().getBankIconUrl();
+		} else {
+			this.bankIconUrl = "";
+		}
 	}
 	
 	public String getRealname() {
@@ -62,6 +68,12 @@ public class WalletCardBankDTO {
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	public String getBankIconUrl() {
+		return bankIconUrl;
+	}
+	public void setBankIconUrl(String bankIconUrl) {
+		this.bankIconUrl = bankIconUrl;
 	}
 	
 	

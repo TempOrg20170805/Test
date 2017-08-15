@@ -70,5 +70,8 @@
                 <comment>收款码</comment>
             </column>
         </property>
+        <many-to-one name="bank" class="com.sunrun.washer.entity.Bank" fetch="select" lazy="false">
+		    <column name="bank_id"></column>
+		</many-to-one>
     </class>
 </hibernate-mapping>

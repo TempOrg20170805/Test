@@ -68,7 +68,9 @@ public class WalletCashOutMngImpl implements WalletCashOutMng{
 		bean.setCardNetwork(walletCard.getBankBranches());
 		bean.setCreateTime(new Date());
 		bean.setCollectionCode(walletCard.getCollectionCode());
-		
+		if (walletCard.getBank() != null) {
+			bean.setBank(walletCard.getBank());
+		}
 		// 赋值保存的必要信息
 		return walletCashOutDao.save(bean);
 	}

@@ -11,7 +11,7 @@ import com.sunrun.washer.entity.WalletCashOut;
  * 日 期：2017-8-6
  * 修 改 人： 
  * 日 期： 
- * 描 述：消费日志管理DTO
+ * 描 述：提现结果管理DTO
  */
 public class WalletCashOutDTO {
 	private Integer id;
