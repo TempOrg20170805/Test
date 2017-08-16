@@ -75,38 +75,6 @@ public class FloorController extends BaseController{
 		}
 		return floorQueryDTO;
 	}
-
-	/**
-	 * 添加楼管理
-	 * @param userId = customerId
-	 * @param XX
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "/floor/saveFloor.json")
-	@ResponseBody
-	public FloorSaveDTO saveFloor(Integer xx, HttpServletRequest request){
-		FloorSaveDTO floorSaveDTO = new FloorSaveDTO();
-		if(validateSaveFloor(floorSaveDTO,xx)){
-			// floorMng.save(bean, xx);
-			floorSaveDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
-		}
-		return floorSaveDTO;
-	}
-	
-	/**
-	 * 校验查询楼管理保存接口
-	 * @param baseDTO
-	 * @param userId 用户id
-	 * @return
-	 */
-	private Boolean validateSaveFloor(BaseDTO baseDTO, Integer userId) {
-		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
-			return false;			
-		}
-		return true;
-	}
 	
 	/**
 	 * 查询楼地址
@@ -201,37 +169,6 @@ public class FloorController extends BaseController{
 		return true;
 	}
 
-	/**
-	 * 删除楼管理
-	 * @param userId 
-	 * @param xx 
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "/floor/deleteFloor.json")
-	@ResponseBody	
-	public FloorDeleteDTO deleteFloor(Integer xx, HttpServletRequest request){
-		FloorDeleteDTO floorDeleteDTO = new FloorDeleteDTO();
-		if(validateDeleteFloor(floorDeleteDTO,xx)){
-			// floorMng.update(bean, xx);
-			floorDeleteDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
-		}
-		return floorDeleteDTO;
-	}
-	
-	/**
-	 * 校验删除楼管理删除接口
-	 * @param baseDTO
-	 * @param userId 用户id
-	 * @return
-	 */
-	private Boolean validateDeleteFloor(BaseDTO baseDTO, Integer userId) {
-		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
-			return false;			
-		}
-		return true;
-	}
 
 	/**
 	 * 楼管理详情
