@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alipay.api.internal.util.AlipaySignature;
+import com.jeecms.common.page.Pagination;
 import com.jeecms.common.util.DateFormatUtils;
 import com.jeecms.common.util.Num62;
 import com.jeecms.common.web.RequestUtils;
@@ -46,12 +47,15 @@ import com.sunrun.rest.dto.BaseDTO;
 import com.sunrun.rest.dto.BaseDTO.BaseDTOEnum;
 import com.sunrun.rest.dto.WasherOrderPayDTO;
 import com.sunrun.rest.dto.WasherOrderPayDTO.WasherOrderPayDTOEnum;
+import com.sunrun.washer.entity.Machine;
 import com.sunrun.washer.entity.WasherOrder;
+import com.sunrun.washer.enums.MachineStatusEnum;
 import com.sunrun.washer.enums.WalletLogPayPlatformEnum;
 import com.sunrun.washer.enums.WasherOrderStatusEnum;
 import com.sunrun.washer.manager.MachineMng;
 import com.sunrun.washer.manager.ModeMng;
 import com.sunrun.washer.manager.WasherOrderMng;
+import com.sunrun.washer.model.MachineModel;
 import com.unionpay.acp.sdk.LogUtil;
 import com.unionpay.acp.sdk.SDKConstants;
 import com.unionpay.acp.sdk.SDKUtil;
@@ -545,6 +549,36 @@ public class WasherOrderPayController extends BaseController{
 		return res;
 	}
 	
+	
+	/**
+	 * 订单支付成功接口（仅供测试使用）
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/orderCallBack.json")
+	@ResponseBody	
+	public BaseDTO online(String orderNo, HttpServletRequest request){
+		BaseDTO baseDTO = new BaseDTO();
+		WasherOrder washerOrder = washerOrderMng.findByOutSn(orderNo);
+		if (washerOrder.getPayPlatform() == null) {
+			// 默认支付宝支付
+			washerOrderMng.updatePayMsg(washerOrder.getOrderId(), WalletLogPayPlatformEnum.ALIPAY.getCode(), WalletLogPayPlatformEnum.ALIPAY.getDescribe() + "支付");
+		}
+		boolean isNotPay = true;
+		// 判断之前是否已经支付
+		if(washerOrder != null && !washerOrder.getOrderState().equals(WasherOrderStatusEnum.NOT_PAY.getCode())) {
+			isNotPay = false;
+		}
+
+		if(isNotPay) {
+			washerOrderMng.paySuccess(orderNo);
+		} else {
+			System.out.println("错误调用：app订单号不是未付款状态/订单被删除：" + orderNo +" 时间："+(new Date()));
+		}
+		baseDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+		
+		return baseDTO;
+	}
 	
 }
 
