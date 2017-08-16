@@ -78,8 +78,6 @@ public class MachineController extends BaseController{
 	 * 查询该楼层洗衣机列表
 	 * @param userId 用户Id
 	 * @param floorLayerId 楼层ID
-	 * @param pageNo 当前页
-	 * @param pageSize 每页数据量
 	 * @return
 	 */
 	@RequestMapping("/machine/queryMachineByFloorId.json")
