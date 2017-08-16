@@ -42,8 +42,10 @@ public class WasherOrderPayDTO extends BaseDTO {
 	private String callBackUrl; // 回调接口地址
 	private BigDecimal payPrice; // 订单支付金额
 	
+	private String aliPayString; // 支付宝预支付字符串
 	private Map<String, Object> weixResMap; // 微信支付预支付结果
 	private Map<String, Object> bankResMap; // 银行卡支付预支付结果
+	
 	public String getOutSn() {
 		return outSn;
 	}
@@ -73,6 +75,12 @@ public class WasherOrderPayDTO extends BaseDTO {
 	}
 	public void setBankResMap(Map<String, Object> bankResMap) {
 		this.bankResMap = bankResMap;
+	}
+	public String getAliPayString() {
+		return aliPayString;
+	}
+	public void setAliPayString(String aliPayString) {
+		this.aliPayString = aliPayString;
 	}
 	
 }
