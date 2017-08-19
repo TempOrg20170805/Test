@@ -1,4 +1,5 @@
 package com.sunrun.washer.manager.impl;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,8 @@ public class WalletCashOutMngImpl implements WalletCashOutMng{
 		if (walletCard.getBank() != null) {
 			bean.setBank(walletCard.getBank());
 		}
+		
+		cmsUserMng.updateMoney(walletCashOutModelSave.getUserId(), walletCashOutModelSave.getMoney().negate(), WalletLogTypeEnum.CASHOUT.getCode(), WalletLogPayPlatformEnum.WALLET.getCode(),WalletLogTypeEnum.CASHOUT.getDescribe()+"预支付");
 		// 赋值保存的必要信息
 		return walletCashOutDao.save(bean);
 	}
@@ -79,7 +82,9 @@ public class WalletCashOutMngImpl implements WalletCashOutMng{
 	public WalletCashOut updateWalletCashOut(WalletCashOutModelUpdate walletCashOutModelUpdate) {
 		WalletCashOut walletCashOut = findById(walletCashOutModelUpdate.getWalletCashOutId());
 		if (WalletCashOutStateEnum.SUCCESS.getValue().equals(walletCashOutModelUpdate.getState())) {
-			cmsUserMng.updateMoney(walletCashOut.getJcUser().getId(), walletCashOut.getMoney().negate(), WalletLogTypeEnum.CASHOUT.getCode(), WalletLogPayPlatformEnum.WALLET.getCode(),WalletLogTypeEnum.CASHOUT.getDescribe());
+			cmsUserMng.updateMoney(walletCashOut.getJcUser().getId(), new BigDecimal(0), WalletLogTypeEnum.CASHOUT.getCode(), WalletLogPayPlatformEnum.WALLET.getCode(),WalletLogTypeEnum.CASHOUT.getDescribe()+"成功");
+		} else {
+			cmsUserMng.updateMoney(walletCashOut.getJcUser().getId(), walletCashOut.getMoney(), WalletLogTypeEnum.CASHOUT.getCode(), WalletLogPayPlatformEnum.WALLET.getCode(),WalletLogTypeEnum.CASHOUT.getDescribe()+"失败，返还现金");
 		}
 		walletCashOut.setState(walletCashOutModelUpdate.getState());
 		walletCashOut.setHandleTime(new Date());

@@ -30,6 +30,12 @@ public class WalletLogDaoImpl extends HibernateBaseDao<WalletLog, Integer> imple
 			f.append(" and bean.jcUser.id = :userId");
 			f.setParam("userId", walletLogModel.getUserId());
 		}
+		
+		if (walletLogModel.getType() != null && walletLogModel.getType() >0 ){
+			f.append(" and bean.type = :type");
+			f.setParam("type", walletLogModel.getType());
+		}
+		
 		if (walletLogModel.getStartTime() != null) {
 			f.append(" and bean.time > :startTime").setParam("startTime", walletLogModel.getStartTime());
 		}
