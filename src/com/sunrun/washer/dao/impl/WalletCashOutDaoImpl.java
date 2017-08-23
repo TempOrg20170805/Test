@@ -32,6 +32,7 @@ public class WalletCashOutDaoImpl extends HibernateBaseDao<WalletCashOut, Intege
 			f.append(" and bean.state = :state").setParam("state", walletCashOutModel.getState());
 		}
 
+		f.append(" order by bean.createTime desc");
 		return find(f, pageNo, pageSize);
 	}
 	

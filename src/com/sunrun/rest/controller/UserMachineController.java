@@ -1,20 +1,33 @@
 package com.sunrun.rest.controller;
-import com.sunrun.rest.dto.*;import com.sunrun.washer.manager.*;import com.sunrun.washer.entity.*;import com.sunrun.washer.model.*;
-import com.ibm.db2.jcc.am.u;
-import com.jeecms.core.manager.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.jeecms.common.page.Pagination;
 import com.jeecms.common.page.SimplePage;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.jeecms.core.manager.CmsUserMng;
+import com.sunrun.rest.dto.BaseDTO;
+import com.sunrun.rest.dto.UserMachineAllCountDTO;
+import com.sunrun.rest.dto.UserMachineDTO;
+import com.sunrun.rest.dto.UserMachineDeleteDTO;
+import com.sunrun.rest.dto.UserMachineDetailDTO;
+import com.sunrun.rest.dto.UserMachineQueryDTO;
+import com.sunrun.rest.dto.UserMachineSaveDTO;
+import com.sunrun.rest.dto.UserMachineUpdateDTO;
+import com.sunrun.washer.entity.FloorLayer;
+import com.sunrun.washer.entity.Machine;
+import com.sunrun.washer.entity.UserMachine;
+import com.sunrun.washer.manager.FloorLayerMng;
+import com.sunrun.washer.manager.MachineMng;
+import com.sunrun.washer.manager.UserMachineMng;
+import com.sunrun.washer.model.UserMachineModel;
+import com.sunrun.washer.model.UserMachineModelUpdatePutIn;
 
 /**
  * 文 件 名 : UserMachineController.java
@@ -35,6 +48,33 @@ public class UserMachineController extends BaseController{
 	private FloorLayerMng floorLayerMng;
 	@Autowired
 	private MachineMng machineMng;
+	
+	
+	/**
+	 * 查询渠道商的洗衣机洗衣机数量
+	 * @param userId 用户Id
+	 * @param userMachineModel 用户关联洗衣机管理查询条件
+	 * @param pageNo 当前页
+	 * @param pageSize 每页数据量
+	 * @return
+	 */
+	@RequestMapping("/userMachine/queryUserMachineAllCount.json")
+	@ResponseBody
+	public UserMachineAllCountDTO queryUserMachineAllCount(HttpServletRequest request) {
+		UserMachineAllCountDTO userMachineAllCountDTO = new UserMachineAllCountDTO();
+		if (validateQueryUserMachineAllCountByModel(userMachineAllCountDTO, getUserId())) {
+			UserMachineModel userMachineModel = new UserMachineModel();
+			userMachineModel.setUserId(getUserId());
+			// 代码：设置默认相关值
+			Pagination pagination = userMachineMng.queryUserMachineByModel(userMachineModel, 1, 1);
+			// 赋值用户关联洗衣机管理分页信息
+			userMachineAllCountDTO.setTotalCount(pagination.getTotalCount());
+			userMachineAllCountDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+		}
+		return userMachineAllCountDTO;
+	}
+	
+	
 	/**
 	 * 查询渠道商的洗衣机（未查询未投放的洗衣机）
 	 * @param userId 用户Id
@@ -158,104 +198,6 @@ public class UserMachineController extends BaseController{
 		return true;
 	}
 
-	/**
-	 * 添加用户关联洗衣机管理
-	 * @param userId = customerId
-	 * @param XX
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "/userMachine/saveUserMachine.json")
-	@ResponseBody
-	public UserMachineSaveDTO saveUserMachine(Integer xx, HttpServletRequest request){
-		UserMachineSaveDTO userMachineSaveDTO = new UserMachineSaveDTO();
-		if(validateSaveUserMachine(userMachineSaveDTO,xx)){
-			// userMachineMng.save(bean, xx);
-			userMachineSaveDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
-		}
-		return userMachineSaveDTO;
-	}
-	
-	/**
-	 * 校验查询用户关联洗衣机管理保存接口
-	 * @param baseDTO
-	 * @param userId 用户id
-	 * @return
-	 */
-	private Boolean validateSaveUserMachine(BaseDTO baseDTO, Integer userId) {
-		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
-			return false;			
-		}
-		return true;
-	}
-
-	/**
-	 * 更新用户关联洗衣机管理
-	 * @param userId 
-	 * @param xx 
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "/userMachine/updateUserMachine.json")
-	@ResponseBody	
-	public UserMachineUpdateDTO updateUserMachine(HttpServletRequest request){
-		UserMachineUpdateDTO userMachineUpdateDTO = new UserMachineUpdateDTO();
-		if(validateUpdateUserMachine(userMachineUpdateDTO,getUserId())){
-			userMachineUpdateDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
-		}
-		return userMachineUpdateDTO;
-	}
-	
-	/**
-	 * 校验更新用户关联洗衣机管理更新接口
-	 * @param baseDTO
-	 * @param userId 用户id
-	 * @return
-	 */
-	private Boolean validateUpdateUserMachine(BaseDTO baseDTO, Integer userId) {
-		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
-			return false;			
-		}
-		return true;
-	}
-
-	/**
-	 * 删除用户删除洗衣机
-	 * @param userId 
-	 * @param machineId 洗衣机ID
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "/userMachine/deleteUserMachine.json")
-	@ResponseBody	
-	public UserMachineDeleteDTO deleteUserMachine(Integer machineId, HttpServletRequest request){
-		UserMachineDeleteDTO userMachineDeleteDTO = new UserMachineDeleteDTO();
-		if(validateDeleteUserMachine(userMachineDeleteDTO, getUserId(), machineId)){
-			// userMachineMng.update(bean, xx);
-			userMachineDeleteDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
-		}
-		return userMachineDeleteDTO;
-	}
-	
-	/**
-	 * 校验删除用户关联洗衣机管理删除接口
-	 * @param baseDTO
-	 * @param userId 用户id
-	 * @return
-	 */
-	private Boolean validateDeleteUserMachine(BaseDTO baseDTO, Integer userId ,Integer machineId) {
-		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
-			return false;			
-		}
-		if (machineMng.findById(machineId) == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_VALIDATECODE_NOTEXIST);
-			return false;
-		}
-		return true;
-	}
 
 	/**
 	 * 用户关联洗衣机管理详情
@@ -303,6 +245,20 @@ public class UserMachineController extends BaseController{
 	 * @return
 	 */
 	private Boolean validateQueryUserMachineByModel(BaseDTO baseDTO, Integer userId, UserMachineModel userMachineModel) {
+		if (cmsUserMng.findById(userId)  == null) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
+			return false;			
+		}
+		return true;
+	}
+	
+	/**
+	 * 校验查询用户洗衣机数量接口
+	 * @param baseDTO
+	 * @param userId 用户id
+	 * @return
+	 */
+	private Boolean validateQueryUserMachineAllCountByModel(BaseDTO baseDTO, Integer userId) {
 		if (cmsUserMng.findById(userId)  == null) {
 			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			

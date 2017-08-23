@@ -950,7 +950,6 @@ public class RedisDaoImpl implements RedisDao {
         boolean broken = false;
         try {
             result = shardedJedis.llen(key);
-
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             broken = true;

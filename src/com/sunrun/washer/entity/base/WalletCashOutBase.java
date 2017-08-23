@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.jeecms.core.entity.CmsUser;
+import com.sunrun.washer.entity.Bank;
 import com.sunrun.washer.enums.WalletCardTypeEnum;
 import com.sunrun.washer.enums.WalletCashOutStateEnum;
 
@@ -34,6 +35,7 @@ public abstract class WalletCashOutBase  implements java.io.Serializable {
  	private Date handleTime; // 处理时间
  	private String cashOutFailReason; // 提现失败原因
  	private String collectionCode; // 收款码
+ 	private Bank bank; // 银行
 
     // Constructors
 
@@ -177,6 +179,17 @@ public abstract class WalletCashOutBase  implements java.io.Serializable {
 	public void setCollectionCode(String collectionCode) {
 		this.collectionCode = collectionCode;
 	}
+
+
+	public Bank getBank() {
+		return bank;
+	}
+
+
+	public void setBank(Bank bank) {
+		this.bank = bank;
+	}
+	
 	
 
 	

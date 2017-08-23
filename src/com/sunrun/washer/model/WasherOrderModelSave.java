@@ -12,7 +12,7 @@ public class WasherOrderModelSave {
 
 	private Integer userId; // 买家ID
 	private Integer modeId; // 洗衣模式ID
-	private Integer mechineId; // 洗衣机ID
+	private Integer machineId; // 洗衣机ID
 	public Integer getUserId() {
 		return userId;
 	}
@@ -26,10 +26,10 @@ public class WasherOrderModelSave {
 		this.modeId = modeId;
 	}
 	public Integer getMechineId() {
-		return mechineId;
+		return machineId;
 	}
-	public void setMechineId(Integer mechineId) {
-		this.mechineId = mechineId;
+	public void setMechineId(Integer machineId) {
+		this.machineId = machineId;
 	}
 
 	

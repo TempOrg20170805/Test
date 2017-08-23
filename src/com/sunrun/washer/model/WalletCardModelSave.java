@@ -12,28 +12,19 @@ public class WalletCardModelSave {
 	private Integer userId; // 用户id
 	private String realname; // 真实姓名
 	private Integer type; // 类型 银行卡/支付宝
-	private String bankName; // 银行名称
+	private Integer bankId; // 银行Id
 	private String bankNum; // 卡号
 	private String bankBranches; // 银行网点
 	private String alipayNum; // 支付宝账号
 	private String collectionCode; // 收款码图片
 	
 	public WalletCardModelSave(){}
-	/**
-	 * 构造方法
-	 * @param userId 用户id
-	 * @param realname 真实姓名
-	 * @param type 类型 银行卡/支付宝
-	 * @param bankName 银行名称
-	 * @param bankNum 卡号
-	 * @param bankBranches 银行网点
-	 * @param alipayNum 支付宝账号
-	 */
-	public WalletCardModelSave(Integer userId,String realname,Integer type,String bankName,String bankNum,String bankBranches,String alipayNum, String collectionCode) {
+
+	public WalletCardModelSave(Integer userId,String realname,Integer type,Integer bankId,String bankNum,String bankBranches,String alipayNum, String collectionCode) {
 		this.userId = userId;
 		this.realname = realname;
 		this.type = type;
-		this.bankName = bankName;
+		this.bankId = bankId;
 		this.bankNum = bankNum;
 		this.bankBranches = bankBranches;
 		this.alipayNum = alipayNum;
@@ -58,12 +49,14 @@ public class WalletCardModelSave {
 	public void setType(Integer type) {
 		this.type = type;
 	}
-	public String getBankName() {
-		return bankName;
+	public Integer getBankId() {
+		return bankId;
 	}
-	public void setBankName(String bankName) {
-		this.bankName = bankName;
+
+	public void setBankId(Integer bankId) {
+		this.bankId = bankId;
 	}
+
 	public String getBankNum() {
 		return bankNum;
 	}

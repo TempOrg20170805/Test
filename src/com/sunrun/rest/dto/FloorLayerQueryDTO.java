@@ -33,24 +33,10 @@ public class FloorLayerQueryDTO extends BaseDTO {
 		
 	}
 	private Integer floorId; // 楼ID
-	private Integer pageNo; // 当前页
-	private Integer pageSize; // 每页数据量
 	private Integer totalCount; // 所有数据量
 
 	private List<FloorLayerDTO> floorLayerDTOs;
 	
-	public Integer getPageNo() {
-		return pageNo;
-	}
-	public void setPageNo(Integer pageNo) {
-		this.pageNo = pageNo;
-	}
-	public Integer getPageSize() {
-		return pageSize;
-	}
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
-	}
 	public Integer getTotalCount() {
 		return totalCount;
 	}

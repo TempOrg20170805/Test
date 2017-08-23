@@ -100,7 +100,8 @@ public class UserFloorController extends BaseController{
 			UserFloorModelSave userFloorModelSave = new UserFloorModelSave();
 			userFloorModelSave.setUserId(getUserId());
 			userFloorModelSave.setAddressDetail(addressDetail);
-			userFloorMng.saveUserFloor(userFloorModelSave);
+			UserFloor userFLoor = userFloorMng.saveUserFloor(userFloorModelSave);
+			userFloorSaveDTO.setFloorId(userFLoor.getFloor().getFloorId());
 			userFloorSaveDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
 		}
 		return userFloorSaveDTO;
@@ -131,8 +132,6 @@ public class UserFloorController extends BaseController{
 
 	/**
 	 * 更新用户关联楼管理
-	 * @param userId 
-	 * @param xx 
 	 * @param request
 	 * @return
 	 */
@@ -160,74 +159,6 @@ public class UserFloorController extends BaseController{
 		return true;
 	}
 
-	/**
-	 * 删除用户关联楼管理
-	 * @param userId 
-	 * @param xx 
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "/userFloor/deleteUserFloor.json")
-	@ResponseBody	
-	public UserFloorDeleteDTO deleteUserFloor(Integer xx, HttpServletRequest request){
-		UserFloorDeleteDTO userFloorDeleteDTO = new UserFloorDeleteDTO();
-		if(validateDeleteUserFloor(userFloorDeleteDTO,xx)){
-			// userFloorMng.update(bean, xx);
-			userFloorDeleteDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
-		}
-		return userFloorDeleteDTO;
-	}
-	
-	/**
-	 * 校验删除用户关联楼管理删除接口
-	 * @param baseDTO
-	 * @param userId 用户id
-	 * @return
-	 */
-	private Boolean validateDeleteUserFloor(BaseDTO baseDTO, Integer userId) {
-		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
-			return false;			
-		}
-		return true;
-	}
-
-	/**
-	 * 用户关联楼管理详情
-	 * @param userId 
-	 * @param userFloorId 用户关联楼管理Id
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "/userFloor/detailUserFloor.json")
-	@ResponseBody
-	public UserFloorDetailDTO detailUserFloor(Integer userFloorId, HttpServletRequest request){
-		UserFloorDetailDTO userFloorDetailDTO = new UserFloorDetailDTO();
-		if(validateDetailUserFloor(userFloorDetailDTO, getUserId(), userFloorId)){
-			// userFloorMng.findById(userFloorId);
-			userFloorDetailDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
-		}
-		return userFloorDetailDTO;
-	}
-		
-	/**
-	 * 校验用户关联楼管理详情接口
-	 * @param baseDTO
-	 * @param userId 用户id
-	 * @param userFloorId 用户关联楼管理Id
-	 * @return
-	 */
-	private Boolean validateDetailUserFloor(BaseDTO baseDTO, Integer userId, Integer userFloorId) {
-		if (cmsUserMng.findById(userId)  == null) {
-			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
-			return false;			
-		}
-		if (userFloorMng.findById(userFloorId) == null) {
-			baseDTO.setState(UserFloorDetailDTO.UserFloorDetailDTOEnum.IS_NOT_EXIST);
-			return false;
-		}
-		return true;
-	}
 
 
 	/**

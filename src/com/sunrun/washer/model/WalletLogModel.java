@@ -16,6 +16,7 @@ public class WalletLogModel {
 	private Integer userId; // 用户Id
 	private Date startTime; // 开始时间
 	private Date endTime; // 结束时间
+	private Integer type; // 交易类型 0.所有  1.提现 2.收入
 
 	public Integer getUserId() {
 		return userId;
@@ -39,6 +40,14 @@ public class WalletLogModel {
 
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
 	}
 	
 

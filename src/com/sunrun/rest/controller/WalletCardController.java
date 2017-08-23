@@ -28,6 +28,7 @@ import com.sunrun.rest.dto.WalletCardSaveDTO.WalletCardSaveDTOEnum;
 import com.sunrun.rest.dto.WalletCardWeiXinDTO;
 import com.sunrun.washer.entity.WalletCard;
 import com.sunrun.washer.enums.WalletCardTypeEnum;
+import com.sunrun.washer.manager.BankMng;
 import com.sunrun.washer.manager.WalletCardMng;
 import com.sunrun.washer.model.WalletCardModel;
 import com.sunrun.washer.model.WalletCardModelSave;
@@ -52,6 +53,9 @@ public class WalletCardController extends BaseController {
 	private FileRepository fileRepository;
 	@Autowired
 	private CmsFileMng fileMng;
+	@Autowired
+	private BankMng bankMng;
+
 
 	/**
 	 * 查询银行卡列表（不分页）
@@ -107,7 +111,7 @@ public class WalletCardController extends BaseController {
 	 * @param userId 用户id
 	 * @param realname 真实姓名
 	 * @param type 类型 1.银行卡 2.支付宝 3.微信
-	 * @param bankName 银行名称
+	 * @param bankId 银行ID
 	 * @param bankNum 银行卡号
 	 * @param bankBranches 银行网点
 	 * @param alipayNum 支付宝账号
@@ -117,9 +121,9 @@ public class WalletCardController extends BaseController {
 	 */
 	@RequestMapping(value = "/walletCard/saveWalletCard.json")
 	@ResponseBody
-	public WalletCardSaveDTO saveWalletCard(String realname,Integer type,String bankName,String bankNum,String bankBranches,String alipayNum, @RequestParam(required=false)MultipartFile collectionCodeImg,HttpServletRequest request){
+	public WalletCardSaveDTO saveWalletCard(String realname,Integer type,Integer bankId, String bankNum,String bankBranches,String alipayNum, @RequestParam(required=false)MultipartFile collectionCodeImg,HttpServletRequest request){
 		WalletCardSaveDTO walletCardSaveDTO = new WalletCardSaveDTO();
-		if(validateSaveWalletCard(walletCardSaveDTO, getUserId(), realname, type, bankName, bankNum, bankBranches, alipayNum)){
+		if(validateSaveWalletCard(walletCardSaveDTO, getUserId(), realname, type, bankId, bankNum, bankBranches, alipayNum)){
 			String fileUrl = "";
 			String upPath = Constants.COLLECTION_CODE_IMG_PATH + "Picture";
 			if(collectionCodeImg!=null && collectionCodeImg.getSize()!=0){
@@ -138,7 +142,7 @@ public class WalletCardController extends BaseController {
 				}
 			}
 			
-			walletCardMng.saveWalletCard(new WalletCardModelSave(getUserId(), realname, type, bankName, bankNum, bankBranches, alipayNum, fileUrl));
+			walletCardMng.saveWalletCard(new WalletCardModelSave(getUserId(), realname, type, bankId, bankNum, bankBranches, alipayNum, fileUrl));
 			walletCardSaveDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
 		}
 		return walletCardSaveDTO;
@@ -184,10 +188,14 @@ public class WalletCardController extends BaseController {
 	 * @param userId 用户id
 	 * @return
 	 */
-	private Boolean validateSaveWalletCard(BaseDTO baseDTO, Integer userId,String realname,Integer type,String bankName,String bankNum,String bankBranches,String alipayNum) {
+	private Boolean validateSaveWalletCard(BaseDTO baseDTO, Integer userId,String realname,Integer type,Integer bankId,String bankNum,String bankBranches,String alipayNum) {
 		if (cmsUserMng.findById(userId)  == null) {
 			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
+		}
+		if (bankId != null && bankMng.findById(bankId) == null) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_VALIDATECODE_NOTEXIST);
+			return false;
 		}
 		if (!WalletCardTypeEnum.ALIPAY_CARD.getValue().equals(type) && !WalletCardTypeEnum.BANK_CARD.getValue().equals(type) && !WalletCardTypeEnum.WEIXIN.getValue().equals(type)){
 			baseDTO.setState(WalletCardSaveDTOEnum.CARD_TYPE_ERROR);

@@ -104,7 +104,7 @@ $(function() {
 <@p.select width="50" colspan="1" label="cmsUser.group" name="groupId" list=groupList listKey="id" listValue="name" required="true"/>
 <!-- 等级
 <@p.text width="50" colspan="1" label="cmsUser.rank" name="rank" value=currRank-1 style="width:70px" required="true" class="required digits" maxlength="5" max=currRank help="cmsUser.rank.help"/><@p.tr/> -->
-<@p.text width="50" colspan="1" label="cmsUser.realname" name="realname" maxlength="100"/><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsUser.realname" name="realname" maxlength="100" class="required" required="true"/><@p.tr/>
 <@p.radio width="50" colspan="1" label="cmsUser.gender" name="gender" list={"true":"cmsUser.male","false":"cmsUser.female"} class="required" required="true"/>
 <@p.radio width="50" colspan="2" label="cmsUser.selfAdmin" name="selfAdmin" value="false" list={"true":"global.true","false":"global.false"} required="true" help="cmsUser.selfAdmin.help"/>
 <@p.tr/>

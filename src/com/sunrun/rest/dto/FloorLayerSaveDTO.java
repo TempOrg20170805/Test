@@ -32,5 +32,13 @@ public class FloorLayerSaveDTO extends BaseDTO {
 		}
 		
 	}
+	private Integer floorLayerId; // 楼层列表
+	public Integer getFloorLayerId() {
+		return floorLayerId;
+	}
+	public void setFloorLayerId(Integer floorLayerId) {
+		this.floorLayerId = floorLayerId;
+	}
+	
 }
 

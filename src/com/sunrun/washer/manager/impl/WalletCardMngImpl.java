@@ -8,8 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jeecms.common.hibernate4.Updater;
 import com.jeecms.core.manager.CmsUserMng;
 import com.sunrun.washer.dao.WalletCardDao;
+import com.sunrun.washer.entity.Bank;
 import com.sunrun.washer.entity.WalletCard;
 import com.sunrun.washer.enums.WalletCardStatusEnum;
+import com.sunrun.washer.manager.BankMng;
 import com.sunrun.washer.manager.WalletCardMng;
 import com.sunrun.washer.model.WalletCardModel;
 import com.sunrun.washer.model.WalletCardModelSave;
@@ -29,7 +31,8 @@ public class WalletCardMngImpl implements WalletCardMng{
 	private WalletCardDao walletCardDao;
 	@Autowired
 	private CmsUserMng jcUserMng;
-
+	@Autowired
+	private BankMng bankMng;
 	
 	@Override
 	public List<WalletCard> queryWalletCardListByModel(WalletCardModel walletCardModel) {
@@ -42,7 +45,15 @@ public class WalletCardMngImpl implements WalletCardMng{
 		bean.setJcUser(jcUserMng.findById(walletCardModelSave.getUserId()));
 		bean.setRealname(walletCardModelSave.getRealname());
 		bean.setType(walletCardModelSave.getType());
-		bean.setBankName(walletCardModelSave.getBankName());
+		
+		if (walletCardModelSave.getBankId() != null) {
+			Bank bank = bankMng.findById(walletCardModelSave.getBankId());
+			if (bank != null) {
+				bean.setBankName(bank.getName());
+				bean.setBank(bank);
+			}
+		}
+		
 		bean.setBankNum(walletCardModelSave.getBankNum());
 		bean.setBankBranches(walletCardModelSave.getBankBranches());
 		bean.setAlipayNum(walletCardModelSave.getAlipayNum());
