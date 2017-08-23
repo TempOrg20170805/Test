@@ -148,7 +148,6 @@ public class ServerHandler extends IoHandlerAdapter {
 			if (washAnswer.getMsgType()==ProtocolConsts.MSGTYPE_WASH_OVER) {
 				jpushBindingMng.JpushMsgSendEnd(sn);
 			}
-			
 		}
 	}
 
