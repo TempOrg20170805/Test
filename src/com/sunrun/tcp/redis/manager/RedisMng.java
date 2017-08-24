@@ -2,10 +2,10 @@ package com.sunrun.tcp.redis.manager;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
-
+import com.sunrun.tcp.redis.entity.RedisWasherFault;
 import com.sunrun.tcp.redis.entity.RedisWasherLog;
+import com.sunrun.washer.entity.WasherFault;
 import com.sunrun.washer.entity.WasherLog;
-
 import redis.clients.jedis.ShardedJedis;
 
 /** 
@@ -22,7 +22,7 @@ public interface RedisMng {
 	* @author: HL
 	* @date: 2017年08月08日 下午2:54:47
 	* @function: pushWasherLogList  
-	* @Description: 洗衣机日志数据缓存到redis
+	* @Description: 洗衣机在线离线日志数据缓存到redis
 	* @param: @param redisWasherLog
 	* @param: @return
 	* @return: Long
@@ -43,4 +43,29 @@ public interface RedisMng {
 	* @throws
 	*/
 	Boolean popWasherLogList(ShardedJedis shardedJedis,List<WasherLog> washerLogs,ConcurrentMap<String, Integer> onlineMap);
+	
+	/**
+	* @author: HL
+	* @date: 2017年08月23日 下午2:54:47
+	* @function: pushWasherFaultList  
+	* @Description: 洗衣机故障日志数据缓存到redis
+	* @param: @param redisWasherFault
+	* @param: @return
+	* @return: Long
+	* @throws
+	*/
+	Long pushWasherFaultList(RedisWasherFault redisWasherFault);
+	
+	/**
+	* @author: HL
+	* @date: 2017年08月23日 下午3:01:34
+	* @function: popWasherFaultList  
+	* @Description: 从REDIS获取洗衣机故障数据 
+	* @param: @param shardedJedis
+	* @param: @param washerFaults
+	* @param: @return
+	* @return: Boolean
+	* @throws
+	*/
+	Boolean popWasherFaultList(ShardedJedis shardedJedis,List<WasherFault> washerFaults);
 }

@@ -2,6 +2,7 @@ package com.sunrun.washer.manager;
 
 import java.util.List;
 
+import com.sunrun.washer.entity.WasherFault;
 import com.sunrun.washer.entity.WasherLog;
 
 /** 
@@ -17,12 +18,24 @@ public interface WasherLogMng {
 	/**
 	* @author: HL
 	* @date: 2017年08月08日 下午2:29:33
-	* @function: saveList  
+	* @function: saveWasherLogList  
 	* @Description: 批量存储洗衣机日志列表
 	* @param: @param washerLogs
 	* @param: @return
 	* @return: Integer
 	* @throws
 	 */
-	Integer saveList(List<WasherLog> washerLogs);
+	Integer saveWasherLogList(List<WasherLog> washerLogs);
+	
+	/**
+	* @author: HL
+	* @date: 2017年08月08日 下午2:29:33
+	* @function: saveWasherFaultList  
+	* @Description: 批量存储洗衣机日志列表
+	* @param: @param washerLogs
+	* @param: @return
+	* @return: Integer
+	* @throws
+	 */
+	Integer saveWasherFaultList(List<WasherFault> washerFaults);
 }

@@ -71,9 +71,12 @@ public class ServerDecode extends CumulativeProtocolDecoder {
 				in.get(header);
 				/*获取有效数据包长度*/
 				byte lenght=in.get();
-				/*检验数据包头效验码、数据包长度是否合法有效*/
+				/*获取项目ID*/
+				byte factoryId=in.get();
+				/*检验数据包头效验码、数据包长度、项目ID是否合法有效*/
 				if(Arrays.equals(header, ProtocolConsts.PACKET_HEADER) 
-				  && (lenght == ProtocolConsts.PACKAGE_HEARTBEAT_LEN ||lenght == ProtocolConsts.PACKAGE_WASHANSWER_LEN) )
+				  && (lenght == ProtocolConsts.PACKAGE_HEARTBEAT_LEN ||lenght == ProtocolConsts.PACKAGE_WASHANSWER_LEN) 
+				  && factoryId==ProtocolConsts.FACTORY_ID)
 				{
 					in.reset(); // IoBuffer position回到原来标记的地方 
 					/*未接受到一个完整的数据包，则不读取本次IoBuffer中数据*/
@@ -132,6 +135,8 @@ public class ServerDecode extends CumulativeProtocolDecoder {
 			System.arraycopy(data, ProtocolConsts.ProtocolField.HEADER.getPos(), header, 0,header.length);
 			/*获取有效数据包长度*/
 			byte length=data[ProtocolConsts.ProtocolField.PACKAGE_LEN.getPos()];
+			/*获取项目ID*/
+			byte factoryId=data[ProtocolConsts.ProtocolField.FACTORY_ID.getPos()];
 			/*获取设备ID*/
 			byte [] deviceId=new byte[ProtocolConsts.ProtocolField.DEVICEID.getLen()];
 			System.arraycopy(data, ProtocolConsts.ProtocolField.DEVICEID.getPos(), deviceId, 0,deviceId.length);
@@ -143,6 +148,7 @@ public class ServerDecode extends CumulativeProtocolDecoder {
 				case ProtocolConsts.MSGTYPE_WASH_START://开始洗涤
 				case ProtocolConsts.MSGTYPE_WASH_OVER://洗涤结束
 				case ProtocolConsts.MSGTYPE_WASH_STATUS_RESP://洗涤状态恢复
+				case ProtocolConsts.MSGTYPE_WASH_FAULT://洗涤故障
 					if(ProtocolConsts.PACKAGE_WASHANSWER_LEN==length)//检测数据包是否合法
 					{
 						/*预留数据*/
@@ -150,7 +156,7 @@ public class ServerDecode extends CumulativeProtocolDecoder {
 						System.arraycopy(data, ProtocolConsts.ProtocolField.RESERVE.getPos(), reserve, 0,reserve.length);
 						/*效验码*/
 						byte chkCode=data[ProtocolConsts.ProtocolField.WASHCHECKCODE.getPos()];
-						WashAnswer washAnswer=new WashAnswer(header, length, deviceId, msgType, reserve, chkCode);
+						WashAnswer washAnswer=new WashAnswer(header, length, factoryId,deviceId, msgType, reserve, chkCode);
 						out.write(washAnswer);
 					}
 					break;				
@@ -159,7 +165,7 @@ public class ServerDecode extends CumulativeProtocolDecoder {
 					{
 						/*效验码*/
 						byte chkCode=data[ProtocolConsts.ProtocolField.HEARTCHECKCODE.getPos()];
-						HeartBeat heartBeat=new HeartBeat(header, length, deviceId, msgType, chkCode);
+						HeartBeat heartBeat=new HeartBeat(header, length, factoryId,deviceId, msgType, chkCode);
 						out.write(heartBeat);
 					}
 					break;

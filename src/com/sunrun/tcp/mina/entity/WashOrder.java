@@ -25,6 +25,10 @@ public class WashOrder implements Serializable{
 	 */
 	private byte length;
 	/**
+	 * 项目ID
+	 */
+	private byte factoryId;
+	/**
 	 * 设备ID
 	 */
 	private byte[] deviceId;
@@ -42,11 +46,12 @@ public class WashOrder implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public WashOrder(byte[] header, byte length, byte[] deviceId, byte msgType,
+	public WashOrder(byte[] header, byte length, byte factoryId,byte[] deviceId, byte msgType,
 			byte chkCode) {
 		super();
 		this.header = header;
 		this.length = length;
+		this.factoryId=factoryId;
 		this.deviceId = deviceId;
 		this.msgType = msgType;
 		this.chkCode = chkCode;
@@ -66,6 +71,14 @@ public class WashOrder implements Serializable{
 
 	public void setLength(byte length) {
 		this.length = length;
+	}
+	
+	public byte getFactoryId() {
+		return factoryId;
+	}
+
+	public void setFactoryId(byte factoryId) {
+		this.factoryId = factoryId;
 	}
 
 	public byte[] getDeviceId() {

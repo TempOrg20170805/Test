@@ -1,5 +1,6 @@
 package com.sunrun.washer.dao;
 
+import com.sunrun.washer.entity.WasherFault;
 import com.sunrun.washer.entity.WasherLog;
 
 /** 
@@ -15,12 +16,24 @@ public interface WasherLogDao {
 	/**
 	* @author: HL
 	* @date: 2017年08月08日 下午2:26:07
-	* @function: save  
+	* @function: saveWasherLog  
 	* @Description: 保存洗衣机日志实体类
 	* @param: @param washerLog
 	* @param: @return
 	* @return: Integer
 	* @throws
 	 */
-	Integer save(WasherLog washerLog);
+	Integer saveWasherLog(WasherLog washerLog);
+	
+	/**
+	* @author: HL
+	* @date: 2017年08月08日 下午2:26:07
+	* @function: saveWasherFault  
+	* @Description: 保存洗衣机日志实体类
+	* @param: @param washerLog
+	* @param: @return
+	* @return: Integer
+	* @throws
+	 */
+	Integer saveWasherFault(WasherFault washerFault);
 }

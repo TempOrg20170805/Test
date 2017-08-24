@@ -1,13 +1,16 @@
 package com.sunrun.washer.manager.impl;
 
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.sunrun.washer.dao.WasherLogDao;
+import com.sunrun.washer.entity.WasherFault;
 import com.sunrun.washer.entity.WasherLog;
 import com.sunrun.washer.manager.WasherLogMng;
 
@@ -34,17 +37,36 @@ public class WasherLogMngImpl implements WasherLogMng{
 	
 	@Override
 	@Transactional(value="transactionManager",propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
-	public Integer saveList(List<WasherLog> washerLogs) {
+	public Integer saveWasherLogList(List<WasherLog> washerLogs) {
 		// TODO Auto-generated method stub
 		Integer result=0;
 		try {
 			for(int i=0;i<washerLogs.size();i++)
 			{
-				result=dao.save(washerLogs.get(i));
+				result=dao.saveWasherLog(washerLogs.get(i));
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			logger.error("WasherLogMngImpl-saveList", e);
+			logger.error("WasherLogMngImpl-saveWasherLogList", e);
+			result=-1;
+		}
+		
+		return result;
+	}
+
+	@Override
+	@Transactional(value="transactionManager",propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
+	public Integer saveWasherFaultList(List<WasherFault> washerFaults) {
+		// TODO Auto-generated method stub
+		Integer result=0;
+		try {
+			for(int i=0;i<washerFaults.size();i++)
+			{
+				result=dao.saveWasherFault(washerFaults.get(i));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("WasherLogMngImpl-saveWasherFaultList", e);
 			result=-1;
 		}
 		

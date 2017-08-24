@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.sunrun.tcp.redis.manager.RedisMng;
 import com.sunrun.tcp.redis.pool.RedisDataSource;
+import com.sunrun.washer.entity.WasherFault;
 import com.sunrun.washer.entity.WasherLog;
 import com.sunrun.washer.manager.MachineMng;
 import com.sunrun.washer.manager.WasherLogMng;
+
 import redis.clients.jedis.ShardedJedis;
 
 /** 
@@ -52,6 +56,10 @@ public class HandlerThread implements Runnable {
 	 */
 	private List<WasherLog> washerLogs=new ArrayList<WasherLog>();
 	/**
+	 * 洗衣机故障数据缓存列表
+	 */
+	private List<WasherFault> washerFaults=new ArrayList<WasherFault>();
+	/**
 	 * 设置在线离线MAP表
 	 */
     private ConcurrentMap<String, Integer> onlineMap=new ConcurrentHashMap<String, Integer>(); 
@@ -74,8 +82,10 @@ public class HandlerThread implements Runnable {
 			while(true)
 			{
 				onlineMap.clear();//清空前一次map表
-				washerLogs.clear();//情空网关日志数据列表
+				washerLogs.clear();//清空设备在线离线日志数据列表
+				washerFaults.clear();//清空设备故障数据列表
 				redisMng.popWasherLogList(shardedJedis, washerLogs, onlineMap);
+				redisMng.popWasherFaultList(shardedJedis, washerFaults);
 				//有未插入的缓存数据，执行数据插入			
 				if(onlineMap.size()>0)
 				{
@@ -85,9 +95,15 @@ public class HandlerThread implements Runnable {
 				
 				if(washerLogs.size()>0)
 				{
-					//存储网关日志数据
-					washerLogMng.saveList(washerLogs);
+					//存储设备在线离线日志数据
+					washerLogMng.saveWasherLogList(washerLogs);
 				}
+				if(washerFaults.size()>0)
+				{
+					//存储设备故障日志数据
+					washerLogMng.saveWasherFaultList(washerFaults);
+				}
+		
 				Thread.sleep(200);//挂起1
 			}
 		} catch (Exception e) {

@@ -7,17 +7,20 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import com.sunrun.tcp.common.DataUtils;
 import com.sunrun.tcp.common.ProtocolConsts;
 import com.sunrun.tcp.mina.entity.HeartBeat;
 import com.sunrun.tcp.mina.entity.WashAnswer;
 import com.sunrun.tcp.mina.entity.WashOrder;
+import com.sunrun.tcp.redis.entity.RedisWasherFault;
 import com.sunrun.tcp.redis.entity.RedisWasherLog;
 import com.sunrun.tcp.redis.manager.RedisMng;
 import com.sunrun.washer.manager.JpushBindingMng;
@@ -114,27 +117,40 @@ public class ServerHandler extends IoHandlerAdapter {
 			switch (msgType) {
 			case ProtocolConsts.MSGTYPE_WASH_START://设备响应洗涤开始
 				status=2;
+				machineMng.updateStatus(sn, status);
 				break;
 			case ProtocolConsts.MSGTYPE_WASH_OVER://设备响应洗涤完成
 				status=1;
+				machineMng.updateStatus(sn, status);
 				break;
 			case ProtocolConsts.MSGTYPE_WASH_STATUS_RESP://设备响应洗涤状态回复
 				if(Arrays.equals(washAnswer.getReserve(), new byte[]{0x01,0x00}) )
 				{
 					status=2;
 				}
+				else if(Arrays.equals(washAnswer.getReserve(), new byte[]{0x02,0x00}) )
+				{
+					status=1;
+				}
+				machineMng.updateStatus(sn, status);
+				break;
+			case ProtocolConsts.MSGTYPE_WASH_FAULT://洗涤故障
+				String time=new SimpleDateFormat(ProtocolConsts.LOCAL_DATE_PATTEN).format(new Date());//时间
+				RedisWasherFault redisWasherFault=new RedisWasherFault(sn,getFaultLog(washAnswer.getReserve()), time);
+				redisMng.pushWasherFaultList(redisWasherFault);
 				break;
 			default:
 				break;
 			}
-			machineMng.updateStatus(sn, status);
+			
 			//响应设备端
 			byte[] data=new byte[ProtocolConsts.PACKAGE_WASHORDER_LEN-1];
 			System.arraycopy(data, ProtocolConsts.ProtocolField.HEADER.getPos(), washAnswer.getHeader(), 0,washAnswer.getHeader().length);
 			System.arraycopy(data, ProtocolConsts.ProtocolField.PACKAGE_LEN.getPos(), ProtocolConsts.PACKAGE_WASHORDER_LEN, 0,1);
+			System.arraycopy(data, ProtocolConsts.ProtocolField.FACTORY_ID.getPos(), washAnswer.getFactoryId(), 0,1);
 			System.arraycopy(data, ProtocolConsts.ProtocolField.DEVICEID.getPos(), washAnswer.getDeviceId(), 0,washAnswer.getDeviceId().length);
 			System.arraycopy(data, ProtocolConsts.ProtocolField.MSGTYPE.getPos(), msgType, 0,1);
-			WashOrder washOrder=new WashOrder(washAnswer.getHeader(), ProtocolConsts.PACKAGE_WASHORDER_LEN, washAnswer.getDeviceId(), msgType, DataUtils.XOR(data));
+			WashOrder washOrder=new WashOrder(washAnswer.getHeader(), ProtocolConsts.PACKAGE_WASHORDER_LEN,washAnswer.getFactoryId(), washAnswer.getDeviceId(), msgType, DataUtils.XOR(data));
 			session.write(washOrder);
 			//add push code
 			//washAnswer.getMsgType()值为设备响应类型
@@ -249,6 +265,46 @@ public class ServerHandler extends IoHandlerAdapter {
 
 	public static  void setDeviceIoMap(ConcurrentMap<String, IoSession> deviceIoMap) {
 		ServerHandler.deviceIoMap = deviceIoMap;
+	}
+	
+	/**
+	* @author: HL
+	* @date: 2017年08月23日 下午4:03:08
+	* @function: getFaultLog  
+	* @Description: 故障日志获取
+	* @param: @param type
+	* @param: @return
+	* @return: String
+	* @throws
+	 */
+	private String getFaultLog(byte[] type) {
+		String log=null;
+		if(Arrays.equals(type, ProtocolConsts.FaultLog.JINSHUIOVERTIME.getCode()) )
+		{
+			log=ProtocolConsts.FaultLog.JINSHUIOVERTIME.getFault();
+		}
+		else if(Arrays.equals(type, ProtocolConsts.FaultLog.PAISHUIOVERTIME.getCode()))
+		{
+			log=ProtocolConsts.FaultLog.PAISHUIOVERTIME.getFault();
+		}
+		else if(Arrays.equals(type, ProtocolConsts.FaultLog.TUOSHUIUNBALANCED.getCode()))
+		{
+			log=ProtocolConsts.FaultLog.TUOSHUIUNBALANCED.getFault();
+		}
+		else if(Arrays.equals(type, ProtocolConsts.FaultLog.CAPFAULT.getCode()))
+		{
+			log=ProtocolConsts.FaultLog.CAPFAULT.getFault();
+		}
+		else if(Arrays.equals(type, ProtocolConsts.FaultLog.WATERLEVELSENSOR.getCode()))
+		{
+			log=ProtocolConsts.FaultLog.WATERLEVELSENSOR.getFault();
+		}
+		else if(Arrays.equals(type, ProtocolConsts.FaultLog.STORAGEDAMAGE.getCode()))
+		{
+			log=ProtocolConsts.FaultLog.STORAGEDAMAGE.getFault();
+		}
+		return log;
+			
 	}
 	
 }

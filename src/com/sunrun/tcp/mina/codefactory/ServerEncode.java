@@ -41,6 +41,7 @@ public class ServerEncode extends ProtocolEncoderAdapter {
 			WashOrder washOrder=(WashOrder)message;
 			responseBuf.put(washOrder.getHeader());
 			responseBuf.put(washOrder.getLength());
+			responseBuf.put(washOrder.getFactoryId());
 			responseBuf.put(washOrder.getDeviceId());
 			responseBuf.put(washOrder.getMsgType());
 			responseBuf.put(washOrder.getChkCode());

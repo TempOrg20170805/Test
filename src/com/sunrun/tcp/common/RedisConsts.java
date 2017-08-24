@@ -34,7 +34,8 @@ public class RedisConsts {
 		
 		RFIDSLIST("rfids"),/*rfid数据*/
 		ONLINELIST("onlines"),/*设备在线数据*/
-		LOGLIST("logs");/*网关日志*/
+		LOGLIST("logs"),/*在线离线日志*/
+		FAULTLIST("faults");/*故障*/
 		private String key;
 
 		private RedisListKeys(String key) {
@@ -63,6 +64,7 @@ public class RedisConsts {
 		RFIDS("rfids"),
 		TYPE("type"),
 		LOG("log"),
+		FAULT("fault"),
 		TIME("time"),
 		ONLINE("online");
 		
@@ -93,7 +95,8 @@ public class RedisConsts {
 		
 		RFIDLISTSIZE(100),
 		ONLINELISTSIZE(500),
-		LOGLISTSIZE(500);
+		LOGLISTSIZE(500),
+		FAULTLISTSIZE(500);
 		private int size;
 
 		private RedisListDealSize(int size) {

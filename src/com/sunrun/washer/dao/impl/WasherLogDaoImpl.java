@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.jeecms.common.hibernate4.HibernateBaseDao;
 import com.sunrun.washer.dao.WasherLogDao;
+import com.sunrun.washer.entity.WasherFault;
 import com.sunrun.washer.entity.WasherLog;
 
 
@@ -32,15 +33,27 @@ public class WasherLogDaoImpl extends HibernateBaseDao<WasherLog, Integer> imple
 	}
 	
 	@Override
-	public Integer save(WasherLog washerLog) {
+	public Integer saveWasherLog(WasherLog washerLog) {
 		// TODO Auto-generated method stub
 		try {
 			getSession().save(washerLog);
 		} catch (Exception e) {
 			// TODO: handle exception
-			logger.error("WasherLogDaoImpl-save", e);
+			logger.error("WasherLogDaoImpl-saveWasherLog", e);
 		}
 		return washerLog.getId();
+	}
+
+	@Override
+	public Integer saveWasherFault(WasherFault washerFault) {
+		// TODO Auto-generated method stub
+		try {
+			getSession().save(washerFault);
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("WasherLogDaoImpl-saveWasherFault", e);
+		}
+		return washerFault.getId();
 	}
 
 
