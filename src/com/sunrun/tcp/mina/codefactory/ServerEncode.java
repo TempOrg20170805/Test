@@ -2,12 +2,15 @@ package com.sunrun.tcp.mina.codefactory;
 
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
+
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolEncoderAdapter;
 import org.apache.mina.filter.codec.ProtocolEncoderOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.sunrun.tcp.mina.entity.HeartBeat;
 import com.sunrun.tcp.mina.entity.WashOrder;
 
 /** 
@@ -36,7 +39,17 @@ public class ServerEncode extends ProtocolEncoderAdapter {
 		IoBuffer responseBuf = IoBuffer.allocate(100).setAutoExpand(true);
 		responseBuf.order(ByteOrder.LITTLE_ENDIAN);// 修改此缓冲区的字节顺序,小端模式
 		// TODO Auto-generated method stub
-		if(message instanceof WashOrder)//下发洗涤指令
+		if(message instanceof HeartBeat)//心跳包
+		{
+			HeartBeat heartBeat=(HeartBeat)message;
+			responseBuf.put(heartBeat.getHeader());
+			responseBuf.put(heartBeat.getLength());
+			responseBuf.put(heartBeat.getFactoryId());
+			responseBuf.put(heartBeat.getDeviceId());
+			responseBuf.put(heartBeat.getMsgType());
+			responseBuf.put(heartBeat.getChkCode());
+		}
+		else if(message instanceof WashOrder)//下发洗涤指令
 		{
 			WashOrder washOrder=(WashOrder)message;
 			responseBuf.put(washOrder.getHeader());

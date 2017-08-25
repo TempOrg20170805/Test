@@ -105,6 +105,7 @@ public class ServerHandler extends IoHandlerAdapter {
 			//暂时不需要处理，直接忽略
 	    	logger.debug("心跳包");	
 	    	HeartBeat heartBeat=(HeartBeat)message;
+	    	session.write(heartBeat);
 			String sn=DataUtils.bytesToHexString(heartBeat.getDeviceId(),1);
 			checkDeviceOnline(sn,session);
 		}
