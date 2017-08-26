@@ -152,8 +152,19 @@ public class WasherOrderMngImpl implements WasherOrderMng{
 		// 调用洗衣机开始清洗
 		// 洗衣机洗涤模式编号 washerOrder.getModeNo();
 		// 洗衣机序列号 washerOrder.getMachineNo();
+		pushControl(washerOrder.getMachineNo(), washerOrder.getModeNo());
+		
+		return washerOrder;
+	}
+	
+	/**
+	 * 推送控制
+	 * @param machineNo
+	 * @param modeNo
+	 */
+	public void pushControl(String machineNo, Integer modeNo) {
 		Iterator<Map.Entry<String,IoSession>> ite_deviceiomap = ServerHandler.getDeviceIoMap().entrySet().iterator();
-		String sn= washerOrder.getMachineNo();
+		String sn= machineNo;
 		while (ite_deviceiomap.hasNext()) 
 		{
 			Map.Entry<String,IoSession> mapentry_deviceiomap =ite_deviceiomap.next();
@@ -168,15 +179,13 @@ public class WasherOrderMngImpl implements WasherOrderMng{
 					System.arraycopy(data, ProtocolConsts.ProtocolField.PACKAGE_LEN.getPos(), ProtocolConsts.PACKAGE_WASHORDER_LEN, 0,1);
 					System.arraycopy(data, ProtocolConsts.ProtocolField.FACTORY_ID.getPos(), ProtocolConsts.FACTORY_ID, 0,1);
 					System.arraycopy(data, ProtocolConsts.ProtocolField.DEVICEID.getPos(), DataUtils.getDevMarkByteArray(sn), 0,ProtocolConsts.ProtocolField.DEVICEID.getLen());
-					System.arraycopy(data, ProtocolConsts.ProtocolField.MSGTYPE.getPos(), washerOrder.getModeNo(), 0,1);
-					WashOrder washOrder=new WashOrder(ProtocolConsts.PACKET_HEADER, ProtocolConsts.PACKAGE_WASHORDER_LEN,  ProtocolConsts.FACTORY_ID,DataUtils.getDevMarkByteArray(sn), (byte)(int)washerOrder.getModeNo(), DataUtils.XOR(data));
+					System.arraycopy(data, ProtocolConsts.ProtocolField.MSGTYPE.getPos(), modeNo, 0,1);
+					WashOrder washOrder=new WashOrder(ProtocolConsts.PACKET_HEADER, ProtocolConsts.PACKAGE_WASHORDER_LEN,  ProtocolConsts.FACTORY_ID,DataUtils.getDevMarkByteArray(sn), (byte)(int)modeNo, DataUtils.XOR(data));
 					session.write(washOrder);
 				}
 				break;
 			}
 		}
-		
-		return washerOrder;
 	}
 
 	@Override

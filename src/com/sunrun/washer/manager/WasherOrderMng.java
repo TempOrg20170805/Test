@@ -80,5 +80,12 @@ public interface WasherOrderMng {
 	 * @return
 	 */
 	public WasherOrder queryWasherOrderByMachineNo(String machineNo);
+	
+	/**
+	 * 推送控制，目前仅测试用
+	 * @param machineNo
+	 * @param modeNo
+	 */
+	public void pushControl(String machineNo, Integer modeNo);
 }
 
