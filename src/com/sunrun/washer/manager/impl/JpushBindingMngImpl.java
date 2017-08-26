@@ -159,4 +159,18 @@ public class JpushBindingMngImpl implements JpushBindingMng {
         	System.out.println("推送平台"+platform+"不存在");
         }
 	}
+	
+	
+	/**
+	 * 推送-测试版
+	 * @param registrationId 推送唯一编码
+	 * @param title 标题
+	 * @param alert 内容
+	 */
+	@Override
+	public void pushMsgTest(String registrationId, String title, String alert) {
+		Map<String, String> extras = new HashMap<String, String>();
+
+        JpushUtils.SendPushTest(alert,title,registrationId ,extras);
+	}
 }

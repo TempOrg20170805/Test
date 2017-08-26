@@ -79,4 +79,11 @@ public interface JpushBindingMng {
 	 * @param machineNo 洗衣机序列号
 	 */
 	public void JpushMsgSendEnd(String machineNo);
+	/**
+	 * 推送-测试版
+	 * @param registrationId 推送唯一编码
+	 * @param title 标题
+	 * @param alert 内容
+	 */
+	public void pushMsgTest(String registrationId, String title, String alert);
 }

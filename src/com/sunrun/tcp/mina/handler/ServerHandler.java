@@ -25,6 +25,7 @@ import com.sunrun.tcp.redis.entity.RedisWasherLog;
 import com.sunrun.tcp.redis.manager.RedisMng;
 import com.sunrun.washer.manager.JpushBindingMng;
 import com.sunrun.washer.manager.MachineMng;
+import com.sunrun.washer.manager.TestPushMng;
 
 /** 
 * @Package:com.sunrun.commserver.tcp.mina.handler 
@@ -54,6 +55,8 @@ public class ServerHandler extends IoHandlerAdapter {
 	 */
 	@Autowired
 	private JpushBindingMng jpushBindingMng;
+	@Autowired
+	private TestPushMng testPushMng;
 	/**
 	 * 设备ID和通道对应关系
 	 */
@@ -169,6 +172,8 @@ public class ServerHandler extends IoHandlerAdapter {
 			System.arraycopy(data, ProtocolConsts.ProtocolField.RESERVE.getPos(), washAnswer.getReserve(), 0,1);
 			System.arraycopy(data, ProtocolConsts.ProtocolField.WASHCHECKCODE.getPos(), washAnswer.getChkCode(), 0,1);
 			String pushData=DataUtils.bytesToHexString(data, 0);//将设备上传的原始16进制数据转成16进制字符推送给手机端显示
+			// 发送测试推送
+			testPushMng.testGetMsgToPush(sn, pushData);
 			//add push code
 		}
 	}

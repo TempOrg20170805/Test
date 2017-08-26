@@ -34,6 +34,9 @@ public class TestPushController {
 	@Autowired
 	private WasherOrderMng washerOrderMng;
 
+	@Autowired
+	private JpushBindingMng jpushBindingMng;
+	
 	/**
 	 * 添加测试推送管理
 	 * @param machineNo 洗衣机编号
@@ -112,6 +115,7 @@ public class TestPushController {
 		TestPushDeleteDTO testPushDeleteDTO = new TestPushDeleteDTO();
 		if(validateTestPushControlh(testPushDeleteDTO,machineNo,modeNo)){
 			// 推送控制
+			testPushMng.testGetMsgToPush(machineNo, "推送啊，推啊推，推啊推，推啊推，推啊推");
 			washerOrderMng.pushControl(machineNo, modeNo);
 			testPushDeleteDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
 		}

@@ -163,8 +163,8 @@ public class JpushUtils {
 		
 		// 下面为测试用推送
 		//安卓和iOS
-		private static final String appKeyTest = "60907d3e4e58b6d3e0074d1e";
-		private static final String masterSecretTest = "1313692909bc83ea02a5e0b6";
+		private static final String appKeyTest = "01cbebd524454adf9983dcc3";
+		private static final String masterSecretTest = "f6cbf3cb21a5d619c66974a6";
 		
 		/**
 		 * 
