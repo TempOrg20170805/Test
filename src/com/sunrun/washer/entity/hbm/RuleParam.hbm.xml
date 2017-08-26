@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.sunrun.washer.entity">
+    <class name="RuleParam" table="washer_rule_param">
+         <id name="ruleParamId" type="java.lang.Integer">
+            <column name="rule_param_id" />
+            <generator class="identity" />
+         </id>
+         <property name="ruleParamNo" column="rule_param_no" type="java.lang.String" not-null="true" length="255"/>
+         <property name="des" column="des" type="java.lang.String" not-null="true" length="255"/>
+         <property name="ruleParamValue" column="rule_param_value" type="java.lang.Integer" not-null="true" length="11"/>
+
+    </class>
+</hibernate-mapping>
+
