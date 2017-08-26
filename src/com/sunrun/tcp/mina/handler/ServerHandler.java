@@ -165,6 +165,7 @@ public class ServerHandler extends IoHandlerAdapter {
 			if (washAnswer.getMsgType()==ProtocolConsts.MSGTYPE_WASH_OVER) {
 				jpushBindingMng.JpushMsgSendEnd(sn);
 			}
+			//将设备响应原始数据直接推送给手机端，数据都在washAnswer类里面
 		}
 	}
 
