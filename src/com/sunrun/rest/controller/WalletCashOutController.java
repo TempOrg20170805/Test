@@ -22,7 +22,10 @@ import com.sunrun.rest.dto.WalletCashOutPageDTO.WalletCashOutPageDTOEnum;
 import com.sunrun.rest.dto.WalletCashOutQueryDTO;
 import com.sunrun.rest.dto.WalletCashOutSaveDTO;
 import com.sunrun.rest.dto.WalletCashOutSaveDTO.WalletCashOutSaveDTOEnum;
+import com.sunrun.washer.entity.RuleParam;
 import com.sunrun.washer.entity.WalletCashOut;
+import com.sunrun.washer.enums.RuleParamNoEnum;
+import com.sunrun.washer.manager.RuleParamMng;
 import com.sunrun.washer.manager.WalletCardMng;
 import com.sunrun.washer.manager.WalletCashOutMng;
 import com.sunrun.washer.model.WalletCashOutModel;
@@ -45,6 +48,8 @@ public class WalletCashOutController extends BaseController {
 	private CmsUserMng cmsUserMng;
 	@Autowired
 	private WalletCardMng walletCardMng;
+	@Autowired
+	private RuleParamMng ruleParamMng;
 	
 	/**
 	 * 查询提现记录
@@ -159,6 +164,11 @@ public class WalletCashOutController extends BaseController {
 		CmsUser jcUser = cmsUserMng.findById(userId);
 		if (jcUser.getMoney().compareTo(money) < 0) {
 			baseDTO.setState(WalletCashOutSaveDTOEnum.MONEY_IS_NOT_ENGOUH);
+			return false;
+		}
+		RuleParam ruleParam = ruleParamMng.findByRuleParamNo(RuleParamNoEnum.RULE_PARAM_NO10001.getCode());
+		if (money.compareTo(new BigDecimal(ruleParam.getRuleParamValue())) < 0) {
+			baseDTO.setState(WalletCashOutSaveDTOEnum.MONEY_NEED_MORE_ENGOUH);
 			return false;
 		}
 		return true;

@@ -28,7 +28,11 @@ public class WalletCashOutSaveDTO extends BaseDTO {
 		/**
 		 * 2504.金额不足
 		 */
-		MONEY_IS_NOT_ENGOUH(2504, "金额不足");
+		MONEY_IS_NOT_ENGOUH(2504, "金额不足"),
+		/**
+		 * 2505.提现金额应不小于规定金额
+		 */
+		MONEY_NEED_MORE_ENGOUH(2505, "提现金额应不小于规定金额");
 		
 		private Integer stateCode;
 		private String msg;

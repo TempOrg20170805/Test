@@ -32,6 +32,17 @@ public class RuleParamDetailDTO extends BaseDTO {
 		}
 	}
 	
+	private Integer ruleParamValue;
+
+	public Integer getRuleParamValue() {
+		return ruleParamValue;
+	}
+
+	public void setRuleParamValue(Integer ruleParamValue) {
+		this.ruleParamValue = ruleParamValue;
+	}
+	
+	
 		
 }
 

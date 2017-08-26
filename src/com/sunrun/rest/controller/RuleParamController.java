@@ -1,9 +1,11 @@
 package com.sunrun.rest.controller;
-import com.sunrun.rest.dto.*;import com.sunrun.washer.manager.*;import com.sunrun.washer.entity.*;import com.sunrun.washer.model.*;
+import com.sunrun.rest.dto.*;import com.sunrun.washer.manager.*;import com.sunrun.washer.entity.*;import com.sunrun.washer.enums.RuleParamNoEnum;
+import com.sunrun.washer.model.*;
 import com.jeecms.core.manager.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -34,16 +36,26 @@ public class RuleParamController extends BaseController{
 	/**
 	 * 规则参数管理详情
 	 * @param userId 
-	 * @param ruleParamId 规则参数管理Id
+	 * @param ruleParamNo 规则编号
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "/ruleParam/detailRuleParam.json")
 	@ResponseBody
-	public RuleParamDetailDTO detailRuleParam(Integer ruleParamId, HttpServletRequest request){
+	public RuleParamDetailDTO detailRuleParam(String ruleParamNo, HttpServletRequest request){
 		RuleParamDetailDTO ruleParamDetailDTO = new RuleParamDetailDTO();
-		if(validateDetailRuleParam(ruleParamDetailDTO, getUserId(), ruleParamId)){
-			// ruleParamMng.findById(ruleParamId);
+		if(validateDetailRuleParam(ruleParamDetailDTO, getUserId())){
+			RuleParam ruleParam = null;
+			if (StringUtils.isNotBlank(ruleParamNo)) {
+				ruleParam = ruleParamMng.findByRuleParamNo(ruleParamNo);
+			}
+			
+			if (ruleParam != null) {
+				ruleParamDetailDTO.setRuleParamValue(ruleParam.getRuleParamValue());
+			} else {
+				ruleParamDetailDTO.setRuleParamValue(0);
+			}
+			
 			ruleParamDetailDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
 		}
 		return ruleParamDetailDTO;
@@ -56,16 +68,14 @@ public class RuleParamController extends BaseController{
 	 * @param ruleParamId 规则参数管理Id
 	 * @return
 	 */
-	private Boolean validateDetailRuleParam(BaseDTO baseDTO, Integer userId, Integer ruleParamId) {
+	private Boolean validateDetailRuleParam(BaseDTO baseDTO, Integer userId) {
 		if (cmsUserMng.findById(userId)  == null) {
 			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		}
-		if (ruleParamMng.findById(ruleParamId) == null) {
-			baseDTO.setState(RuleParamDetailDTO.RuleParamDetailDTOEnum.IS_NOT_EXIST);
-			return false;
-		}
 		return true;
 	}
+
+
 }
 
