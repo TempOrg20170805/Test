@@ -86,6 +86,13 @@ public interface MachineDao {
 	* @throws
 	 */
 	public Integer updateStatus(String sn,Integer status);
+	
+	/**
+	 * 更新所有洗衣机，去除这些楼层关联
+	 * @param floorLayerIds
+	 * @return
+	 */
+	public Integer updateAllMachineDeleteFloorLayerByFloorLayerIds(Integer[] floorLayerIds);
 
 }
 

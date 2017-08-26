@@ -11,8 +11,12 @@ import com.jeecms.common.hibernate4.Updater;
 import com.jeecms.common.page.Pagination;
 import com.sunrun.washer.dao.FloorDao;
 import com.sunrun.washer.entity.Floor;
+import com.sunrun.washer.entity.FloorLayer;
 import com.sunrun.washer.enums.FloorStatusEnum;
+import com.sunrun.washer.manager.FloorLayerMng;
 import com.sunrun.washer.manager.FloorMng;
+import com.sunrun.washer.manager.MachineMng;
+import com.sunrun.washer.model.FloorLayerModel;
 import com.sunrun.washer.model.FloorModel;
 import com.sunrun.washer.model.FloorModelSave;
 import com.sunrun.washer.model.FloorModelUpdate;
@@ -30,6 +34,10 @@ public class FloorMngImpl implements FloorMng{
 
 	@Autowired
 	private FloorDao floorDao;
+	@Autowired
+	private FloorLayerMng floorLayerMng;
+	@Autowired
+	private MachineMng machineMng;
 	
 	@Override
 	public Pagination queryFloorByModel(FloorModel floorModel, Integer pageNo, Integer pageSize) {
@@ -75,7 +83,32 @@ public class FloorMngImpl implements FloorMng{
 
 	@Override
 	public Floor deleteById(Integer id) {
-		Floor bean = floorDao.deleteById(id);
+		Floor bean = findById(id);
+		
+		FloorLayerModel floorLayerModel = new FloorLayerModel();
+		floorLayerModel.setFloorId(id);
+		Pagination pagination = floorLayerMng.queryFloorLayerByModel(floorLayerModel, 0, Integer.MAX_VALUE);
+		if (pagination != null) {
+			List<FloorLayer> floorLayers = (List<FloorLayer>)pagination.getList();
+			Integer[] floorLayerIds = new Integer[floorLayers.size()];
+			int i = 0;
+			for (FloorLayer floorLayer : floorLayers) {
+				floorLayerIds[i] = floorLayer.getFloorLayerId();
+				i++;
+			}
+			if (floorLayerIds.length > 0) {
+				// 批量删除洗衣机关联的楼层，减少删除时间
+				machineMng.updateAllMachineDeleteFloorLayerByFloorLayerIds(floorLayerIds);
+			}
+			// 删除楼层，楼层不多，循环删除即可
+			for (Integer floorLayerId : floorLayerIds) {
+				floorLayerMng.deleteById(floorLayerId);
+			}
+		}
+		
+		// 楼删除
+		bean.setStatus(FloorStatusEnum.DELETE.getCode());
+		updateFloor(bean);
 		return bean;
 	}
 

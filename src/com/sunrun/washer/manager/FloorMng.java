@@ -66,6 +66,5 @@ public interface FloorMng {
 	 */
 	public Floor findById(Integer id);
 
-
 }
 

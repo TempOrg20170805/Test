@@ -260,6 +260,12 @@ public class MachineMngImpl implements MachineMng{
 		return updateMachine(machine);
 	}
 
+	@Override
+	public Integer updateAllMachineDeleteFloorLayerByFloorLayerIds(
+			Integer[] floorLayerIds) {
+		return machineDao.updateAllMachineDeleteFloorLayerByFloorLayerIds(floorLayerIds);
+	}
+
 
 }
 

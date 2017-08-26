@@ -67,7 +67,7 @@ public class FloorDaoImpl extends HibernateBaseDao<Floor, Integer> implements Fl
 	private Finder queryFloorBaseFinder(String baseHQL) {
 		Finder finder = Finder.create(baseHQL);
 		// 此处增加公用的过滤条件，例如：每个楼要是有效的
-		// finder.append(" and bean.status <> 0");
+		finder.append(" and bean.status <> 0");
 		return finder;
 	}
 

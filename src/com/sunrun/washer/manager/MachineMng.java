@@ -111,6 +111,12 @@ public interface MachineMng {
 	 */
 	public Machine updateTroubleStatus(Integer machineId, Integer isTrouble);
 
+	/**
+	 * 更新所有洗衣机，去除这些楼层关联
+	 * @param floorLayerIds
+	 * @return
+	 */
+	public Integer updateAllMachineDeleteFloorLayerByFloorLayerIds(Integer[] floorLayerIds);
 
 }
 

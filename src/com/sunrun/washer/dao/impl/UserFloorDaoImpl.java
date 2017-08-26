@@ -64,7 +64,7 @@ public class UserFloorDaoImpl extends HibernateBaseDao<UserFloor, Integer> imple
 	private Finder queryUserFloorBaseFinder(String baseHQL) {
 		Finder finder = Finder.create(baseHQL);
 		// 此处增加公用的过滤条件，例如：每个用户关联楼要是有效的
-		// finder.append(" and bean.status <> 0");
+		finder.append(" and bean.floor.status <> 0");
 		return finder;
 	}
 

@@ -1,7 +1,4 @@
 package com.sunrun.washer.dao.impl;
-import com.sunrun.washer.dao.*;import com.sunrun.washer.manager.impl.MachineMngImpl;
-import com.sunrun.washer.model.*;import com.sunrun.washer.entity.*;
-
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -13,6 +10,9 @@ import org.springframework.stereotype.Repository;
 import com.jeecms.common.hibernate4.Finder;
 import com.jeecms.common.hibernate4.HibernateBaseDao;
 import com.jeecms.common.page.Pagination;
+import com.sunrun.washer.dao.MachineDao;
+import com.sunrun.washer.entity.Machine;
+import com.sunrun.washer.model.MachineModel;
 /**
  * 文 件 名 : MachineDaoImpl.java
  * 创 建 人： 金明明
@@ -148,6 +148,14 @@ public class MachineDaoImpl extends HibernateBaseDao<Machine, Integer> implement
 			logger.error("MachineDaoImpl-updateStatus", e);
 		}
 		return 0;
+	}
+
+	@Override
+	public Integer updateAllMachineDeleteFloorLayerByFloorLayerIds(
+			Integer[] floorLayerIds) {
+		String hql = "update Machine set floorLayer=null,floorLayerX=0,floorLayerY=0 where floorLayer.floorLayerId in (:ids)";
+		return (Integer) getSession().createQuery(hql)
+				.setParameterList("ids", floorLayerIds).executeUpdate();
 	}
 
 }

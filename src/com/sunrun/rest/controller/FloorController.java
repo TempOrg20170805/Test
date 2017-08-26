@@ -222,6 +222,42 @@ public class FloorController extends BaseController{
 		}
 		return true;
 	}
+	
+	
+	/**
+	 * 删除楼管理
+	 * @param floorId 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/floor/deleteFloor.json")
+	@ResponseBody	
+	public FloorDeleteDTO deleteFloor(Integer floorId, HttpServletRequest request){
+		FloorDeleteDTO floorDeleteDTO = new FloorDeleteDTO();
+		if(validateDeleteFloor(floorDeleteDTO,getUserId(),floorId)){
+			floorMng.deleteById(floorId);
+			floorDeleteDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
+		}
+		return floorDeleteDTO;
+	}
+	
+	/**
+	 * 校验删除楼管理删除接口
+	 * @param baseDTO
+	 * @param userId 用户id
+	 * @return
+	 */
+	private Boolean validateDeleteFloor(BaseDTO baseDTO, Integer userId, Integer floorId) {
+		if (cmsUserMng.findById(userId)  == null) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
+			return false;			
+		}
+		if (floorMng.findById(floorId) == null) {
+			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_VALIDATECODE_NOTEXIST);
+			return false;	
+		}
+		return true;
+	}
 
 }
 
