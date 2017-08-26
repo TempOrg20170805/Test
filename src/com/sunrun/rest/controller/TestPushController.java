@@ -114,9 +114,6 @@ public class TestPushController {
 	public TestPushDeleteDTO testPushControl(String machineNo, Integer modeNo, HttpServletRequest request){
 		TestPushDeleteDTO testPushDeleteDTO = new TestPushDeleteDTO();
 		if(validateTestPushControlh(testPushDeleteDTO,machineNo,modeNo)){
-			// 推送控制
-			testPushMng.testGetMsgToPush(machineNo, "推送啊，推啊推，推啊推，推啊推，推啊推");
-			washerOrderMng.pushControl(machineNo, modeNo);
 			testPushDeleteDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
 		}
 		return testPushDeleteDTO;
