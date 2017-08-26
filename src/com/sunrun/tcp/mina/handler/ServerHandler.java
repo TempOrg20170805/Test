@@ -105,6 +105,7 @@ public class ServerHandler extends IoHandlerAdapter {
 			//暂时不需要处理，直接忽略
 	    	logger.debug("心跳包");	
 	    	HeartBeat heartBeat=(HeartBeat)message;
+	    	session.write(heartBeat);
 			String sn=DataUtils.bytesToHexString(heartBeat.getDeviceId(),1);
 			checkDeviceOnline(sn,session);
 		}
@@ -164,6 +165,7 @@ public class ServerHandler extends IoHandlerAdapter {
 			if (washAnswer.getMsgType()==ProtocolConsts.MSGTYPE_WASH_OVER) {
 				jpushBindingMng.JpushMsgSendEnd(sn);
 			}
+			//将设备响应原始数据直接推送给手机端，数据都在washAnswer类里面
 		}
 	}
 
