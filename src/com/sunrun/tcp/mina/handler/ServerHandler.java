@@ -145,7 +145,7 @@ public class ServerHandler extends IoHandlerAdapter {
 			}
 			
 			//响应设备端
-			byte[] data=new byte[ProtocolConsts.PACKAGE_WASHORDER_LEN-1];
+			byte[] data=new byte[ProtocolConsts.PACKAGE_WASHANSWER_LEN];
 			System.arraycopy(data, ProtocolConsts.ProtocolField.HEADER.getPos(), washAnswer.getHeader(), 0,washAnswer.getHeader().length);
 			System.arraycopy(data, ProtocolConsts.ProtocolField.PACKAGE_LEN.getPos(), ProtocolConsts.PACKAGE_WASHORDER_LEN, 0,1);
 			System.arraycopy(data, ProtocolConsts.ProtocolField.FACTORY_ID.getPos(), washAnswer.getFactoryId(), 0,1);
@@ -166,6 +166,10 @@ public class ServerHandler extends IoHandlerAdapter {
 				jpushBindingMng.JpushMsgSendEnd(sn);
 			}
 			//将设备响应原始数据直接推送给手机端，数据都在washAnswer类里面
+			System.arraycopy(data, ProtocolConsts.ProtocolField.RESERVE.getPos(), washAnswer.getReserve(), 0,1);
+			System.arraycopy(data, ProtocolConsts.ProtocolField.WASHCHECKCODE.getPos(), washAnswer.getChkCode(), 0,1);
+			String pushData=DataUtils.bytesToHexString(data, 0);//将设备上传的原始16进制数据转成16进制字符推送给手机端显示
+			//add push code
 		}
 	}
 

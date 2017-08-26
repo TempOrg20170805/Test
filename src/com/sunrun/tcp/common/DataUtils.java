@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -304,7 +305,7 @@ public class DataUtils {
 		byte chkcode=0x00;
 		try 
 		{
-			for(int i=0;i<data.length;i++)
+			for(int i=0;i<ProtocolConsts.PACKAGE_WASHANSWER_LEN-3;i++)
 				chkcode=(byte) (data[i]^chkcode);
 		} catch (Exception e) {
 			// TODO: handle exception
