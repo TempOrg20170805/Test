@@ -24,7 +24,7 @@ $(function() {
 <@p.form id="jvForm" action="saveMode.do">
 <@p.text label="模式名称"  name="name" required="true" class="required" maxlength="100"/><@p.tr/>
 <@p.text label="模式金额"  name="modeMoney" required="true" class="required number" maxlength="100"/>
-<@p.text label="该模式需要的时间（单位秒）"  name="modeTime" required="true" class="required digits" maxlength="100"/>
+<@p.text label="该模式需要的时间（单位秒）"  name="modeTime" required="true" class="required digits" maxlength="10"/>
 
 <@p.td><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
 </@p.form>

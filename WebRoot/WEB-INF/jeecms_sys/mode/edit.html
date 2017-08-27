@@ -26,7 +26,7 @@ $(function() {
 <@p.form id="jvForm" action="updateMode.do" labelWidth="12">
 	<@p.text label="模式名称"  name="name" value="${bean.name!}" required="true" class="required" maxlength="100"/>
 	<@p.text label="模式金额"  name="modeMoney" value="${bean.modeMoney!}" required="true" class="required number" maxlength="100"/>
-	<@p.text label="该模式需要的时间（单位秒）"  name="modeTime" value="${bean.modeTime!}" required="true" class="required digits" maxlength="100"/>
+	<@p.text label="该模式需要的时间（单位秒）"  name="modeTime" value="${bean.modeTime!}" required="true" class="required digits" maxlength="10"/>
 <@p.td colspan="2"><@p.hidden name="modeId" value=bean.modeId/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
 </@p.form>
 </div>

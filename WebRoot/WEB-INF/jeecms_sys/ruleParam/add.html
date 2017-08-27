@@ -24,7 +24,7 @@ $(function() {
 <@p.form id="jvForm" action="saveRuleParam.do">
 	<@p.text label="规则编号"  name="ruleParamNo" required="true" class="required" maxlength="100"/>
 	<@p.text label="说明"  name="des" required="true" class="required" maxlength="100"/>
-	<@p.text label="规则参数值"  name="ruleParamValue" required="true" class="required" maxlength="100"/>
+	<@p.text label="规则参数值"  name="ruleParamValue" required="true" class="required digits" maxlength="10"/>
 <@p.td><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
 </@p.form>
 </div>
