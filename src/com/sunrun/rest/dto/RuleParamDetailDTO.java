@@ -33,6 +33,7 @@ public class RuleParamDetailDTO extends BaseDTO {
 	}
 	
 	private Integer ruleParamValue;
+	private String des;
 
 	public Integer getRuleParamValue() {
 		return ruleParamValue;
@@ -41,6 +42,15 @@ public class RuleParamDetailDTO extends BaseDTO {
 	public void setRuleParamValue(Integer ruleParamValue) {
 		this.ruleParamValue = ruleParamValue;
 	}
+
+	public String getDes() {
+		return des;
+	}
+
+	public void setDes(String des) {
+		this.des = des;
+	}
+	
 	
 	
 		

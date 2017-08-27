@@ -52,6 +52,7 @@ public class RuleParamController extends BaseController{
 			
 			if (ruleParam != null) {
 				ruleParamDetailDTO.setRuleParamValue(ruleParam.getRuleParamValue());
+				ruleParamDetailDTO.setDes(ruleParam.getDes());
 			} else {
 				ruleParamDetailDTO.setRuleParamValue(0);
 			}
