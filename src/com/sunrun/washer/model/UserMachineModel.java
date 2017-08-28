@@ -12,6 +12,10 @@ public class UserMachineModel {
 	private Integer userId;
 	private String machineNo; // 洗衣机序列号，模糊查询
 	private Integer queryType = 0; // 查询类型 0.所有洗衣机 1.未投放的洗衣机 默认0
+	public UserMachineModel(){}
+	public UserMachineModel(Integer userId) {
+		this.userId = userId;
+	}
 	
 	public Integer getUserId() {
 		return userId;

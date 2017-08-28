@@ -25,6 +25,15 @@ public interface MachineMng {
 	public Pagination queryMachineByModel(MachineModel machineModel, Integer pageNo, Integer pageSize);
 	
 	/**
+	 * 查询洗衣机列表-未授权洗衣机
+	 * @param machineModel 洗衣机管理查询条件
+	 * @param pageNo 当前页
+	 * @param pageSize 每页数据量
+	 * @return
+	 */
+	public Pagination queryMachineWithUserByModel(MachineWithUserModel machineWithUserModel, Integer pageNo, Integer pageSize);
+	
+	/**
 	 * 查询该楼有多少洗衣机
 	 * @param floorId
 	 * @return

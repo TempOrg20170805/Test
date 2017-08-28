@@ -29,6 +29,7 @@ import com.sunrun.washer.manager.UserMachineMng;
 import com.sunrun.washer.model.MachineModel;
 import com.sunrun.washer.model.MachineModelSave;
 import com.sunrun.washer.model.MachineModelUpdate;
+import com.sunrun.washer.model.MachineWithUserModel;
 import com.sunrun.washer.model.UserMachineModelSave;
 import com.sunrun.washer.model.UserMachineModelUpdatePutIn;
 /**
@@ -265,6 +266,15 @@ public class MachineMngImpl implements MachineMng{
 			Integer[] floorLayerIds) {
 		return machineDao.updateAllMachineDeleteFloorLayerByFloorLayerIds(floorLayerIds);
 	}
+
+	@Override
+	public Pagination queryMachineWithUserByModel(
+			MachineWithUserModel machineWithUserModel, Integer pageNo,
+			Integer pageSize) {
+		return machineDao.queryMachineWithUserByModel(machineWithUserModel, pageNo, pageSize);
+	}
+
+
 
 
 }

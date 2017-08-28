@@ -1,4 +1,6 @@
 package com.sunrun.washer.dao.impl;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -13,6 +15,7 @@ import com.jeecms.common.page.Pagination;
 import com.sunrun.washer.dao.MachineDao;
 import com.sunrun.washer.entity.Machine;
 import com.sunrun.washer.model.MachineModel;
+import com.sunrun.washer.model.MachineWithUserModel;
 /**
  * 文 件 名 : MachineDaoImpl.java
  * 创 建 人： 金明明
@@ -156,6 +159,73 @@ public class MachineDaoImpl extends HibernateBaseDao<Machine, Integer> implement
 		String hql = "update Machine set floorLayer=null,floorLayerX=0,floorLayerY=0 where floorLayer.floorLayerId in (:ids)";
 		return (Integer) getSession().createQuery(hql)
 				.setParameterList("ids", floorLayerIds).executeUpdate();
+	}
+
+	@Override
+	public Pagination queryMachineWithUserByModel(
+			MachineWithUserModel machineWithUserModel, Integer pageNo,
+			Integer pageSize) {
+		
+		// 初始化分页
+		Pagination page=new Pagination();
+		page.setPageNo(pageNo);
+		page.setPageSize(pageSize);
+		if(pageNo<=0)
+			pageNo=1;
+		int bsize= (pageNo - 1) * pageSize;
+		
+		
+		String sqlFrom = "from washer_machine wm LEFT JOIN washer_user_machine wum on wm.machine_id=wum.machine_id LEFT JOIN jc_user ju on wum.user_id=ju.user_id and wum.use_type=1 and wum.auth_level=1 where wm.status <> 0 ";
+		// 统计总数的sql
+		String countSql = "select count(wm.machine_id) as count ";
+		// 查询数据的Sql
+		String sql = "select wm.machine_id as machine_id, wm.`name` AS `name`, wm.type as type, wm.machine_no as machineNo, ju.username as userName ";
+		
+		String endSql = "";
+		if (machineWithUserModel.getType().equals(1)) {
+			endSql = endSql + " and userName is null ";
+		}
+		else if (machineWithUserModel.getType().equals(2)) {
+			endSql = endSql + " and userName is not null ";
+		}
+		
+		if (StringUtils.isNotBlank(machineWithUserModel.getMachineNo())) {
+			endSql = endSql + " and wm.machine_no like :machineNo ";
+		}
+		
+		String pageSql = " LIMIT :bsize,:pageSize";
+		
+		// 查询总数量
+		Query queryCount = getSession().createSQLQuery(countSql+sqlFrom+endSql);
+		if (StringUtils.isNotBlank(machineWithUserModel.getMachineNo())) {
+			queryCount = queryCount.setString("machineNo", "%"+machineWithUserModel.getMachineNo()+"%");
+		}
+		List queryCountList = queryCount.list();
+		if (queryCountList != null && queryCountList.size() > 0) {
+			Object result = queryCountList.get(0);
+			if (result != null) {
+				page.setTotalCount(((BigInteger)result).intValue());
+			} else {
+				page.setTotalCount(0);
+			}
+		}
+		
+		
+		Query query = getSession().createSQLQuery(sql+sqlFrom+endSql+pageSql);
+		if (StringUtils.isNotBlank(machineWithUserModel.getMachineNo())) {
+			query = query.setString("machineNo", "%"+machineWithUserModel.getMachineNo()+"%");
+		}
+		query = query.setInteger("bsize", bsize);
+		query = query.setInteger("pageSize", pageSize);
+		List<Object[]> pusList = (List<Object[]>)query.list();
+		List<Machine> machines = new ArrayList<>();
+		for (Object[] results : pusList) {
+			Machine machine = new Machine((Integer)results[0],(String) results[1], (String) results[2], (String) results[3], (String) results[4]);
+			machines.add(machine);
+		}
+		page.setList(machines);
+		
+		return page;
 	}
 
 }

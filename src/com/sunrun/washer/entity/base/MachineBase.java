@@ -20,13 +20,25 @@ public class MachineBase implements java.io.Serializable {
 	private Date createTime = new Date(); // 创建时间
 	private Date useTime = new Date(); // 投放时间
 	private Date baseUpdateTime = new Date(); // 基本数据更新时间 
-	private Integer isTrouble = 0;// 是否故障 1故障 0正常 默认0
+	private Integer isTrouble = 0;// 是否故障 1故障 0正常 默认0、
+	
+	
+	
+	private String userName; // 用户名，用于特殊查询时赋值
 	
 	public MachineBase() {
 	}
 
 	public MachineBase(Integer machineId) {
 		this.machineId = machineId;
+	}
+	
+	public MachineBase(Integer machineId, String name, String type, String machineNo, String userName) {
+		this.machineId = machineId;
+		this.name = name;
+		this.type = type;
+		this.machineNo = machineNo;
+		this.userName = userName;
 	}
 
 	public Integer getMachineId() {
@@ -128,6 +140,15 @@ public class MachineBase implements java.io.Serializable {
 	public void setIsTrouble(Integer isTrouble) {
 		this.isTrouble = isTrouble;
 	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
 
 }
 

@@ -124,7 +124,8 @@ function areaUpdate() {
 	<@p.column code="global.operate" align="center">
 		<#assign params>&pageNo=${pageNo!}&queryUsername=${queryUsername!}&queryEmail=${queryEmail!}&queryGroupId=${queryGroupId!}&queryDisabled=${(queryDisabled!false)?string}&queryRealName=${queryRealName!}&queryDepartId=${queryDepartId!}&queryRoleId=${queryRoleId!}&queryAllChannel=${(queryAllChannel!"")?string}&queryAllControlChannel=${(queryAllControlChannel!"")?string}</#assign>
 		<a href="v_edit.do?id=${cmsUser.id}${params}" class="pn-opt"><@s.m "global.edit"/></a> | <#rt/>
-		<a href="o_delete.do?ids=${cmsUser.id}${params}" onclick="if(!$.confirmToUrl(this.href)) {return false;}" class="pn-opt"><@s.m "global.delete"/></a><#t/>
+		<a href="o_delete.do?ids=${cmsUser.id}${params}" onclick="if(!$.confirmToUrl(this.href)) {return false;}" class="pn-opt"><@s.m "global.delete"/></a> | <#t/>
+		<a href="../machine/queryUserMachineByModel.do?userId=${cmsUser.id}" class="pn-opt">授权管理</a><#t/>
 	</@p.column><#t/>
 </@p.table>
 <div>

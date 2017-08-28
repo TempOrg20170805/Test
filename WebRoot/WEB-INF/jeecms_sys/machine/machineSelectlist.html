@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+</script>
+</head>
+<body>
+<div class="page-positon ove">
+  <div class="position-div"><@s.m "global.position"/>: <@s.m "cmsAdminLocal.function"/> > <@s.m "global.list"/><span style="color:blue; text-align:center">：洗衣机列表</span></div>
+</div>
+<div class="body-box">
+<form action="queryMachineWithUserByModel.do" method="post">
+<div style="padding-bottom:10px; text-indent:6px;">
+<div>
+洗衣机序列号: <input type="text" name="machineNo" value="${machineWithUserModel.machineNo!}" style="width:100px"/>
+<@p.select style="margin-left:10px" value="${machineWithUserModel.type!}" name="type"  list={"0":"全部","1":"未授权洗衣机","2":"已授权洗衣机"} />
+<input class="query" type="submit" value="<@s.m "global.query"/>"/>
+</div>
+
+</div>
+</form>
+<form id="tableForm"  method="post">
+
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="machineNo" value="${machineWithUserModel.machineNo!}"/>
+<input type="hidden" name="type" value="${machineWithUserModel.type!}"/>
+<@p.table listAction="queryMachineWithUserByModel.do" value=pagination;bean,i,has_next><#rt/>
+	<@p.column title="操作" width="25" align="center">
+		<input class="submit" type="button" onclick="window.parent.addMachine('${bean.machineId}');window.parent.closeWin();" value="选择"/>
+	</@p.column><#t/>
+	<@p.column title="洗衣机名称" align="center">${bean.name!}</@p.column><#t/> 
+	<@p.column title="洗衣机型号" align="center">${bean.type!}</@p.column><#t/> 
+	<@p.column title="序列号" align="center">${bean.machineNo!}</@p.column><#t/> 
+	<@p.column title="当前所属用户" align="center">${bean.userName!}</@p.column><#t/> 
+	</@p.table>
+<div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>
