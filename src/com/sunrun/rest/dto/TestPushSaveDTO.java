@@ -32,5 +32,16 @@ public class TestPushSaveDTO extends BaseDTO {
 		}
 		
 	}
+	
+	private Integer testPushId;
+
+	public Integer getTestPushId() {
+		return testPushId;
+	}
+
+	public void setTestPushId(Integer testPushId) {
+		this.testPushId = testPushId;
+	}
+	
 }
 

@@ -39,7 +39,7 @@ public class TestPushController {
 	
 	/**
 	 * 添加测试推送管理
-	 * @param machineNo 洗衣机编号
+	 * @param machineNo 洗衣机序列号
 	 * @param registrationId 推送编号
 	 * @param request
 	 * @return
@@ -52,7 +52,8 @@ public class TestPushController {
 			TestPushModelSave testPushModelSave = new TestPushModelSave();
 			testPushModelSave.setMachineNo(machineNo);
 			testPushModelSave.setRegistrationId(registrationId);
-			testPushMng.saveTestPush(testPushModelSave);
+			TestPush testPush = testPushMng.saveTestPush(testPushModelSave);
+			testPushSaveDTO.setTestPushId(testPush.getTestPushId());
 			testPushSaveDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
 		}
 		return testPushSaveDTO;
@@ -104,7 +105,7 @@ public class TestPushController {
 	
 	/**
 	 * 测试控制推送
-	 * @param machineNo 洗衣机编号
+	 * @param machineNo 洗衣机序列号
 	 * @param modeNo 模式编号
 	 * @param request
 	 * @return
