@@ -66,14 +66,22 @@ public class UserLoginController {
 	@ResponseBody
 	public BaseDTO userLogin(Integer longType,String username, JpushBinding jpushBean,String password, HttpServletRequest request) {
 		LoginMsgDTO loginMsgDTO = new LoginMsgDTO();
-		if (validateLogin(loginMsgDTO, username, password,longType)) {
+		System.out.println("登录根据用户名查询开始");
+		CmsUser cmsUser = null;
+		if (StringUtils.isNotBlank(username)) {
+			cmsUser = cmsUserMng.findByUsername(username);
+		}
+		System.out.println("登录根据用户名查询结束");
+		if (validateLogin(loginMsgDTO, username, password,longType, cmsUser)) {
 			try {
 				// 基本信息设置
 				String ip = RequestUtils.getIpAddr(request);	
 				// 登录
+				System.out.println("校验登录密码校验开始");
 				unifiedUserMng.login(username, password, ip);
+				System.out.println("校验登录密码校验结束");
 				// 登录结果传递
-				CmsUser cmsUser = cmsUserMng.findByUsername(username);
+				
 				// 校验登录者是否有效
 				if (validateLoginIsUsed(loginMsgDTO, cmsUser,longType)) {
 					loginMsgDTO.initCmsUserDTO(cmsUser);
@@ -324,16 +332,17 @@ public class UserLoginController {
 	 * @param password 密码
 	 * @return
 	 */
-	private Boolean validateLogin(BaseDTO baseDTO, String username, String password,Integer longType) {
+	private Boolean validateLogin(BaseDTO baseDTO, String username, String password,Integer longType, CmsUser cmsUser) {
+		
 		if (StringUtils.isBlank(username) || StringUtils.isBlank(password)||longType==null) {
 			baseDTO.setState(BaseDTOEnum.API_MESSAGE_PARAM_NOT_NULL);
 			return false;
-		}else if(cmsUserMng.findByUsername(username)==null){
+		}
+
+		if(cmsUser==null){
 			baseDTO.setState(BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;
-		}
-		CmsUser cmsUser = cmsUserMng.findByUsername(username);
-		if (cmsUser.getGroup() == null) {
+		} else if (cmsUser.getGroup() == null) {
 			baseDTO.setState(LoginMsgDTO.LoginMsgDTOEnum.GROUP_NULL);
 			return false;
 		} else if (CmsGroupEnum.NORMAL.getValue().equals(cmsUser.getGroup().getId()) &&!cmsUser.getGroup().getId().equals(longType)){
@@ -351,7 +360,7 @@ public class UserLoginController {
 	 */
 	private Boolean validateLoginIsUsed(BaseDTO baseDTO, CmsUser cmsUser,Integer longType) {
 		CmsGroup cmsGroup = cmsUser.getGroup();
-		
+		System.out.println("校验登录者信息开始");
 		if (longType!=cmsGroup.getId()) {
 			baseDTO.setState(BaseDTOEnum.API_MESSAGE_NOT_ROLE);//  205 无权限访问
 			return false;
@@ -360,6 +369,7 @@ public class UserLoginController {
 			baseDTO.setState(BaseDTOEnum.API_MESSAGE_USER_NOT_ACTIVATED);
 			return false;
 		}
+		System.out.println("校验登录者信息结束");
 		return true;
 	}
 
