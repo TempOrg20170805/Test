@@ -43,7 +43,7 @@ function getTableForm() {
 	<@p.column title="处理时间" align="center">${(bean.handleTime?string("yyyy-MM-dd HH:mm:ss"))!}</@p.column><#t/> 
 	<@p.column code="global.operate" align="center">
 		<a href="../walletCashOut/viewWalletCashOut.do?walletCashOutId=${bean.cashOutId}" class="pn-opt"><@s.m "global.view"/></a>
-		<#if bean.state==1> | <#if bean.jcUser.money gte bean.money> <a href="../walletCashOut/editWalletCashOut.do?walletCashOutId=${bean.cashOutId}" class="pn-opt">提现处理</a> <#else> 用户金额不足</#if></#if> 
+		<#if bean.state==1> | <a href="../walletCashOut/editWalletCashOut.do?walletCashOutId=${bean.cashOutId}" class="pn-opt">提现处理</a> </#if> 
 		<#t/>
 	</@p.column><#t/>
 </@p.table>

@@ -115,6 +115,7 @@ public class TestPushController {
 	public TestPushDeleteDTO testPushControl(String machineNo, Integer modeNo, HttpServletRequest request){
 		TestPushDeleteDTO testPushDeleteDTO = new TestPushDeleteDTO();
 		if(validateTestPushControlh(testPushDeleteDTO,machineNo,modeNo)){
+			washerOrderMng.pushControl(machineNo, modeNo);
 			testPushDeleteDTO.setState(BaseDTO.BaseDTOEnum.API_STATUS_SUCCESS);
 		}
 		return testPushDeleteDTO;
