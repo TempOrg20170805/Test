@@ -170,7 +170,7 @@ public class ServerHandler extends IoHandlerAdapter {
 			}
 			//将设备响应原始数据直接推送给手机端，数据都在washAnswer类里面
 			System.arraycopy(data, ProtocolConsts.ProtocolField.RESERVE.getPos(), washAnswer.getReserve(), 0,2);
-			System.arraycopy(data, ProtocolConsts.ProtocolField.WASHCHECKCODE.getPos(), washAnswer.getChkCode(), 0,1);
+			data[ProtocolConsts.ProtocolField.WASHCHECKCODE.getPos()]=washAnswer.getChkCode();
 			String pushData=DataUtils.bytesToHexString(data, 0);//将设备上传的原始16进制数据转成16进制字符推送给手机端显示
 			// 发送测试推送
 			testPushMng.testGetMsgToPush(sn, pushData);
