@@ -174,7 +174,7 @@ public class WasherOrderMngImpl implements WasherOrderMng{
 			{
 				if(session!=null&&session.isConnected())
 				{
-					byte[] data=new byte[ProtocolConsts.PACKAGE_WASHORDER_LEN-1];
+					byte[] data=new byte[ProtocolConsts.PACKAGE_WASHANSWER_LEN];
 					System.arraycopy(data, ProtocolConsts.ProtocolField.HEADER.getPos(), ProtocolConsts.PACKET_HEADER, 0,ProtocolConsts.ProtocolField.HEADER.getLen());
 					System.arraycopy(data, ProtocolConsts.ProtocolField.PACKAGE_LEN.getPos(), ProtocolConsts.PACKAGE_WASHORDER_LEN, 0,1);
 					System.arraycopy(data, ProtocolConsts.ProtocolField.FACTORY_ID.getPos(), ProtocolConsts.FACTORY_ID, 0,1);
