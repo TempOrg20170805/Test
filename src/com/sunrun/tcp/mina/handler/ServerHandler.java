@@ -150,10 +150,10 @@ public class ServerHandler extends IoHandlerAdapter {
 			//响应设备端
 			byte[] data=new byte[ProtocolConsts.PACKAGE_WASHANSWER_LEN];
 			System.arraycopy(data, ProtocolConsts.ProtocolField.HEADER.getPos(), washAnswer.getHeader(), 0,washAnswer.getHeader().length);
-			System.arraycopy(data, ProtocolConsts.ProtocolField.PACKAGE_LEN.getPos(), ProtocolConsts.PACKAGE_WASHORDER_LEN, 0,1);
-			System.arraycopy(data, ProtocolConsts.ProtocolField.FACTORY_ID.getPos(), washAnswer.getFactoryId(), 0,1);
+			data[ProtocolConsts.ProtocolField.PACKAGE_LEN.getPos()]=ProtocolConsts.PACKAGE_WASHORDER_LEN;
+			data[ProtocolConsts.ProtocolField.FACTORY_ID.getPos()]=washAnswer.getFactoryId();
 			System.arraycopy(data, ProtocolConsts.ProtocolField.DEVICEID.getPos(), washAnswer.getDeviceId(), 0,washAnswer.getDeviceId().length);
-			System.arraycopy(data, ProtocolConsts.ProtocolField.MSGTYPE.getPos(), msgType, 0,1);
+			data[ProtocolConsts.ProtocolField.MSGTYPE.getPos()]=msgType;
 			WashOrder washOrder=new WashOrder(washAnswer.getHeader(), ProtocolConsts.PACKAGE_WASHORDER_LEN,washAnswer.getFactoryId(), washAnswer.getDeviceId(), msgType, DataUtils.XOR(data));
 			session.write(washOrder);
 			//add push code
