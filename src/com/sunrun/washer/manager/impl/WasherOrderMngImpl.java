@@ -162,7 +162,7 @@ public class WasherOrderMngImpl implements WasherOrderMng{
 	 * @param machineNo
 	 * @param modeNo
 	 */
-	public void pushControl(String machineNo, Integer modeNo) {
+	public synchronized void pushControl(String machineNo, Integer modeNo) {
 		Iterator<Map.Entry<String,IoSession>> ite_deviceiomap = ServerHandler.getDeviceIoMap().entrySet().iterator();
 		String sn= machineNo;
 		while (ite_deviceiomap.hasNext()) 
