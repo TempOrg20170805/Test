@@ -127,7 +127,7 @@ public class TestPushController {
 	 * @return
 	 */
 	private Boolean validateTestPushControlh(BaseDTO baseDTO, String machineNo, Integer modeNo) {
-		if (StringUtils.isBlank(machineNo) || StringUtils.isBlank(machineNo)) {
+		if (StringUtils.isBlank(machineNo) || modeNo!=null) {
 			baseDTO.setState(BaseDTO.BaseDTOEnum.API_MESSAGE_PARAM_NOT_NULL);
 		}
 		return true;

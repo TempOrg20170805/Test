@@ -57,7 +57,7 @@ public class ProtocolConsts {
 	/**
 	 * 固定头
 	 */
-	public static final byte[] PACKET_HEADER = { (byte) 0x53, (byte) 0x4A};
+	public static final byte[] PACKET_HEADER ={(byte)0x53,(byte)0x4A};
 	
 	/**
 	 * 设备在线

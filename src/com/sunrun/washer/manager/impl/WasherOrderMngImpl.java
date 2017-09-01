@@ -175,12 +175,12 @@ public class WasherOrderMngImpl implements WasherOrderMng{
 				if(session!=null&&session.isConnected())
 				{
 					byte[] data=new byte[ProtocolConsts.PACKAGE_WASHANSWER_LEN];
-					System.arraycopy(data, ProtocolConsts.ProtocolField.HEADER.getPos(), ProtocolConsts.PACKET_HEADER, 0,ProtocolConsts.ProtocolField.HEADER.getLen());
+					System.arraycopy(ProtocolConsts.PACKET_HEADER, 0,data, ProtocolConsts.ProtocolField.HEADER.getPos(), ProtocolConsts.ProtocolField.HEADER.getLen());
 					data[ProtocolConsts.ProtocolField.PACKAGE_LEN.getPos()]=ProtocolConsts.PACKAGE_WASHORDER_LEN;
 					data[ProtocolConsts.ProtocolField.FACTORY_ID.getPos()]=ProtocolConsts.FACTORY_ID;
-					System.arraycopy(data, ProtocolConsts.ProtocolField.DEVICEID.getPos(), DataUtils.getDevMarkByteArray(sn), 0,ProtocolConsts.ProtocolField.DEVICEID.getLen());
+					System.arraycopy(DataUtils.getDevMarkByteArray(sn), 0,data, ProtocolConsts.ProtocolField.DEVICEID.getPos(),ProtocolConsts.ProtocolField.DEVICEID.getLen());
 					data[ProtocolConsts.ProtocolField.MSGTYPE.getPos()]=modeNo.byteValue();
-					WashOrder washOrder=new WashOrder(ProtocolConsts.PACKET_HEADER, ProtocolConsts.PACKAGE_WASHORDER_LEN,  ProtocolConsts.FACTORY_ID,DataUtils.getDevMarkByteArray(sn), (byte)(int)modeNo, DataUtils.XOR(data));
+					WashOrder washOrder=new WashOrder(ProtocolConsts.PACKET_HEADER, ProtocolConsts.PACKAGE_WASHORDER_LEN,ProtocolConsts.FACTORY_ID,DataUtils.getDevMarkByteArray(sn), modeNo.byteValue(), DataUtils.XOR(data));
 					session.write(washOrder);
 				}
 				break;

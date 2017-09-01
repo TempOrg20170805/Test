@@ -89,7 +89,7 @@ public class ServerDecode extends CumulativeProtocolDecoder {
 						byte[] data=new byte[lenght];
 						in.get(data);
 						if(XORCheck(data))//数据异或校验
-						{
+						{		
 							return packageBodyDecode(in,out,data);
 						}
 						else /*数据包效验码不通过，直接丢弃整个IoBuffer中数据*/

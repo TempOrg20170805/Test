@@ -149,10 +149,10 @@ public class ServerHandler extends IoHandlerAdapter {
 			
 			//响应设备端
 			byte[] data=new byte[ProtocolConsts.PACKAGE_WASHANSWER_LEN];
-			System.arraycopy(data, ProtocolConsts.ProtocolField.HEADER.getPos(), washAnswer.getHeader(), 0,washAnswer.getHeader().length);
+			System.arraycopy(washAnswer.getHeader(), 0,data, ProtocolConsts.ProtocolField.HEADER.getPos(),washAnswer.getHeader().length);
 			data[ProtocolConsts.ProtocolField.PACKAGE_LEN.getPos()]=ProtocolConsts.PACKAGE_WASHORDER_LEN;
 			data[ProtocolConsts.ProtocolField.FACTORY_ID.getPos()]=washAnswer.getFactoryId();
-			System.arraycopy(data, ProtocolConsts.ProtocolField.DEVICEID.getPos(), washAnswer.getDeviceId(), 0,washAnswer.getDeviceId().length);
+			System.arraycopy(washAnswer.getDeviceId(), 0,data, ProtocolConsts.ProtocolField.DEVICEID.getPos(),washAnswer.getDeviceId().length);
 			data[ProtocolConsts.ProtocolField.MSGTYPE.getPos()]=msgType;
 			WashOrder washOrder=new WashOrder(washAnswer.getHeader(), ProtocolConsts.PACKAGE_WASHORDER_LEN,washAnswer.getFactoryId(), washAnswer.getDeviceId(), msgType, DataUtils.XOR(data));
 			session.write(washOrder);
@@ -169,7 +169,7 @@ public class ServerHandler extends IoHandlerAdapter {
 				jpushBindingMng.JpushMsgSendEnd(sn);
 			}
 			//将设备响应原始数据直接推送给手机端，数据都在washAnswer类里面
-			System.arraycopy(data, ProtocolConsts.ProtocolField.RESERVE.getPos(), washAnswer.getReserve(), 0,2);
+			System.arraycopy(washAnswer.getReserve(), 0,data, ProtocolConsts.ProtocolField.RESERVE.getPos(), 2);
 			data[ProtocolConsts.ProtocolField.WASHCHECKCODE.getPos()]=washAnswer.getChkCode();
 			String pushData=DataUtils.bytesToHexString(data, 0);//将设备上传的原始16进制数据转成16进制字符推送给手机端显示
 			// 发送测试推送

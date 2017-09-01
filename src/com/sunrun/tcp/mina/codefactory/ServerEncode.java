@@ -59,7 +59,7 @@ public class ServerEncode extends ProtocolEncoderAdapter {
 			responseBuf.put(washOrder.getMsgType());
 			responseBuf.put(washOrder.getChkCode());
 		}
-	
+		
 		responseBuf.flip();
 		logger.debug("send data="+responseBuf.getHexDump());
 	    out.write(responseBuf);
