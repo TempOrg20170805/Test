@@ -170,7 +170,7 @@ public class JpushBindingMngImpl implements JpushBindingMng {
 	@Override
 	public void pushMsgTest(String registrationId, String title, String alert) {
 		Map<String, String> extras = new HashMap<String, String>();
-
+		extras.put("msg", alert);
         JpushUtils.SendPushTest(alert,title,registrationId ,extras);
 	}
 }

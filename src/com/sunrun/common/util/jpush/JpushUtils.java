@@ -35,7 +35,8 @@ public class JpushUtils {
 	
 	
 	public static void main(String[] args) {
-		 	Map<String, String> extras = new HashMap<String, String>();
+		
+		 	/*Map<String, String> extras = new HashMap<String, String>();
 		    extras.put("seriaNumber", "2");
 		    extras.put("rfidList", "928sbqw,dedwdew");
 		    Long t = new Date().getTime();
@@ -47,10 +48,15 @@ public class JpushUtils {
 	        //SendPushIOS(ALERT,TITLE,registrationId ,extras,false);
 
 
+
 	        SendPush(ALERT,TITLE,registrationId ,extras);
 
 	        System.out.println(extras);
-	        System.out.println(extras.get("deviceMark"));
+	        System.out.println(extras.get("deviceMark"));*/
+		Map<String, String> extras = new HashMap<String, String>();
+		extras.put("msg", "信息啊");
+		SendPushTest("ss", "s", "140fe1da9e9e97dbb5f", extras);
+	        
 	}
 	
 	//安卓和iOS
