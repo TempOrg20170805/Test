@@ -82,7 +82,7 @@ public class TestPushMngImpl implements TestPushMng{
 	public void testGetMsgToPush(String machineNo, String str) {
 		TestPush testPush = findByMachineNo(machineNo);
 		if (testPush != null) {
-			jpushBindingMng.pushMsgTest(testPush.getRegistrationId(), "测试推送", str);
+			jpushBindingMng.pushMsgTest(testPush.getRegistrationId(), str);
 		} else {
 			System.out.println(machineNo+"无推送Id");
 		}

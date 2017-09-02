@@ -164,13 +164,12 @@ public class JpushBindingMngImpl implements JpushBindingMng {
 	/**
 	 * 推送-测试版
 	 * @param registrationId 推送唯一编码
-	 * @param title 标题
-	 * @param alert 内容
+	 * @param msg 内容
 	 */
 	@Override
-	public void pushMsgTest(String registrationId, String title, String alert) {
+	public void pushMsgTest(String registrationId, String msg) {
 		Map<String, String> extras = new HashMap<String, String>();
-		extras.put("msg", alert);
-        JpushUtils.SendPushTest(alert,title,registrationId ,extras);
+		extras.put("msg", msg);
+        JpushUtils.SendPushTest(registrationId , "", extras);
 	}
 }

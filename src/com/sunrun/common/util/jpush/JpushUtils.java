@@ -14,10 +14,12 @@ import cn.jiguang.common.resp.APIRequestException;
 import cn.jpush.api.JPushClient;
 
 import cn.jpush.api.push.PushResult;
+import cn.jpush.api.push.model.Message;
 import cn.jpush.api.push.model.Options;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
+import cn.jpush.api.push.model.audience.AudienceTarget;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 /**
@@ -54,8 +56,9 @@ public class JpushUtils {
 	        System.out.println(extras);
 	        System.out.println(extras.get("deviceMark"));*/
 		Map<String, String> extras = new HashMap<String, String>();
-		extras.put("msg", "信息啊");
-		SendPushTest("ss", "s", "140fe1da9e9e97dbb5f", extras);
+	    extras.put("msg", "的划分加快时候对方加点水会发的顺丰安静的是发生地方adshfa;sdjf;ajfowien;afhfoewa;jdjnsfoewrajdfjwejaodnfawohefamdsjf;oawoefnasdfhoawejf;afawhefiojaweoifjawoie");
+
+		SendPushTest("160a3797c83ea01fd78", "", extras);
 	        
 	}
 	
@@ -143,6 +146,18 @@ public class JpushUtils {
 					.setNotification(Notification.android(ALERT, TITLE, extras))
 					.build();
 		}
+		
+		// 构建推送对象：平台是 Android，目标是 tag 为 "tag1" 的设备，内容是 Android 通知 ALERT，并且标题为 TITLE。
+		public static PushPayload buildPushObject_android_tag_MsgWithTitle(String registrationId, String content, Map extras) {
+			return PushPayload.newBuilder()
+	                .setPlatform(Platform.android())
+	                .setAudience(Audience.registrationId(registrationId))
+	                .setMessage(Message.newBuilder()
+	                        .setMsgContent(content)
+	                        .addExtras(extras)
+	                        .build())
+	                .build();
+		}
 	
 		
 
@@ -179,7 +194,7 @@ public class JpushUtils {
 		 * @param registrationId
 		 * @param extras
 		 */
-		public static void SendPushTest(String ALERT,String  TITLE ,String registrationId ,Map extras) {
+		public static void SendPushTest(String registrationId, String content ,Map extras) {
 			// HttpProxy proxy = new HttpProxy("localhost", 3128);
 			// Can use this https proxy: https://github.com/Exa-Networks/exaproxy
 			// 1、创建JPushClient
@@ -193,7 +208,7 @@ public class JpushUtils {
 
 			
 			// 对于推送,所有你需要做的是建立PushPayload对象。
-			PushPayload payload = buildPushObject_android_tag_alertWithTitle(ALERT,TITLE,registrationId ,extras);
+			PushPayload payload = buildPushObject_android_tag_MsgWithTitle(registrationId,content ,extras);
 
 			try {
 				PushResult result = jpushClient.sendPush(payload);
@@ -213,36 +228,4 @@ public class JpushUtils {
 			}
 		}
 		
-		
-		/**
-		 * 消息发送iOS端
-		 * @param Alert
-		 * @param title
-		 * @param registrationId
-		 * @param extras
-		 * @param apns_production  True 表示推送生产环境，False 表示要推送开发环境；
-		 */
-		public static void SendPushIOSTest(String Alert, String title,
-				String registrationId, Map extras,Boolean apns_production) {
-			
-			System.out.println("调用了com.sunrun.common.util.BoxJpushUtils中SendPushIOS方法");
-			JPushClient jpushClient = new JPushClient(masterSecretTest, appKeyTest, 3);
-			
-			// 建立PushPayload对象。平台是iOS
-			PushPayload payload = anyi_iOS(Alert,title, registrationId, extras,apns_production);
-			try {	
-				PushResult result = jpushClient.sendPush(payload);					
-				LOG.info("Got result - " + result);
-			} catch (APIConnectionException e) {
-				LOG.error("Connection error. Should retry later. ", e);
-			} catch (APIRequestException e) {
-				LOG.error("Error response from JPush server. Should review and fix it. ",e);
-				LOG.info("HTTP Status: " + e.getStatus());
-				LOG.info("Error Code: " + e.getErrorCode());
-				LOG.info("Error Message: " + e.getErrorMessage());
-				LOG.info("Msg ID: " + e.getMsgId());
-			}
-		}
-		
-
 }
