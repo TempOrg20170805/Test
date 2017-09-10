@@ -90,9 +90,9 @@ public class WasherOrderPayController extends BaseController{
 	@RequestMapping(value = "/walletRecharge/rechargeOrderPay.json")
 	@ResponseBody
 	public WasherOrderPayDTO rechargeOrderPay(String outSn, Integer payPlatform, HttpServletRequest request) {
-		 WasherOrderPayDTO washerOrderPayDTO = new  WasherOrderPayDTO();
-		if (validateOrderPay(washerOrderPayDTO,getUserId(), outSn, payPlatform)) {
-			WasherOrder washerOrder = washerOrderMng.findByOutSn(outSn);
+		WasherOrderPayDTO washerOrderPayDTO = new  WasherOrderPayDTO();
+		WasherOrder washerOrder = washerOrderMng.findByOutSn(outSn);
+		if (validateOrderPay(washerOrderPayDTO,getUserId(), washerOrder, payPlatform)) {
 			washerOrderPayDTO.setOutSn(washerOrder.getOutSn());
 			washerOrderPayDTO.setPayPrice(washerOrder.getOrderAmount());
 			
@@ -291,12 +291,12 @@ public class WasherOrderPayController extends BaseController{
 	 * @param payPlatform 
 	 * @return
 	 */
-	private Boolean validateOrderPay(BaseDTO baseDTO,Integer userId, String outSn, Integer payPlatform) {
+	private Boolean validateOrderPay(BaseDTO baseDTO,Integer userId, WasherOrder washerOrder, Integer payPlatform) {
 		if (cmsUserMng.findById(userId)  == null) {
 			baseDTO.setState(BaseDTOEnum.API_MESSAGE_USER_NOT_FOUND);
 			return false;			
 		} 
-		else if (washerOrderMng.findByOutSn(outSn) == null) {
+		else if (washerOrder == null) {
 			baseDTO.setState(BaseDTOEnum.API_MESSAGE_VALIDATECODE_NOTEXIST);
 			return false;			
 		} 
