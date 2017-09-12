@@ -91,7 +91,9 @@ public class WasherOrderPayController extends BaseController{
 	@ResponseBody
 	public WasherOrderPayDTO rechargeOrderPay(String outSn, Integer payPlatform, HttpServletRequest request) {
 		WasherOrderPayDTO washerOrderPayDTO = new  WasherOrderPayDTO();
+		System.out.println("查询订单");
 		WasherOrder washerOrder = washerOrderMng.findByOutSn(outSn);
+		System.out.println("查询订单结束");
 		if (validateOrderPay(washerOrderPayDTO,getUserId(), washerOrder, payPlatform)) {
 			washerOrderPayDTO.setOutSn(washerOrder.getOutSn());
 			washerOrderPayDTO.setPayPrice(washerOrder.getOrderAmount());
@@ -241,26 +243,25 @@ public class WasherOrderPayController extends BaseController{
 		
 		
 		
-		WasherOrder washerOrder = washerOrderMng.findByOutSn(outSn);
-		if(washerOrder != null) {
-			// 支付请求start
-			Element element = new Element("element"); 
-			XMLMap.parseToXML(allParam, element);
-			String strpostxml = "<xml>" + XMLMap.getChildrenText(element.getChildren()) + "</xml>";
+		// 支付请求start
+		Element element = new Element("element"); 
+		XMLMap.parseToXML(allParam, element);
+		String strpostxml = "<xml>" + XMLMap.getChildrenText(element.getChildren()) + "</xml>";
+		
+		strpostxml = new String(strpostxml.getBytes("UTF-8"), "ISO8859-1");
+		System.out.println("strpostxml" + strpostxml);
+		
+		String strxml = XMLPost.postpay(ConstantUtil.GATEURL, strpostxml);
+		
+		
+		resInfo = XMLMap.doXMLParse(strxml);
+		resInfo.put("timestamp", (new Date()).getTime()/1000);
+		resInfo.put("nonce_str", RandomStringUtils.random(32, Num62.N36_CHARS));
+		String resign = resign(resInfo);
+		resInfo.put("sign", resign);
 			
-			strpostxml = new String(strpostxml.getBytes("UTF-8"), "ISO8859-1");
-			System.out.println("strpostxml" + strpostxml);
-			
-			String strxml = XMLPost.postpay(ConstantUtil.GATEURL, strpostxml);
-			
-			
-			resInfo = XMLMap.doXMLParse(strxml);
-			resInfo.put("timestamp", (new Date()).getTime()/1000);
-			// 支付请求end
-		} else {
-			resInfo.put("return_code", "FAIL");
-			resInfo.put("return_msg", "订单号不存在");
-		}
+
+
 		return resInfo;
 	}
 	
@@ -580,5 +581,43 @@ public class WasherOrderPayController extends BaseController{
 		return baseDTO;
 	}
 	
+	
+	private String resign(Map<String, Object> result) {
+		// sign签名
+		Map<String,Object> allParam = new HashMap<String, Object>();
+		allParam.put("appid", ConstantUtil.APPID);
+		allParam.put("partnerid",ConstantUtil.MCH_ID);
+		allParam.put("prepayid", result.get("prepay_id"));
+		allParam.put("package", "Sign=WXPay");
+		allParam.put("noncestr", result.get("nonce_str"));
+		allParam.put("timestamp", result.get("timestamp"));
+		// 1.参数按照key=value的格式
+		//这里将map.entrySet()转换成list
+        List<Map.Entry<String,Object>> list = new ArrayList<Map.Entry<String,Object>>(allParam.entrySet());
+        //然后通过比较器来实现key排序
+        Collections.sort(list,new Comparator<Map.Entry<String,Object>>() {
+            //升序排序
+            public int compare(Entry<String,Object> o1,
+
+                    Entry<String,Object> o2) {
+                return o1.getKey().compareTo(o2.getKey());
+            }
+        });
+        String stringA = "";
+        for(Map.Entry<String,Object> mapping: list){
+        	if (mapping == null) {  
+        		stringA = stringA + "";  
+            }  
+            
+        	stringA = stringA + mapping.getKey() + "=" + mapping.getValue();  
+        	stringA = stringA + "&";  
+        }
+        if (stringA.endsWith("&")) {
+        	stringA = org.apache.commons.lang.StringUtils.substringBeforeLast(stringA, "&");  
+        }
+		// 2.拼接API密钥 并 MD5运算
+		String sign = MD5.sign(stringA + "&key=", ConstantUtil.APIKEY, "UTF-8").toUpperCase();	
+		return sign;
+	}
 }
 
