@@ -352,14 +352,15 @@ public class WasherOrderPayController extends BaseController{
 		// 计算得出通知验证结果
 		// boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String
 		// publicKey, String charset, String sign_type)
+		String signType=params.get("sign_type");
 		boolean verify_result = AlipaySignature.rsaCheckV1(params,
-				AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.CHARSET, "RSA2");
+				AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.CHARSET, signType);
 		if (verify_result) {// 验证成功
 			// ////////////////////////////////////////////////////////////////////////////////////////
 			// 请在这里加上商户的业务逻辑程序代码
 
 			// ——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
-
+			System.out.println(trade_status);
 			if (trade_status.equals("TRADE_FINISHED")) {
 				// 判断该笔订单是否在商户网站中已经做过处理
 				// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
@@ -398,6 +399,7 @@ public class WasherOrderPayController extends BaseController{
 			// ////////////////////////////////////////////////////////////////////////////////////////
 		} else {// 验证失败
 			response.getWriter().write("fail");
+			System.out.println("验证失败");
 		}
 		System.out.println("---订单:支付宝回调end 时间：" + DateFormatUtils.formatDate(new Date())+"---");
 
