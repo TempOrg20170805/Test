@@ -322,6 +322,7 @@ public class WasherOrderPayController extends BaseController{
 		// 获取支付宝POST过来反馈信息
 		Map<String, String> params = new HashMap<String, String>();
 		Map requestParams = request.getParameterMap();
+		String resultStr = "";
 		for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
 			String name = (String) iter.next();
 			String[] values = (String[]) requestParams.get(name);
@@ -332,8 +333,10 @@ public class WasherOrderPayController extends BaseController{
 			}
 			// 乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
 			// valueStr = new String(valueStr.getBytes("ISO-8859-1"), "gbk");
+			resultStr = resultStr + name + "=" + valueStr+"&";
 			params.put(name, valueStr);
 		}
+		System.out.println(resultStr);
 		// 获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以下仅供参考)//
 		// 商户订单号
 
@@ -352,9 +355,8 @@ public class WasherOrderPayController extends BaseController{
 		// 计算得出通知验证结果
 		// boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String
 		// publicKey, String charset, String sign_type)
-		String signType=params.get("sign_type");
 		boolean verify_result = AlipaySignature.rsaCheckV1(params,
-				AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.CHARSET, signType);
+				AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.CHARSET, "RSA2");
 		if (verify_result) {// 验证成功
 			// ////////////////////////////////////////////////////////////////////////////////////////
 			// 请在这里加上商户的业务逻辑程序代码
@@ -366,6 +368,16 @@ public class WasherOrderPayController extends BaseController{
 				// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
 				// 请务必判断请求时的total_fee、seller_id与通知时获取的total_fee、seller_id为一致的
 				// 如果有做过处理，不执行商户的业务程序
+				System.out.println("订单："+out_trade_no+"正式关闭（已过三个月，不可退款）");
+				// 注意：
+				// 如果签约的是可退款协议，退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
+				// 如果没有签约可退款协议，那么付款完成后，支付宝系统发送该交易状态通知。
+			} else if (trade_status.equals("TRADE_SUCCESS")) {
+				// 判断该笔订单是否在商户网站中已经做过处理
+				// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+				// 请务必判断请求时的total_fee、seller_id与通知时获取的total_fee、seller_id为一致的
+				// 如果有做过处理，不执行商户的业务程序
+				
 				WasherOrder washerOrder = washerOrderMng.findByOutSn(out_trade_no);
 				boolean isNotPay = true;
 				// 判断之前是否已经支付
@@ -377,19 +389,6 @@ public class WasherOrderPayController extends BaseController{
 				} else {
 					System.out.println("错误调用：app订单号不是未付款状态/订单被删除：" + out_trade_no +" 时间："+(new Date()));
 				}
-				// 注意：
-				// 如果签约的是可退款协议，退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
-				// 如果没有签约可退款协议，那么付款完成后，支付宝系统发送该交易状态通知。
-			} else if (trade_status.equals("TRADE_SUCCESS")) {
-				// 判断该笔订单是否在商户网站中已经做过处理
-				// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-				// 请务必判断请求时的total_fee、seller_id与通知时获取的total_fee、seller_id为一致的
-				// 如果有做过处理，不执行商户的业务程序
-				
-				// ------------------------------
-				// 注意：该状态支付成功但是金额在支付宝内，未成功转入到账号。
-				// ------------------------------
-				
 				// 注意：
 				// 如果签约的是可退款协议，那么付款完成后，支付宝系统发送该交易状态通知。
 			}
