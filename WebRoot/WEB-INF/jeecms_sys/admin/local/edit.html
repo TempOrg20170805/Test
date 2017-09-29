@@ -101,6 +101,7 @@ $(function() {
 <@p.text width="50" colspan="1" label="cmsUser.email" name="email" value=cmsAdmin.email size="30" maxlength="100" class="email"/><@p.tr/>
 <@p.password width="50" colspan="1" label="cmsUser.password" id="password" name="password" maxlength="100" help="cmsUser.password.help"/>
 <@p.password width="50" colspan="1" label="cmsUser.pwdAgain" equalTo="#password" help="cmsUser.password.help"/><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsUser.mobile" required="true"  name="mobile" value=cmsAdmin.mobile maxlength="11"/><@p.tr/>
 <@p.select width="50" colspan="1" label="cmsUser.group" name="groupId" value=cmsAdmin.group.id list=groupList listKey="id" listValue="name" required="true"/>
 <!-- 
 等级
