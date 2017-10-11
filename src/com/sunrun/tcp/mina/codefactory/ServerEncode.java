@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sunrun.tcp.mina.entity.HeartBeat;
+import com.sunrun.tcp.mina.entity.Transparent;
 import com.sunrun.tcp.mina.entity.WashOrder;
 
 /** 
@@ -58,6 +59,12 @@ public class ServerEncode extends ProtocolEncoderAdapter {
 			responseBuf.put(washOrder.getDeviceId());
 			responseBuf.put(washOrder.getMsgType());
 			responseBuf.put(washOrder.getChkCode());
+		}
+		else if(message instanceof Transparent)//按摩椅透传数据测试
+		{
+			Transparent transparent=(Transparent)message;
+			responseBuf.put(transparent.getData());
+			responseBuf.put(transparent.getChkCode());
 		}
 		
 		responseBuf.flip();

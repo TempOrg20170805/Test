@@ -296,16 +296,17 @@ public class DataUtils {
 	 * @function: XOR  
 	 * @Description: 对data数据每个字节进行异或 
 	 * @param: @param data
+	 * @param: @param len
 	 * @param: @return
 	 * @return: byte
 	 * @throws
 	  */
-	public static byte XOR(byte[] data)
+	public static byte XOR(byte[] data,int len)//ProtocolConsts.PACKAGE_WASHANSWER_LEN-3;
 	{
 		byte chkcode=0x00;
 		try 
 		{
-			for(int i=0;i<ProtocolConsts.PACKAGE_WASHANSWER_LEN-3;i++)
+			for(int i=0;i<len;i++)
 				chkcode=(byte) (data[i]^chkcode);
 		} catch (Exception e) {
 			// TODO: handle exception

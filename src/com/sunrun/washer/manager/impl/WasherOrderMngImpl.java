@@ -180,7 +180,7 @@ public class WasherOrderMngImpl implements WasherOrderMng{
 					data[ProtocolConsts.ProtocolField.FACTORY_ID.getPos()]=ProtocolConsts.FACTORY_ID;
 					System.arraycopy(DataUtils.getDevMarkByteArray(sn), 0,data, ProtocolConsts.ProtocolField.DEVICEID.getPos(),ProtocolConsts.ProtocolField.DEVICEID.getLen());
 					data[ProtocolConsts.ProtocolField.MSGTYPE.getPos()]=modeNo.byteValue();
-					WashOrder washOrder=new WashOrder(ProtocolConsts.PACKET_HEADER, ProtocolConsts.PACKAGE_WASHORDER_LEN,ProtocolConsts.FACTORY_ID,DataUtils.getDevMarkByteArray(sn), modeNo.byteValue(), DataUtils.XOR(data));
+					WashOrder washOrder=new WashOrder(ProtocolConsts.PACKET_HEADER, ProtocolConsts.PACKAGE_WASHORDER_LEN,ProtocolConsts.FACTORY_ID,DataUtils.getDevMarkByteArray(sn), modeNo.byteValue(), DataUtils.XOR(data,ProtocolConsts.PACKAGE_WASHORDER_LEN-1));
 					session.write(washOrder);
 				}
 				break;

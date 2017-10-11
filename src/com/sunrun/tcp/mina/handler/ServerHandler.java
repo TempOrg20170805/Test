@@ -154,7 +154,7 @@ public class ServerHandler extends IoHandlerAdapter {
 			data[ProtocolConsts.ProtocolField.FACTORY_ID.getPos()]=washAnswer.getFactoryId();
 			System.arraycopy(washAnswer.getDeviceId(), 0,data, ProtocolConsts.ProtocolField.DEVICEID.getPos(),washAnswer.getDeviceId().length);
 			data[ProtocolConsts.ProtocolField.MSGTYPE.getPos()]=msgType;
-			WashOrder washOrder=new WashOrder(washAnswer.getHeader(), ProtocolConsts.PACKAGE_WASHORDER_LEN,washAnswer.getFactoryId(), washAnswer.getDeviceId(), msgType, DataUtils.XOR(data));
+			WashOrder washOrder=new WashOrder(washAnswer.getHeader(), ProtocolConsts.PACKAGE_WASHORDER_LEN,washAnswer.getFactoryId(), washAnswer.getDeviceId(), msgType, DataUtils.XOR(data,ProtocolConsts.PACKAGE_WASHORDER_LEN-1));
 			session.write(washOrder);
 			//add push code
 			//washAnswer.getMsgType()值为设备响应类型
