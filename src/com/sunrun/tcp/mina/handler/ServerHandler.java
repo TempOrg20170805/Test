@@ -128,6 +128,7 @@ public class ServerHandler extends IoHandlerAdapter {
 				machineMng.updateStatus(sn, status);
 				break;
 			case ProtocolConsts.MSGTYPE_WASH_STATUS_RESP://设备响应洗涤状态回复
+				logger.info("设备响应洗涤状态回复");
 				if(Arrays.equals(washAnswer.getReserve(), new byte[]{0x01,0x00}) )
 				{
 					status=2;
@@ -274,6 +275,7 @@ public class ServerHandler extends IoHandlerAdapter {
 				data[ProtocolConsts.ProtocolField.MSGTYPE.getPos()]=ProtocolConsts.QUERY_WASH_START;
 				WashOrder washOrder=new WashOrder(ProtocolConsts.PACKET_HEADER, ProtocolConsts.PACKAGE_WASHORDER_LEN,ProtocolConsts.FACTORY_ID,DataUtils.getDevMarkByteArray(sn), ProtocolConsts.QUERY_WASH_START, DataUtils.XOR(data,ProtocolConsts.PACKAGE_WASHORDER_LEN-1));
 				session.write(washOrder);
+				logger.info("发送设备查询状态");
 			}	
 		}
 	}
