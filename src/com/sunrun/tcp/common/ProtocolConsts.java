@@ -31,6 +31,10 @@ public class ProtocolConsts {
 	 * 故障上报
 	 */
 	public final static byte MSGTYPE_WASH_FAULT=0x24;
+	/**
+	 * 状态查询
+	 */
+	public final static byte QUERY_WASH_START=0x23;
 	/*数据消息类型对应数据包长度常量定义*/
 	/**
 	 * 数据包最小长度

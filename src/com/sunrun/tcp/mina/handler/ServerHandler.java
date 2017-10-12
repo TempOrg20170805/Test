@@ -265,6 +265,15 @@ public class ServerHandler extends IoHandlerAdapter {
 				String time=new SimpleDateFormat(ProtocolConsts.LOCAL_DATE_PATTEN).format(new Date());//时间
 				RedisWasherLog redisWasherLog=new RedisWasherLog(sn, (int)ProtocolConsts.DEVICE_ONLINE, "设备上线", time);
 				redisMng.pushWasherLogList(redisWasherLog);
+				//发送查询状态	
+				byte[] data=new byte[ProtocolConsts.PACKAGE_WASHANSWER_LEN];
+				System.arraycopy(ProtocolConsts.PACKET_HEADER, 0,data, ProtocolConsts.ProtocolField.HEADER.getPos(), ProtocolConsts.ProtocolField.HEADER.getLen());
+				data[ProtocolConsts.ProtocolField.PACKAGE_LEN.getPos()]=ProtocolConsts.PACKAGE_WASHORDER_LEN;
+				data[ProtocolConsts.ProtocolField.FACTORY_ID.getPos()]=ProtocolConsts.FACTORY_ID;
+				System.arraycopy(DataUtils.getDevMarkByteArray(sn), 0,data, ProtocolConsts.ProtocolField.DEVICEID.getPos(),ProtocolConsts.ProtocolField.DEVICEID.getLen());
+				data[ProtocolConsts.ProtocolField.MSGTYPE.getPos()]=ProtocolConsts.QUERY_WASH_START;
+				WashOrder washOrder=new WashOrder(ProtocolConsts.PACKET_HEADER, ProtocolConsts.PACKAGE_WASHORDER_LEN,ProtocolConsts.FACTORY_ID,DataUtils.getDevMarkByteArray(sn), ProtocolConsts.QUERY_WASH_START, DataUtils.XOR(data,ProtocolConsts.PACKAGE_WASHORDER_LEN-1));
+				session.write(washOrder);
 			}	
 		}
 	}
